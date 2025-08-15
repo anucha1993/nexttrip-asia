@@ -188,7 +188,7 @@
               <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#00c300] text-white text-[11px] font-black">LINE</span>
               <div class="flex flex-col leading-tight">
                 <span class="text-[#ef6f2e] font-semibold">เราพร้อมช่วยคุณ</span>
-                <span class="text-[#214e9a] font-semibold">{{ $contact->line_id ?? '@nexttripholiday' }}</span>
+                <span class="text-[#214e9a] font-semibold">{{ '@'.$contact->line_id ?? '@nexttripholiday' }}</span>
               </div>
             </div>
           </div>
@@ -367,6 +367,8 @@
 
 </header>
 <!-- =============== /HEADER =============== -->
+
+
 {{-- ==================== AUTH MODAL (Tailwind + Vanilla JS) ==================== --}}
 <div id="authModal" class="fixed inset-0 z-[100] hidden">
   <!-- Backdrop -->
@@ -464,9 +466,8 @@
     </div>
   </div>
 </div>
-
-
 {{-- ==================== /AUTH MODAL ==================== --}}
+
 <!-- ==================== SCRIPTS ==================== -->
 <script>
   // ====== AUTH MODAL ======

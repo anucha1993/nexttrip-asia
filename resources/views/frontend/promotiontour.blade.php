@@ -2,22 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-     @section('title', 'Next Trip Holiday ทัวร์โปรโมชั่น | รวมทัวร์ไฟไหม้ ทัวร์ที่หลุด ทัวร์บินด่วน ทัวร์ลดราคาพิเศษ ')
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
-     <meta name="keywords"
-        content="ทัวร์โปรโมชั่นทัวร์สุดพิเศษ,ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+    @php
+    // รองรับเลขหน้าเพื่อกัน Duplicate ?page=
+    $page = max((int) request('page', 1), 1);
+
+    // ใช้ canonical แบบคงที่ ชี้ไปที่ URL หลัก (อย่าชี้ /0/0)
+    $baseUrl = 'https://nexttripholiday.com/promotiontour/';
+    $canonical = $page > 1 ? $baseUrl.'?page='.$page : $baseUrl;
+
+    // รูปแชร์ (แก้เป็นภาพจริงของคุณ)
+    $ogImage = 'https://nexttripholiday.b-cdn.net/og/promotiontour.jpg';
+@endphp
+
+{{-- ======= HEAD: ทัวร์โปรโมชั่น ======= --}}
+@section('title', 'Next Trip Holiday ทัวร์โปรโมชั่น | ไฟไหม้ หลุดจอง บินด่วน ลดราคาพิเศษ' . ($page>1 ? " (หน้า {$page})" : ""))
+@section('meta_description', 'รวมทัวร์โปรแรง ไฟไหม้ หลุดจอง บินด่วน ลดราคาพิเศษ อัปเดตรายสัปดาห์ จองง่าย ราคาคุ้ม พร้อมดูแลโดยทีมงานมืออาชีพจาก Next Trip Holiday')
+
+{{-- ไม่ต้องใช้ meta keywords แล้ว --}}
+<link rel="canonical" href="{{ $canonical }}"/>
+<meta name="robots" content="index, follow"/>
+
+{{-- Open Graph --}}
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Next Trip Holiday ทัวร์โปรโมชั่น | ไฟไหม้ หลุดจอง บินด่วน ลดราคาพิเศษ{{ $page>1 ? " (หน้า {$page})" : "" }}"/>
+<meta property="og:description" content="รวมทัวร์โปรแรง ไฟไหม้ หลุดจอง บินด่วน ลดราคาพิเศษ อัปเดตทุกสัปดาห์ จองง่าย ราคาคุ้ม"/>
+<meta property="og:url" content="{{ $canonical }}"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+<meta property="og:image" content="{{ $ogImage }}"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="ทัวร์โปรโมชั่น Next Trip Holiday"/>
+
+{{-- Twitter --}}
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Next Trip Holiday ทัวร์โปรโมชั่น | ไฟไหม้ หลุดจอง บินด่วน ลดราคาพิเศษ{{ $page>1 ? " (หน้า {$page})" : "" }}"/>
+<meta name="twitter:description" content="รวมทัวร์โปรแรง อัปเดตรายสัปดาห์ จองง่าย ราคาคุ้ม"/>
+<meta name="twitter:image" content="{{ $ogImage }}"/>
+
+{{-- JSON-LD: Breadcrumb แบบสั้น --}}
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"หน้าหลัก","item":"https://nexttripholiday.com/"},
+    {"@type":"ListItem","position":2,"name":"ทัวร์โปรโมชั่น","item":"https://nexttripholiday.com/promotiontour/0/0"}
+  ]
+}
+</script>
+
 
 
     @include("frontend.layout.inc_header")
@@ -27,6 +60,7 @@
 </head>
 
 <body>
+    <h1 class="sr-only">ทัวร์โปรโมชั่น ไฟไหม้ หลุดจอง บินด่วน ลดราคาพิเศษ</h1>
     @include("frontend.layout.inc_topmenu")
 
     <section id="promotionpage" class="wrapperPages">

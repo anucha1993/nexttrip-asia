@@ -2,28 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-     @section('title', 'Next Trip Holiday รอบรู้เรื่องเที่ยว | ข้อมูลท่องเที่ยว เตรียมตัวเที่ยว อัฟเดตข่าวทัวร์')
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
-     <meta name="keywords"
-        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, เที่ยวด้วยตัวเอง,ทัวร์ไต้หวัน,รับจัดทัวร์ส่วนตัว กรุ๊ปเหมาบริษัท ทัวร์ศึกษาดูงาน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+   {{-- ======= HEAD (รอบรู้เรื่องเที่ยว) ======= --}}
+@section('title', 'Next Trip Holiday รอบรู้เรื่องเที่ยว | ข้อมูลท่องเที่ยว เตรียมตัวเที่ยว อัปเดตข่าวทัวร์')
+@section('meta_description', 'บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ เพื่อการท่องเที่ยวที่สนุก ปลอดภัย และคุ้มค่า')
+
+{{-- Canonical URL กัน Duplicate --}}
+<link rel="canonical" href="https://nexttripholiday.com/aroundworld/"/>
+
+{{-- Robots --}}
+<meta name="robots" content="index, follow"/>
+
+{{-- Open Graph --}}
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Next Trip Holiday รอบรู้เรื่องเที่ยว | ข้อมูลท่องเที่ยว เตรียมตัวเที่ยว อัปเดตข่าวทัวร์"/>
+<meta property="og:description" content="บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ เพื่อการท่องเที่ยวที่สนุก ปลอดภัย และคุ้มค่า"/>
+<meta property="og:url" content="https://nexttripholiday.com/aroundworld/"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+<meta property="og:image" content="https://nexttripholiday.b-cdn.net/og/aroundworld.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="บทความรอบรู้เรื่องเที่ยว Next Trip Holiday"/>
+
+{{-- Twitter Card --}}
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Next Trip Holiday รอบรู้เรื่องเที่ยว | ข้อมูลท่องเที่ยว เตรียมตัวเที่ยว อัปเดตข่าวทัวร์"/>
+<meta name="twitter:description" content="บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ เพื่อการท่องเที่ยวที่สนุก ปลอดภัย และคุ้มค่า"/>
+<meta name="twitter:image" content="https://nexttripholiday.b-cdn.net/og/aroundworld.jpg"/>
+
+{{-- JSON-LD --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "รอบรู้เรื่องเที่ยว | Next Trip Holiday",
+  "description": "บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ",
+  "url": "https://nexttripholiday.com/aroundworld/",
+  "image": "https://nexttripholiday.b-cdn.net/og/aroundworld.jpg",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Next Trip Holiday",
+    "url": "https://nexttripholiday.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://nexttripholiday.b-cdn.net/brand/logo-512.png"
+    }
+  }
+}
+</script>
+
     
     @include("frontend.layout.inc_header")
     <?php $pageName="around"; ?>
 </head>
 
 <body>
+     <h1 class="sr-only">Next Trip Holiday รอบรู้เรื่องเที่ยว | ข้อมูลท่องเที่ยว เตรียมตัวเที่ยว อัปเดตข่าวทัวร์</h1>
+
     @include("frontend.layout.inc_topmenu")
     <section id="aroundpage" class="wrapperPages">
         <div class="container-fluid g-0 overflow-hidden">

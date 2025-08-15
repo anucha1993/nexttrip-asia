@@ -1,27 +1,63 @@
 @extends('newhome.layouts.app')
 
 
-@section('title', 'Next Trip Holiday | บริษัททัวร์ต่างประเทศ ทัวร์เอเชีย ทัวร์ยุโรป รับจัดกรุ๊ปเหมาส่วนตัว')
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
+{{-- ======= HEAD (หน้าแรก) ======= --}}
+@section('title', 'Next Trip Holiday | บริษัททัวร์ต่างประเทศ ราคาคุ้ม บริการครบ')
+@section('meta_description', 'จองแพ็กเกจทัวร์ญี่ปุ่น เกาหลี ไต้หวัน รวมถึงทัวร์เอเชียและยุโรป ราคาคุ้ม อัปเดตทุกสัปดาห์ บริการมืออาชีพ ไกด์ดูแลตลอดทริป ปลอดภัยและเชื่อถือได้')
 
-    
- <meta name="keywords"
-        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+{{-- แนะนำให้ลบ meta keywords ทิ้ง (ไม่จำเป็นสำหรับ Google) --}}
+
+{{-- Canonical (กันเนื้อหาซ้ำ) --}}
+<link rel="canonical" href="https://nexttripholiday.com/"/>
+
+{{-- Robots (หน้าแรกให้ index ได้) --}}
+<meta name="robots" content="index, follow"/>
+
+{{-- Open Graph / Twitter: ใช้ข้อความเดียวกับ Title/Description เพื่อกันความสับสน --}}
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Next Trip Holiday | บริษัททัวร์ต่างประเทศ ราคาคุ้ม บริการครบ"/>
+<meta property="og:description" content="จองแพ็กเกจทัวร์ญี่ปุ่น เกาหลี ไต้หวัน รวมถึงทัวร์เอเชียและยุโรป ราคาคุ้ม อัปเดตทุกสัปดาห์ บริการมืออาชีพ ไกด์ดูแลตลอดทริป ปลอดภัยและเชื่อถือได้"/>
+<meta property="og:url" content="https://nexttripholiday.com/"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+<meta property="og:image" content="https://nexttripholiday.b-cdn.net/og/nexttriphome.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="แพ็กเกจทัวร์ต่างประเทศ Next Trip Holiday"/>
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Next Trip Holiday | บริษัททัวร์ต่างประเทศ ราคาคุ้ม บริการครบ"/>
+<meta name="twitter:description" content="จองแพ็กเกจทัวร์ญี่ปุ่น เกาหลี ไต้หวัน รวมถึงทัวร์เอเชียและยุโรป ราคาคุ้ม อัปเดตทุกสัปดาห์ บริการมืออาชีพ ไกด์ดูแลตลอดทริป"/>
+<meta name="twitter:image" content="https://nexttripholiday.b-cdn.net/og/nexttriphome.jpg"/>
+
+{{-- JSON-LD: Organization + WebSite + SearchAction --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Next Trip Holiday",
+  "url": "https://nexttripholiday.com/",
+  "logo": "https://nexttripholiday.b-cdn.net/brand/logo-512.png",
+  "sameAs": [
+    "https://www.facebook.com/nexttripholiday" 
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "url":"https://nexttripholiday.com/",
+  "name":"Next Trip Holiday",
+  "potentialAction":{
+    "@type":"SearchAction",
+    "target":"https://nexttripholiday.com/search?q={query}",
+    "query-input":"required name=query"
+  }
+}
+</script>
 
 @section('content')
-
+<h1 class="sr-only">Next Trip Holiday — บริษัททัวร์ต่างประเทศ ราคาคุ้ม บริการครบ</h1>
 
 
       <section class="relative isolate overflow-hidden h-[60vh] max-h-[60vh]">
@@ -86,7 +122,7 @@
       </span>
       <input id="search_data" name="search_data" autocomplete="off"
              placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
-             class="h-12 w-full rounded-lg border text-slate-600 border-white/30 bg-white/10 pl-10 pr-3 text-sm placeholder-text-slate-600
+             class="h-12 w-full rounded-lg border text-slate-900 border-white/30 bg-white/10 pl-10 pr-3 text-sm placeholder-text-slate-900
                     focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
       <!-- ถ้ามี live search เดิมของคุณจะใช้งานร่วมได้ -->
       <div id="livesearch" class="hidden"></div>
@@ -125,7 +161,7 @@
     <!-- รหัสทัวร์ -->
     <div class="sm:col-span-3">
       <input type="text" name="code_tour" placeholder="รหัสทัวร์"
-             class="h-12 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm placeholder-text-slate-600/70 text-slate-600
+             class="h-12 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm placeholder-text-slate-900 text-slate-900
                     focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
     </div>
 
@@ -794,184 +830,7 @@
         </div>
     </section>
 
-    {{-- <!-- Popular Tours -->
-    <section id="popular" class="mx-auto max-w-7xl px-4 pt-14 pb-20">
-        <div class="flex items-end justify-between mb-6">
-            <h2 class="text-2xl font-bold text-slate-800">แพ็คเกจยอดนิยม</h2>
-            <a href="#" class="text-sm font-medium text-orange-600 hover:text-orange-700">ดูทั้งหมด →</a>
-        </div>
-        @php
-            $baseParams = 'auto=compress&fit=crop&q=60&fm=webp&w=600';
-            $tours = [
-                [
-                    'title' => 'ญี่ปุ่น ฟูจิ',
-                    'duration' => '5 วัน 3 คืน',
-                    'price' => 'เริ่ม 32,900',
-                    'image' => "https://images.unsplash.com/photo-1506744038136-46273834b3fb?$baseParams",
-                    'availability' => 'เปิด 6 ที่',
-                ],
-                [
-                    'title' => 'เกาหลี โซล',
-                    'duration' => '4 วัน 3 คืน',
-                    'price' => 'เริ่ม 18,500',
-                    'image' =>
-                        'https://plus.unsplash.com/premium_photo-1661886323367-fc6579695eba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8S29yZWElMkMlMjBTZW91bHxlbnwwfHwwfHx8MA%3D%3D',
-                    'availability' => 'เหลือ 4 ที่',
-                ],
-                [
-                    'title' => 'จีน พรีเมียม',
-                    'duration' => '6 วัน 4 คืน',
-                    'price' => 'เริ่ม 29,900',
-                    'image' =>
-                        'https://images.unsplash.com/photo-1507904309054-5d475df55c14?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fEhvbmclMjBLb25nfGVufDB8fDB8fHww',
-                    'availability' => 'รับเพิ่ม',
-                ],
-            ];
-        @endphp
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($tours as $tour)
-                <x-tour-card :image="$tour['image']" :title="$tour['title']" :duration="$tour['duration']" :price="$tour['price']" :availability="$tour['availability']" />
-            @endforeach
-        </div>
-    </section>
- --}}
-
-
-
-
-    {{-- 
-    <!-- Tour Categories (booking intent) -->
-    <section id="categories" class="mx-auto max-w-7xl px-4 pb-24">
-        <h2 class="text-2xl font-bold text-slate-800 mb-8">เลือกสไตล์ทัวร์ของคุณ</h2>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 text-sm">
-            @foreach ([['ทะเล & พักผ่อน', 'beach', 'ทัวร์ทะเล ดำน้ำ พักรีสอร์ท'], ['ธรรมชาติ & ภูเขา', 'mountain', 'เดินป่า ซากุระ ใบไม้เปลี่ยนสี'], ['ช้อปปิ้ง & เมือง', 'city', 'ช้อปปิ้ง เอาต์เล็ท เมืองใหญ่'], ['อาหาร & วัฒนธรรม', 'food', 'ลิ้มรสท้องถิ่น เวิร์คช็อปวัฒนธรรม']] as $c)
-                <a href="#"
-                    class="group rounded-2xl border border-slate-200 p-5 bg-white hover:shadow-md transition flex flex-col">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span
-                            class="h-9 w-9 rounded-full bg-orange-50 grid place-content-center text-orange-600 text-xs font-semibold ring-1 ring-orange-600/20">{{ strtoupper(substr($c[1], 0, 2)) }}</span>
-                        <h3 class="font-semibold text-slate-800 group-hover:text-orange-600">{{ $c[0] }}</h3>
-                    </div>
-                    <p class="text-slate-500 text-xs leading-relaxed flex-1">{{ $c[2] }}</p>
-                    <span class="mt-4 inline-flex items-center gap-1 text-orange-600 text-xs font-medium">ดูแพ็คเกจ <svg
-                            class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 5l7 7-7 7" />
-                        </svg></span>
-                </a>
-            @endforeach
-        </div>
-    </section>
-
-    <!-- Booking Steps (improved layout) -->
-    <section id="steps" class="bg-gradient-to-b from-amber-50/40 to-white">
-        <div class="mx-auto max-w-7xl px-4 py-20">
-            <h2 class="text-2xl font-bold text-slate-800 text-center mb-12">ขั้นตอนการจองง่ายๆ 4 ขั้น</h2>
-            <div class="grid gap-5 md:grid-cols-4">
-                @foreach ([['ส่งคำค้นหา', 'กรอกปลายทาง งบประมาณ หรือเลือกแพ็คเกจที่สนใจ'], ['รับใบเสนอราคา', 'ทีมงานสรุปรายการ โปรแกรม และราคาโปรโมชัน'], ['ยืนยัน & ชำระ', 'ชำระด้วยช่องทางที่สะดวก อัปเดตสถานะเรียลไทม์'], ['เตรียมเดินทาง', 'รับเอกสารการเดินทาง eVoucher / รายละเอียดไกด์']] as $i => $s)
-                    <div
-                        class="relative rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 p-6 flex flex-col overflow-hidden group">
-                        <span
-                            class="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-orange-50 ring-1 ring-orange-500/10"></span>
-                        <div class="flex items-center gap-3 mb-3 relative">
-                            <span
-                                class="h-9 w-9 rounded-full bg-orange-600 text-white text-sm font-semibold grid place-content-center shadow">{{ $i + 1 }}</span>
-                            <h3 class="font-semibold text-slate-800 group-hover:text-orange-600 transition">
-                                {{ $s[0] }}</h3>
-                        </div>
-                        <p class="text-xs text-slate-500 leading-relaxed flex-1">{{ $s[1] }}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    <!-- removed stray closing tags from previous template experiment --> --}}
-
-    <!-- Upcoming Departures Table -->
-    {{-- <section id="departures" class="mx-auto max-w-7xl px-4 pt-8 pb-28">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-slate-800">รอบเดินทางใกล้เต็ม</h2>
-            <a href="#" class="text-sm font-medium text-orange-600 hover:text-orange-700">ดูรอบทั้งหมด →</a>
-        </div>
-        <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <table class="min-w-full text-sm">
-                <thead class="bg-slate-50 text-slate-600">
-                    <tr>
-                        <th class="px-5 py-3 text-left font-semibold w-[40%]">แพ็คเกจ</th>
-                        <th class="px-3 py-3 text-left font-semibold">เดินทาง</th>
-                        <th class="px-3 py-3 text-center font-semibold w-24">ที่ว่าง</th>
-                        <th class="px-3 py-3 text-right font-semibold w-28">ราคา</th>
-                        <th class="px-4 py-3 w-32"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    @foreach ([['ญี่ปุ่น ฟูจิ ซากุระ', '15 เม.ย. 68', '6', '32,900'], ['เกาหลี โซล ใบไม้ผลิ', '22 เม.ย. 68', '4', '18,500'], ['จีน พรีเมียม เซี่ยงไฮ้', '3 พ.ค. 68', '8', '29,900'], ['เวียดนาม ฮาลองเบย์', '10 พ.ค. 68', '5', '16,900']] as $d)
-                        <tr class="hover:bg-amber-50/40 transition">
-                            <td class="px-5 py-3 font-medium text-slate-800">{{ $d[0] }}</td>
-                            <td class="px-3 py-3 text-slate-500">{{ $d[1] }}</td>
-                            <td class="px-3 py-3 text-center">
-                                <span
-                                    class="inline-flex items-center justify-center rounded-full bg-emerald-50 text-emerald-600 text-[11px] font-semibold h-7 w-12 ring-1 ring-emerald-500/20">{{ $d[2] }}</span>
-                            </td>
-                            <td class="px-3 py-3 text-right text-orange-700 font-semibold">{{ $d[3] }} ฿</td>
-                            <td class="px-4 py-3 text-right"><a href="#"
-                                    class="inline-flex items-center text-orange-600 text-xs font-medium hover:text-orange-700">ดูรายละเอียด
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 5l7 7-7 7" />
-                                    </svg></a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </section> --}}
-
-    <!-- Destinations -->
-    {{-- <section id="destinations" class="bg-gradient-to-b from-white to-amber-50/40">
-        <div class="mx-auto max-w-7xl px-4 py-16">
-            <div class="flex items-end justify-between mb-8">
-                <h2 class="text-2xl font-bold text-slate-800">ปลายทางยอดฮิต</h2>
-                <a href="#" class="text-sm font-medium text-orange-600 hover:text-orange-700">สำรวจทั้งหมด →</a>
-            </div>
-            @php
-                $destinations = [
-                    [
-                        'title' => 'ญี่ปุ่น',
-                        'count' => '1745 โปรแกรม',
-                        'image' =>
-                            'https://images.unsplash.com/photo-1688616128916-9c4f4a612e33?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fFRvcmlpJTIwU2hyaW5lJTJDJTIwSmFwYW58ZW58MHx8MHx8fDA%3D',
-                        'alt' => 'ศาลเจ้าโทริอิ ญี่ปุ่น',
-                    ],
-                    [
-                        'title' => 'เวียดนาม',
-                        'count' => '794 โปรแกรม',
-                        'image' =>
-                            'https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=600&q=70',
-                        'alt' => 'ฮาลองเบย์ เวียดนาม',
-                    ],
-                    [
-                        'title' => 'จีน',
-                        'count' => '3179 โปรแกรม',
-                        'image' =>
-                            'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=600&q=70',
-                        'alt' => 'เสาหินอุทยานจางเจียเจี้ย จีน',
-                    ],
-                    [
-                        'title' => 'ฮ่องกง',
-                        'count' => '681 โปรแกรม',
-                        'image' =>
-                            'https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=600&q=70',
-                        'alt' => 'สกายไลน์ฮ่องกงยามค่ำ',
-                    ],
-                ];
-            @endphp
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                @foreach ($destinations as $d)
-                    <x-destination-card :image="$d['image']" :alt="$d['alt']" :title="$d['title']" :count="$d['count']" />
-                @endforeach
-            </div>
-        </div>
-    </section> --}}
+    
 
     <!-- Promo Banner -->
     <section id="promo" class="bg-gradient-to-r from-orange-600 to-orange-700 text-white">

@@ -3,27 +3,59 @@
 
 <head>
 
-     @php
-         $country_data = \App\Models\Backend\CountryModel::find($country_search);
-      @endphp
-      
-    @php $pageName = $country_data->country_name_th; @endphp
-@section('title', 'Next Trip Holiday ทัวร์ต่างประเทศ | ' . $pageName)
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
-     <meta name="keywords"
-        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+   @php
+    /** @var \App\Models\Backend\CountryModel|null $country_data */
+    $country_data = \App\Models\Backend\CountryModel::find($country_search);
+    $countryName  = $country_data->country_name_th ?? 'ทัวร์ต่างประเทศ';
+
+    // รองรับเลขหน้า (กัน Duplicate จาก ?page=2 เป็นต้น)
+    $page = max((int) request('page', 1), 1);
+    $canonical = $page > 1 ? url()->current().'?page='.$page : url()->current();
+
+    // รูปแชร์ (มี slug ใช้ได้ยิ่งดี; ถ้าไม่มี จะ fallback เป็นภาพ default)
+    $countrySlug = $country_data->slug ?? Str::slug($countryName, '-');
+    $ogImage = "https://nexttripholiday.b-cdn.net/og/country/{$countrySlug}.jpg";
+@endphp
+
+{{-- ======= SEO: ทัวร์ต่างประเทศ/ประเทศ ======= --}}
+@section('title', "Next Trip Holiday ทัวร์ต่างประเทศ | {$countryName}".($page>1?" (หน้า {$page})":""))
+@section('meta_description', "แพ็กเกจทัวร์{$countryName} ราคาคุ้ม อัปเดตรายสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป จองกับ Next Trip Holiday มั่นใจได้")
+
+{{-- ไม่ต้องใช้ meta keywords แล้ว (Google ไม่ใช้) --}}
+<link rel="canonical" href="{{ $canonical }}"/>
+<meta name="robots" content="index, follow"/>
+
+{{-- Open Graph --}}
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Next Trip Holiday ทัวร์ต่างประเทศ | {{ $countryName }}{{ $page>1 ? " (หน้า {$page})" : "" }}"/>
+<meta property="og:description" content="แพ็กเกจทัวร์{{ $countryName }} ราคาคุ้ม อัปเดตรายสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป"/>
+<meta property="og:url" content="{{ $canonical }}"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+<meta property="og:image" content="{{ $ogImage }}"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="ทัวร์{{ $countryName }} - Next Trip Holiday"/>
+
+{{-- Twitter --}}
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Next Trip Holiday ทัวร์ต่างประเทศ | {{ $countryName }}{{ $page>1 ? " (หน้า {$page})" : "" }}"/>
+<meta name="twitter:description" content="แพ็กเกจทัวร์{{ $countryName }} ราคาคุ้ม อัปเดตรายสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป"/>
+<meta name="twitter:image" content="{{ $ogImage }}"/>
+
+{{-- JSON-LD: Breadcrumb แบบสั้น --}}
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"หน้าหลัก","item":"https://nexttripholiday.com/"},
+    {"@type":"ListItem","position":2,"name":"ทัวร์ต่างประเทศ","item":"https://nexttripholiday.com/abroad/"},
+    {"@type":"ListItem","position":3,"name":"{{ $countryName }}","item":"{{ $canonical }}"}
+  ]
+}
+</script>
+
+
     @include("frontend.layout.inc_header")
   
 

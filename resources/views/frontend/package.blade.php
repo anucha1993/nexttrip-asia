@@ -4,32 +4,92 @@
 <head> 
 
                                   
+@php
+    // ดึงประเทศ
+    $country_data = $country->find($id);
+    $countryName  = $country_data->country_name_th ?? '';
 
-                                @php
-                                    $country_data = $country->find($id);
-                                @endphp
-     @section('title', 'Next Trip Holiday แพ็คเกจทัวร์ | เที่ยวด้วยตัวเอง '. $country_data->country_name_th)
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
-     <meta name="keywords"
-        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, เที่ยวด้วยตัวเอง,ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+    // ถ้ามีโมเดลแพ็กเกจให้ใช้ (เผื่อคุณตั้งชื่อ $package หรือ $pkg)
+    $pkg   = $package ?? ($pkg ?? null);
+    $name  = $pkg->name ?? "แพ็กเกจเที่ยวด้วยตัวเอง {$countryName}";
+    $cover = $pkg->cover_url ?? 'https://nexttripholiday.b-cdn.net/og/package-default.jpg';
+
+    // pagination (กัน duplicate)
+    $page = max((int) request('page', 1), 1);
+    $canonical = $page > 1 ? url()->current().'?page='.$page : url()->current();
+@endphp
+
+{{-- ======= SEO HEAD ======= --}}
+@section('title', "Next Trip Holiday แพ็กเกจทัวร์ | เที่ยวด้วยตัวเอง {$countryName}" . ($page>1 ? " (หน้า {$page})" : ''))
+@section('meta_description', "แพ็กเกจเที่ยวด้วยตัวเอง {$countryName} คัดสรรโรงแรมและเส้นทางคุ้มค่า จองง่าย อัปเดตราคาและตารางเดินทางสม่ำเสมอ บริการโดยทีมงานมืออาชีพ")
+
+<link rel="canonical" href="{{ $canonical }}"/>
+<meta name="robots" content="index, follow"/>
+
+{{-- Open Graph --}}
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="{{ $name }}"/>
+<meta property="og:description" content="แพ็กเกจเที่ยวด้วยตัวเอง {{ $countryName }} จองง่าย บริการครบ อยู่กับคุณทุกขั้นตอนการเดินทาง"/>
+<meta property="og:url" content="{{ $canonical }}"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+<meta property="og:image" content="{{ $cover }}"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="{{ $name }}"/>
+
+{{-- Twitter --}}
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="{{ $name }}"/>
+<meta name="twitter:description" content="แพ็กเกจเที่ยวด้วยตัวเอง {{ $countryName }} จองง่าย บริการครบ"/>
+<meta name="twitter:image" content="{{ $cover }}"/>
+
+{{-- ======= JSON-LD ======= --}}
+{{-- Breadcrumb --}}
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"หน้าหลัก","item":"https://nexttripholiday.com/"},
+    {"@type":"ListItem","position":2,"name":"แพ็กเกจทัวร์","item":"https://nexttripholiday.com/package/"},
+    {"@type":"ListItem","position":3,"name":"{{ $countryName }}","item":"{{ $canonical }}"}
+  ]
+}
+</script>
+
+{{-- ถ้ามีข้อมูลแพ็กเกจ ให้ระบุ Product/Offer แบบสั้น ๆ --}}
+@if($pkg ?? false)
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Product",
+  "name":"{{ $name }}",
+  "image":["{{ $cover }}"],
+  "description":"แพ็กเกจเที่ยวด้วยตัวเอง {{ $countryName }}",
+  "brand":{"@type":"Organization","name":"Next Trip Holiday"},
+  "url":"{{ $canonical }}",
+  @if(isset($pkg->sku)) "sku":"{{ $pkg->sku }}", @endif
+  "offers":{
+    "@type":"Offer",
+    "url":"{{ $canonical }}",
+    @if(isset($pkg->price))
+    "price":"{{ number_format((float)$pkg->price, 2, '.', '') }}",
+    "priceCurrency":"THB",
+    @endif
+    "availability":"https://schema.org/InStock"
+  }
+}
+</script>
+@endif
+
 
     @include("frontend.layout.inc_header")
 	<title>แพคเกจทัวร์ ,เที่ยวด้วยตนเอง</title>
 </head>
 
 <body>
+    <h1 class="sr-only">{{ $name }}</h1>
+
     @include("frontend.layout.inc_topmenu")
     <section id="packagepage" class="wrapperPages">
         <div class="container-fluid g-0 overflow-hidden">

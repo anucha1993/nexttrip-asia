@@ -2,28 +2,70 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    @section('title', 'Next Trip Holiday รับจัดกรุ๊ปทัวร์ | รับจัดทัวร์ส่วนตัว กรุ๊ปเหมาบริษัท ทัวร์ศึกษาดูงาน')
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
-     <meta name="keywords"
-        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, เที่ยวด้วยตัวเอง,ทัวร์ไต้หวัน,รับจัดทัวร์ส่วนตัว กรุ๊ปเหมาบริษัท ทัวร์ศึกษาดูงาน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+   {{-- ======= HEAD: รับจัดกรุ๊ปทัวร์ ======= --}}
+@section('title', 'Next Trip Holiday รับจัดกรุ๊ปทัวร์ | กรุ๊ปเหมาบริษัท ทัวร์ส่วนตัว ทัวร์ศึกษาดูงาน')
+@section('meta_description', 'บริการรับจัดกรุ๊ปทัวร์ส่วนตัว กรุ๊ปเหมาบริษัท และศึกษาดูงาน ทั้งในและต่างประเทศ ออกแบบโปรแกรมตามงบและความต้องการ ดูแลครบตั้งแต่ตั๋วเครื่องบิน โรงแรม ไกด์ และรถบัส')
+
+{{-- แนะนำให้ลบ meta keywords (ไม่จำเป็นสำหรับ Google) --}}
+<link rel="canonical" href="https://nexttripholiday.com/organizetour/"/>
+<meta name="robots" content="index, follow"/>
+
+{{-- Open Graph --}}
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Next Trip Holiday รับจัดกรุ๊ปทัวร์ | กรุ๊ปเหมาบริษัท ทัวร์ส่วนตัว ทัวร์ศึกษาดูงาน"/>
+<meta property="og:description" content="บริการรับจัดกรุ๊ปทัวร์ครบวงจร ออกแบบโปรแกรมตามงบและความต้องการ ดูแลตั้งแต่ตั๋วเครื่องบิน โรงแรม ไกด์ และรถบัส"/>
+<meta property="og:url" content="https://nexttripholiday.com/organizetour/"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+<meta property="og:image" content="https://nexttripholiday.b-cdn.net/og/organizetour.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="รับจัดกรุ๊ปทัวร์ Next Trip Holiday"/>
+
+{{-- Twitter --}}
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Next Trip Holiday รับจัดกรุ๊ปทัวร์ | กรุ๊ปเหมาบริษัท ทัวร์ส่วนตัว ทัวร์ศึกษาดูงาน"/>
+<meta name="twitter:description" content="ออกแบบทัวร์ตามงบและความต้องการ ดูแลงานครบวงจรโดยทีมมืออาชีพ"/>
+<meta name="twitter:image" content="https://nexttripholiday.b-cdn.net/og/organizetour.jpg"/>
+
+{{-- JSON-LD: Breadcrumb + Service (สั้น ๆ) --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"หน้าหลัก","item":"https://nexttripholiday.com/"},
+    {"@type":"ListItem","position":2,"name":"รับจัดกรุ๊ปทัวร์","item":"https://nexttripholiday.com/organizetour/"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Service",
+  "name":"รับจัดกรุ๊ปทัวร์ (กรุ๊ปเหมาบริษัท/ทัวร์ส่วนตัว/ศึกษาดูงาน)",
+  "serviceType":"Custom Group Tour",
+  "provider":{
+    "@type":"Organization",
+    "name":"Next Trip Holiday",
+    "url":"https://nexttripholiday.com/",
+    "logo":"https://nexttripholiday.b-cdn.net/brand/logo-512.png"
+  },
+  "areaServed":[
+    {"@type":"Country","name":"Thailand"},
+    {"@type":"Place","name":"Asia"}
+  ],
+  "url":"https://nexttripholiday.com/organizetour/",
+  "description":"บริการรับจัดกรุ๊ปทัวร์ครบวงจร ออกแบบโปรแกรมตามงบและความต้องการ ดูแลตลอดทริป"
+}
+</script>
+
 
     @include("frontend.layout.inc_header")
     <?php  $pageName="organize";?>
 </head>
 
 <body>
+    <h1 class="sr-only">รับจัดกรุ๊ปทัวร์ กรุ๊ปเหมาบริษัท ทัวร์ส่วนตัว และศึกษาดูงาน</h1>
     @include("frontend.layout.inc_topmenu")
     <section id="organizepage" class="wrapperPages">
         <div class="container-fluid g-0 overflow-hidden">

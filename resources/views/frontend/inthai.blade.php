@@ -2,26 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-      @php
-        $country_data = \App\Models\Backend\ProvinceModel::find($country_search);
-     @endphp
-                                
-    @section('title', 'Next Trip Holiday ทัวร์ในประเทศ | ' . $country_data->name_th)
-@section('meta_description',
-    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
-    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
-     <meta name="keywords"
-        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
-    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
-    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
-    <meta property="og:description"
-        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
-    <meta property="og:url" content="https://www.nexttripholiday.com" />
-    <meta property="og:type" content="website" />
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
-    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+    @php
+    $country_data = \App\Models\Backend\ProvinceModel::find($country_search);
+    $provName = $country_data->name_th ?? '';
+@endphp
+
+@section('title', "Next Trip Holiday ทัวร์ในประเทศ | {$provName}")
+@section('meta_description', "แพ็กเกจทัวร์{$provName} ราคาพิเศษ อัปเดตทุกสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป")
+
+<link rel="canonical" href="{{ url()->current() }}"/>
+
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Next Trip Holiday ทัวร์ในประเทศ | {{ $provName }}"/>
+<meta property="og:description" content="แพ็กเกจทัวร์{{ $provName }} ราคาพิเศษ อัปเดตทุกสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป"/>
+<meta property="og:url" content="{{ url()->current() }}"/>
+<meta property="og:site_name" content="Next Trip Holiday"/>
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Next Trip Holiday ทัวร์ในประเทศ | {{ $provName }}"/>
+<meta name="twitter:description" content="แพ็กเกจทัวร์{{ $provName }} ราคาพิเศษ อัปเดตทุกสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป"/>
+
+{{-- JSON-LD --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "หน้าหลัก",
+      "item": "https://nexttripholiday.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "ทัวร์ในประเทศ",
+      "item": "https://nexttripholiday.com/inthai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ $provName }}",
+      "item": "{{ url()->current() }}"
+    }
+  ]
+}
+</script>
+
+  
     @include("frontend.layout.inc_header")
 
     @include("frontend.layout.inc_header")
@@ -29,6 +58,8 @@
 </head>
 
 <body>
+    <h1 class="sr-only">แพ็กเกจทัวร์{{$provName}} ราคาพิเศษ อัปเดตทุกสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป"</h1>
+
     @include("frontend.layout.inc_topmenu")
     <section id="protourpage" class="wrapperPages">
         <div class="container-fluid g-0 overflow-hidden">
