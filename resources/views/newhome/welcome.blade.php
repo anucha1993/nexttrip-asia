@@ -74,69 +74,72 @@
       <p class="mt-2 mb-4 text-white/85">ดีลทัวร์ต่างประเทศประจำสัปดาห์ อัปเดตราคาเรียลไทม์</p>
 
       {{-- ฟอร์มค้นหาแบบเบา --}}
-      <form action="https://nexttripholiday.com/search-tour" method="GET" id="searchForm">
-        
-        <div class="grid grid-cols-2 md:grid-cols-12 gap-3">
-          {{-- คำค้น --}}
-          <div class="relative md:col-span-6">
-            <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 opacity-90">
-              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor">
-                <path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z"/>
-              </svg>
-            </span>
-            <input type="text" name="search_data" id="search_data"
-                   placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
-                   class="h-11 w-full rounded-lg border border-white/30 bg-white/10 pl-9 pr-3 text-sm placeholder-white/70
-                          focus:border-white focus:ring-2 focus:ring-white focus:outline-none">
-          </div>
-   {{-- วันที่ไป --}}
-          <div class="md:col-span-3">
-            <input type="date" name="start_date" id="start_date" readonly
-                   class="h-11 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm
-                          focus:border-white focus:ring-2 focus:ring-white focus:outline-none [color:inherit]">
-          </div>
+      <form action="{{ url('search-tour') }}" method="GET" class="mx-auto w-full max-w-3xl">
+  <!-- กล่องค้นหาแบบเบลอ -->
+  <div class="rounded-2xl bg-white/15 backdrop-blur-md ring-1 text-slate-600 ring-white/30 shadow-lg p-3 sm:p-4
+              grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 text-white">
 
-          {{-- วันที่กลับ --}}
-          <div class="md:col-span-3">
-            <input type="date" name="end_date" id="end_date"
-                   class="h-11 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm 
-                          focus:border-white focus:ring-2 focus:ring-white focus:outline-none [color:inherit]" readonly>
-          </div>
+    <!-- คำค้น -->
+    <div class="relative sm:col-span-6">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-600">
+        <svg viewBox="0 0 24 24" class="h-5 w-5"><path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z" fill="currentColor"/></svg>
+      </span>
+      <input id="search_data" name="search_data" autocomplete="off"
+             placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
+             class="h-12 w-full rounded-lg border text-slate-600 border-white/30 bg-white/10 pl-10 pr-3 text-sm placeholder-text-slate-600
+                    focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
+      <!-- ถ้ามี live search เดิมของคุณจะใช้งานร่วมได้ -->
+      <div id="livesearch" class="hidden"></div>
+      <div id="search_famus" class="hidden"></div>
+    </div>
 
-          {{-- ช่วงราคา --}}
-          <div class="relative md:col-span-6">
-            <select name="price"
-                    class="h-11 w-full appearance-none rounded-lg border border-white/30 bg-white/10 px-3 pr-8 text-sm
-                           focus:border-white focus:ring-2 focus:ring-white focus:outline-none">
-              <option value="" selected class="text-gray-900">ช่วงราคา</option>
-              <option value="1" class="text-gray-900">ต่ำกว่า10,000</option>
-              <option value="2" class="text-gray-900">10,001-20,000</option>
-              <option value="3" class="text-gray-900">20,001-30,000</option>
-              <option value="4" class="text-gray-900">30,001-50,000</option>
-              <option value="5" class="text-gray-900">50,001-80,000</option>
-              <option value="5" class="text-gray-900">80,001 ขึ้นไป</option>
-            </select>
-            <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-80"
-                 viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
-          </div>
+    <!-- วันที่ (ช่วงเดียว) -->
+    <div class="relative sm:col-span-6">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-600">
+        <svg viewBox="0 0 24 24" class="h-5 w-5"><path d="M7 2h10a3 3 0 013 3v14a3 3 0 01-3 3H7a3 3 0 01-3-3V5a3 3 0 013-3zm2 6h6v2H9V8z" fill="currentColor"/></svg>
+      </span>
+      <input id="date_range" type="text" readonly
+             placeholder="ช่วงวันที่"
+             class="h-12 w-full rounded-lg border border-white/30 bg-white/10 pl-10 pr-3 text-sm text-slate-600 placeholder-white/70
+                    focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
+      <!-- ค่าเริ่ม-จบจริง ส่งเข้าแบ็กเอนด์ -->
+      <input type="hidden" id="start_date" name="start_date">
+      <input type="hidden" id="end_date"   name="end_date">
+    </div>
 
-          {{-- รหัสทัวร์ --}}
-          <div class="md:col-span-6">
-            <input type="text" name="code_tour" placeholder="รหัสทัวร์"
-                   class="h-11 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm placeholder-white/70
-                          focus:border-white focus:ring-2 focus:ring-white focus:outline-none">
-          </div>
+    <!-- ช่วงราคา -->
+    <div class="sm:col-span-6">
+      <select name="price"
+              class="h-12 w-full appearance-none rounded-lg border border-white/30 bg-blue/5 px-3 text-sm
+                     focus:border-white focus:ring-2 focus:ring-white focus:outline-none text-slate-600">
+        <option value="">ช่วงราคา</option>
+        <option value="1">ต่ำกว่า 10,000</option>
+        <option value="2">10,001–20,000</option>
+        <option value="3">20,001–30,000</option>
+        <option value="4">30,001–50,000</option>
+        <option value="5">50,001–80,000</option>
+        <option value="6">80,001 ขึ้นไป</option>
+      </select>
+    </div>
 
-          {{-- ปุ่มค้นหา --}}
-          <div class="md:col-span-12">
-            <button type="submit"
-                    class="h-11 w-full rounded-lg bg-orange-500 px-4 text-sm font-semibold text-white
-                           hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-white/80">
-              ค้นหาทัวร์
-            </button>
-          </div>
-        </div>
-      </form>
+    <!-- รหัสทัวร์ -->
+    <div class="sm:col-span-3">
+      <input type="text" name="code_tour" placeholder="รหัสทัวร์"
+             class="h-12 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm placeholder-text-slate-600/70 text-slate-600
+                    focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
+    </div>
+
+    <!-- ปุ่มค้นหา -->
+    <div class="sm:col-span-3">
+      <button type="submit"
+              class="h-12 w-full rounded-lg bg-orange-500 text-sm font-semibold text-white
+                     hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-white/80">
+        ค้นหาทัวร์
+      </button>
+    </div>
+  </div>
+</form>
+
     </div>
     </div>
   </div>
@@ -147,25 +150,46 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // กำหนดจำนวนเดือนตามขนาดจอ (มือถือ 1 เดือน, จอใหญ่ 2 เดือน)
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+
     const picker = new Litepicker({
-      element: document.getElementById('start_date'),
-      elementEnd: document.getElementById('end_date'),
-      singleMode: false,               // ใช้โหมดช่วงวันที่
-      numberOfMonths: 2,               // แสดง 2 เดือน
-      numberOfColumns: 2,
-      autoApply: true,                 // กดเลือกแล้วใส่ค่าให้เลย
-      resetButton: true,
-      format: 'YYYY-MM-DD',            // ฟอร์แมตค่าที่ส่งไป backend
-      minDate: new Date().toISOString().slice(0,10), // ไม่ให้เลือกย้อนหลังวันนี้
-      tooltipText: {one: 'night', other: 'nights'},  // ข้อความ tooltip (ตัดได้)
+      element: document.getElementById('date_range'),
+      singleMode: false,                       // โหมดช่วงวัน
+      autoApply: true,                         // เลือกแล้วใส่ค่าให้เลย
+      numberOfMonths:  isDesktop ? 2 : 1,
+      numberOfColumns: isDesktop ? 2 : 1,
+      minDate: new Date().toISOString().slice(0,10),
+      format: 'DD/MM/YYYY',                    // รูปแบบที่แสดงในช่องเดียว
+      tooltipText: {one: 'คืน', other: 'คืน'}, // ข้อความ tooltip (ลบได้)
+      setup: (inst) => {
+        inst.on('selected', (d1, d2) => {
+          const f = (d) => d ? d.format('YYYY-MM-DD') : '';
+          document.getElementById('start_date').value = f(d1);
+          document.getElementById('end_date').value   = f(d2);
+        });
+      }
     });
 
-    // ตั้งค่าเริ่มต้นเป็นวันนี้ - อีก 1 วัน (เลือกได้ จะลบทิ้งก็ได้)
+    // ค่าเริ่มต้น: วันนี้ → พรุ่งนี้
     const today = new Date();
     const tomorrow = new Date(today.getTime() + 86400000);
     picker.setDateRange(today, tomorrow);
-  });
+    document.getElementById('start_date').value = today.toISOString().slice(0,10);
+    document.getElementById('end_date').value   = tomorrow.toISOString().slice(0,10);
 
+    // อัปเดตจำนวนเดือนเมื่อปรับขนาดหน้าจอ (ถ้าต้องการ)
+    window.addEventListener('resize', () => {
+      const desktopNow = window.matchMedia('(min-width: 768px)').matches;
+      picker.setOptions({
+        numberOfMonths:  desktopNow ? 2 : 1,
+        numberOfColumns: desktopNow ? 2 : 1
+      });
+    });
+  });
+</script>
+
+<script>
   // ฟังก์ชันเรียกจากเมนูมือถือ (ถ้าใช้)
   function closeMobileMenu(){
     const panel = document.getElementById('mobileMenu');
@@ -195,7 +219,6 @@
   next.addEventListener('click', () => go(1));
 })();
 </script>
-
 
 
     <!-- แพ็คเกจทัวร์แนะนำในต่างแดน (เด่นขึ้น) -->

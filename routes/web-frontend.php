@@ -13,7 +13,7 @@ Route::post('/login',  [Frontend\HomeController::class, 'LogIn'])->middleware('t
 Route::get('/logout',  [Frontend\HomeController::class, 'LogOut'])->middleware('auth');
 Route::controller(Frontend\HomeController::class)->group(function () {
     // ✅ กลุ่มหน้า PUBLIC + แคชได้
-    // Route::middleware('responsecache')->group(function () {
+    Route::middleware('responsecache')->group(function () {
         Route::get('/', 'index')->name('home');
         Route::get('/about', 'about');
         Route::get('/aroundworld/{id}/{tyid}/{tid}', 'aroundworld')
@@ -39,7 +39,7 @@ Route::controller(Frontend\HomeController::class)->group(function () {
         Route::get('/search-price', 'search_price');
         Route::get('/get-data', 'get_data');
         Route::get('/pdf-data', 'file_pdf');
-    // });
+   });
 
     // 🔄 คำขอแบบเปลี่ยนข้อมูล/ค้นหาหนัก ๆ ไม่ควรแคช
     Route::post('/search-video', 'search_video')->middleware('throttle:60,1');
