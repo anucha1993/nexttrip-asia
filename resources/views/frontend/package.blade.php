@@ -2,6 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head> 
+
+                                  
+
+                                @php
+                                    $country_data = $country->find($id);
+                                @endphp
+     @section('title', 'Next Trip Holiday แพ็คเกจทัวร์ | เที่ยวด้วยตัวเอง '. $country_data->country_name_th)
+@section('meta_description',
+    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
+    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
+     <meta name="keywords"
+        content="ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, เที่ยวด้วยตัวเอง,ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
+    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
+    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
+    <meta property="og:description"
+        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
+    <meta property="og:url" content="https://www.nexttripholiday.com" />
+    <meta property="og:type" content="website" />
+    <!-- ✅ Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
+    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+
     @include("frontend.layout.inc_header")
 	<title>แพคเกจทัวร์ ,เที่ยวด้วยตนเอง</title>
 </head>

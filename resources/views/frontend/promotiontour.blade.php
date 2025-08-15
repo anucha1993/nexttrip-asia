@@ -2,6 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+     @section('title', 'Next Trip Holiday ทัวร์โปรโมชั่น | รวมทัวร์ไฟไหม้ ทัวร์ที่หลุด ทัวร์บินด่วน ทัวร์ลดราคาพิเศษ ')
+@section('meta_description',
+    'จองแพ็คเกจทัวร์ในประเทศและต่างประเทศ ราคาพิเศษ อัปเดตทุกสัปดาห์
+    คัดสรรโดยผู้เชี่ยวชาญด้านท่องเที่ยว')
+     <meta name="keywords"
+        content="ทัวร์โปรโมชั่นทัวร์สุดพิเศษ,ทัวร์ญี่ปุ่น, ทัวร์เกาหลี, ทัวร์ไต้หวัน, ทัวร์ต่างประเทศ, ทัวร์ในประเทศ, แพ็กเกจทัวร์ราคาถูก, เที่ยวกับบริษัททัวร์, Next Trip Holiday">
+    <!-- ✅ Open Graph สำหรับ Facebook, LINE -->
+    <meta property="og:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก | Next Trip Holiday" />
+    <meta property="og:description"
+        content="จองทัวร์กับบริษัททัวร์ชั้นนำ บินตรง โรงแรมดี เที่ยวสนุก ปลอดภัย ไกด์ดูแลตลอดทริป" />
+    <meta property="og:url" content="https://www.nexttripholiday.com" />
+    <meta property="og:type" content="website" />
+    <!-- ✅ Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ทัวร์ญี่ปุ่น เกาหลี ไต้หวัน ราคาถูก ทัวร์ในประเทศ | Next Trip Holiday" />
+    <meta name="twitter:description" content="โปรโมชั่นทัวร์ต่างประเทศ เดินทางง่าย บริการคุณภาพ จองเลย!" />
+
+
     @include("frontend.layout.inc_header")
     <?php $pageName="promotion";
     if(isset($_GET['page'])){ $page = urldecode($_GET['page']); }else{ $page = 1;}
@@ -67,12 +85,16 @@
                             <ul class="favelist">
                                 <li><a href="{{url('promotiontour/0/0')}}" @if($tid == 0)  class="active" @endif >ทั้งหมด</a><span>({{$total_pro}})</span></li>
                                 @foreach ($promotion_total as $k => $promo)
-                                        @php
-                                            $pro = App\Models\Backend\PromotionModel::where('id',$k)->where('status','on')->first();
-                                        @endphp
-                                    {{-- @if($pro)<li><a href="{{url('promotiontour/'.$id.'/'.$pro->id)}}" @if($tid == $pro->id) class="active" @endif>{{@$pro->promotion_name}} </a> <span>({{count($promo)}})</span></li>@endif --}}
-                                    @if($pro)<li onClick="Promotion_filter('promoid{{$pro->id}}',{{json_encode($promo)}})" >
-                                        <a href="javascript:void(0);" id="promoid{{$pro->id}}" >{{@$pro->promotion_name}}<span>({{count($promo)}})</span></a></li>@endif
+                                    @php
+                                        $pro = App\Models\Backend\PromotionModel::where('id',$k)->where('status','on')->first();
+                                    @endphp
+                                    @if($pro)
+                                        <li>
+                                            <a href="{{ url('promotiontour/'.$id.'/'.$pro->id) }}" id="promoid{{$pro->id}}" @if($tid == $pro->id) class="active" @endif>
+                                                {{ @$pro->promotion_name }}<span>({{ count($promo) }})</span>
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>

@@ -33,10 +33,10 @@
   </style>
  {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
   {{-- ✅ ใช้ไฟล์ static ที่คัดลอกไว้ใน public/newhome/css --}}
-  <link rel="preload" href="newhome/build/assets/app-CHFbAbOM.css" as="style" />
-  <link rel="stylesheet" href="newhome/build/assets/app-CHFbAbOM.css" />
-  <link rel="stylesheet" href="newhome/build/assets/app-uEyFf-xh.css" />
-  <noscript><link rel="stylesheet" href="newhome/build/assets/app-CHFbAbOM.css"/></noscript>
+  <link rel="preload" href="newhome/build/assets/app-C1rIRth3.css" as="style" />
+  <link rel="stylesheet" href="newhome/build/assets/app-C1rIRth3.css" />
+  <link rel="stylesheet" href="newhome/build/assets/app-C1rIRth3.css" />
+  <noscript><link rel="stylesheet" href="newhome/build/assets/app-C1rIRth3.css"/></noscript>
 
   {{-- ถ้าต้องใช้ Font Awesome ให้ลิ้งค์จากไฟล์ที่คัดลอกไว้เอง หรือ CDN นี้ก็ได้ --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
