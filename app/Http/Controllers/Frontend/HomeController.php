@@ -1064,6 +1064,7 @@ class HomeController extends Controller
         ->where('tb_tour.status','on')
         ->select('*','tb_tour.id as t_id','tb_tour_period.id as pe_id','tb_tour_period.promotion_id as pr_promotion')
         ->where('tb_tour_period.status_display','on')->where('tb_tour_period.deleted_at',null)->orderBy('tb_tour_period.start_date','asc')
+         ->limit(100) 
         ->get()
         ->groupBy('t_id');
         //dd(11111);
@@ -1073,6 +1074,7 @@ class HomeController extends Controller
         ->where('tb_tour.status','on')
         ->select('*','tb_tour.id as t_id','tb_tour_period.id as pe_id','tb_tour_period.promotion_id as pr_promotion')
         ->where('tb_tour_period.status_display','on')->where('tb_tour_period.deleted_at',null)->orderBy('tb_tour_period.start_date','asc')
+         ->limit(100) 
         ->get()
         ->groupBy('t_id');
 
@@ -1158,14 +1160,7 @@ class HomeController extends Controller
                                     $id_tour_pro[$pr2->pr_promotion][] = $pr2->t_id;
                                 }
 
-                                // if(isset($id_tour_pro[$pr2->pr_promotion])){
-                                //     if(!in_array($pr2->t_id,$id_tour_pro[$pr2->pr_promotion])){
-                                //         dd($id_tour_pro);
-                                //         $id_tour_pro[$pr2->pr_promotion][] = $pr2->t_id;
-                                //     }else{
-                                //         $id_tour_pro[$pr2->pr_promotion][] = $pr2->t_id;
-                                //     }
-                                // }
+                              
                                 $country_all = array_merge($country_all,json_decode($pr2->country_id,true));
                                 foreach(json_decode($pr2->country_id,true) as $c_id){
                                     $id_tour[$c_id][] = $pr2->t_id;
@@ -1266,6 +1261,7 @@ class HomeController extends Controller
         );
         return view('frontend.promotiontour',$data);
     }
+
     public function promotion_filter(Request $request){
         if(isset($request->tour_id[$request->paginate]) && is_array($request->tour_id[$request->paginate])){
             $pro_2  = TourPeriodModel::leftjoin('tb_tour','tb_tour_period.tour_id','=','tb_tour.id')
