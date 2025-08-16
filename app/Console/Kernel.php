@@ -20,16 +20,9 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $ApiController = app(ApiController::class);
             $ApiController->package_tour();
-        })->cron('30 9,12,15,18,21,0 * * *')->runInBackground();
+        })->cron('30 9,12,15,18,21,0 * * *')->runInBackground()->withoutOverlapping();
 
-        // $schedule->call(function () {
-        //     $ApiController = app(ApiController::class);
-        //     $ApiController->package_tour();
-        // })->dailyAt('10:00');
-        
-        // $schedule->command('db:backup')->everyMinute();
-        // $schedule->command('db:backup')->everyThreeMinutes()->runInBackground();
-        // $schedule->command('inspire')->hourly();
+    
     }
 
     /**
