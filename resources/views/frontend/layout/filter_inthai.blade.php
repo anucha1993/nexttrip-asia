@@ -322,7 +322,7 @@
                                 if(go){
                                     airline_select = airline_select+'<li><label class="check-container">';
                                     if(go.image){
-                                        airline_select = airline_select+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select = airline_select+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select = airline_select+go.travel_name;
                                     }
@@ -331,7 +331,7 @@
                                 
                                     airline_select_mb = airline_select_mb+'<li><label class="check-container">';
                                     if(go.image){
-                                        airline_select_mb = airline_select_mb+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select_mb = airline_select_mb+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select_mb = airline_select_mb+go.travel_name;
                                     }
@@ -345,7 +345,7 @@
                                 if(go){
                                     airline_select = airline_select+'<div id="moreair" class="collapse"><li><label class="check-container">';
                                     if(go.image){
-                                        airline_select = airline_select+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select = airline_select+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select = airline_select+go.travel_name;
                                     }
@@ -354,7 +354,7 @@
                                 
                                     airline_select_mb = airline_select_mb+'<div id="moreair" class="collapse"><li><label class="check-container">';
                                     if(go.image){
-                                        airline_select_mb = airline_select_mb+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select_mb = airline_select_mb+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select_mb = airline_select_mb+go.travel_name;
                                     }
@@ -644,7 +644,7 @@
                                 if(go){
                                     airline_select = airline_select+'<li><label class="check-container">';
                                     if(go.image){
-                                        airline_select = airline_select+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select = airline_select+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select = airline_select+go.travel_name;
                                     }
@@ -653,7 +653,7 @@
                                 
                                     airline_select_mb = airline_select_mb+'<li><label class="check-container">';
                                     if(go.image){
-                                        airline_select_mb = airline_select_mb+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select_mb = airline_select_mb+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select_mb = airline_select_mb+go.travel_name;
                                     }
@@ -667,7 +667,7 @@
                                 if(go){
                                     airline_select = airline_select+'<div id="moreair" class="collapse"><li><label class="check-container">';
                                     if(go.image){
-                                        airline_select = airline_select+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select = airline_select+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select = airline_select+go.travel_name;
                                     }
@@ -676,7 +676,7 @@
                                 
                                     airline_select_mb = airline_select_mb+'<div id="moreair" class="collapse"><li><label class="check-container">';
                                     if(go.image){
-                                        airline_select_mb = airline_select_mb+'<img src="/'+go.image+'" alt=""> '+go.travel_name;
+                                        airline_select_mb = airline_select_mb+'<img src="https://nexttrip.b-cdn.net/'+go.image+'" alt=""> '+go.travel_name;
                                     }else{
                                         airline_select_mb = airline_select_mb+go.travel_name;
                                     }

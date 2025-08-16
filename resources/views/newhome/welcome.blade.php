@@ -18,9 +18,9 @@
       @foreach ($slide as $s)
         <div class="relative h-full w-full shrink-0 snap-center">
           <picture>
-            <source media="(min-width:1024px)" srcset="https://nexttripholiday.b-cdn.net/{{ $s->img }}">
+            <source media="(min-width:1024px)" srcset="https://nexttrip.b-cdn.net/{{ $s->img }}">
             <img
-              src="https://nexttripholiday.b-cdn.net/{{ $s->img_mobile }}"
+              src="https://nexttrip.b-cdn.net/{{ $s->img_mobile }}"
               alt="slide- {!! $s->detail !!}"
               class="absolute inset-0 h-full w-full object-cover object-center" />
           </picture>
@@ -124,7 +124,7 @@
 
             <!-- ปุ่มค้นหา -->
             <div class="sm:col-span-3">
-              <button type="submit"
+              <button type="submit" form="searchFormLite"
                       class="h-12 w-full rounded-lg bg-orange-500 text-sm font-semibold text-white
                              hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-white/80">
                 ค้นหาทัวร์
@@ -175,7 +175,7 @@
   const contains = (a,b) => norm(a).toLowerCase().includes(norm(b).toLowerCase());
   const esc = s => (s||'').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const escapeReg = s => (s||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const host = 'https://nexttripholiday.b-cdn.net/';
+  const host = 'https://nexttrip.b-cdn.net/';
   const typeMap = {country:'ประเทศ', city:'เมือง', province:'จังหวัด', district:'อำเภอ/เขต', keyword:'คำค้น'};
 
   /* ---------- 0) เคลียร์ id ซ้ำ (ถ้ามีหลุดมา) ---------- */
@@ -373,13 +373,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ถ้าไม่เลือกวัน ให้ "ไม่ส่ง" start_date/end_date (เบราเซอร์จะไม่แนบฟิลด์นี้ไป)
-  form.addEventListener('submit', () => {
-    if (!startInput.value || !endInput.value) {
-      startInput.disabled = true;
-      endInput.disabled   = true;
-    }
-  });
+    // ถ้าไม่เลือกวัน ให้ "ไม่ส่ง" start_date/end_date (เบราเซอร์จะไม่แนบฟิลด์นี้ไป)
+    form.addEventListener('submit', () => {
+        if (!startInput.value || !endInput.value) {
+            startInput.removeAttribute('name');
+            endInput.removeAttribute('name');
+        }
+    });
 
   // ปรับจำนวนเดือนเมื่อขนาดจอเปลี่ยน
   window.addEventListener('resize', () => {
@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         )->count();
                     @endphp
 
-                    <a href="https://nexttripholiday.com/clients-review/{{ @$co->id ?? 0 }}/0"
+                    <a href="https://nexttripholiday.com/oversea/{{ @$co->slug  }}"
                         class="group relative block rounded-[26px] bg-gradient-to-br from-orange-200/40 via-rose-200/30 to-amber-200/40 p-[1px] hover:shadow-xl hover:shadow-orange-100/60 transition">
 
                         <!-- การ์ดด้านใน -->
@@ -470,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             class="relative overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5 transition-transform duration-300 group-hover:-translate-y-0.5">
                             <!-- รูป -->
                             <div class="relative aspect-[4/3] lg:aspect-[3/2] overflow-hidden">
-                                <img src="https://nexttripholiday.b-cdn.net/{{ @$co->img_banner }}"
+                                <img src="https://nexttrip.b-cdn.net/{{ @$co->img_banner }}"
                                     alt="{{ @$co->country_name_th }}" loading="lazy"
                                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
                                 <!-- gradient ซ้อนบนรูป -->
@@ -503,9 +503,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <div class="text-lg md:text-xl font-extrabold drop-shadow-sm">
                                                 {{ @$co->country_name_th }}</div>
                                             <div class="mt-0.5 text-[13px] md:text-sm text-white/85 font-medium">
-                                                สำรวจแพ็คเกจยอดนิยม พร้อมดีลพิเศษ
+                                                {!! $co->description !!}
                                             </div>
                                         </div>
+
                                         <span
                                             class="hidden md:inline-flex items-center gap-1 rounded-full bg-blue-900/80 px-3 py-1 text-sm font-semibold ring-1 ring-white/20 backdrop-blur-sm">
                                             ดูแพ็คเกจ
@@ -517,6 +518,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                         </span>
                                     </div>
                                 </div>
+
+                                
+
+                                
                             </div>
                         </div>
                     </a>
@@ -548,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             class="shrink-0 w-[300px] sm:w-[380px] lg:w-[460px] xl:w-[520px]
                 block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm hover:shadow-md transition">
                             <div class="relative aspect-[2/1] overflow-hidden"> <!-- เตี้ยลง -->
-                                <img src="https://nexttripholiday.b-cdn.net/{{ $ad->img }}" alt="promotion"
+                                <img src="https://nexttrip.b-cdn.net/{{ $ad->img }}" alt="promotion"
                                     class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.02]">
                             </div>
                         </a>
@@ -560,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             class="shrink-0 w-[300px] sm:w-[380px] lg:w-[460px] xl:w-[520px]
                 block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm">
                             <div class="relative aspect-[2/1] overflow-hidden">
-                                <img src="https://nexttripholiday.b-cdn.net/{{ $ad->img }}" alt=""
+                                <img src="https://nexttrip.b-cdn.net/{{ $ad->img }}" alt=""
                                     class="absolute inset-0 h-full w-full object-cover object-center">
                             </div>
                         </a>
@@ -735,7 +740,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="relative">
                                     <div class="relative aspect-[1/1] overflow-hidden">
                                         <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}" target="_blank">
-                                            <img src="https://nexttripholiday.b-cdn.net/{{ @$tour->image }}"
+                                            <img src="https://nexttrip.b-cdn.net/{{ @$tour->image }}"
                                                 alt="{{ $tour->name }}"
                                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                         </a>
@@ -759,7 +764,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                             </svg>
-                                            สายการบิน <img src="https://nexttripholiday.b-cdn.net/{{ @$airline->image }}"
+                                            สายการบิน <img src="https://nexttrip.b-cdn.net/{{ @$airline->image }}"
                                                 alt="{{ @$airline->name }}">
 
                                         </li>
@@ -841,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <div class="relative aspect-[1/1] overflow-hidden">
                                             <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}"
                                                 target="_blank">
-                                                <img src="https://nexttripholiday.b-cdn.net/{{ @$tour->image }}"
+                                                <img src="https://nexttrip.b-cdn.net/{{ @$tour->image }}"
                                                     alt="{{ $tour->name }}"
                                                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                             </a>
@@ -863,7 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                                         d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                                 </svg>
                                                 สายการบิน <img
-                                                    src="https://nexttripholiday.b-cdn.net/{{ @$airline->image }}"
+                                                    src="https://nexttrip.b-cdn.net/{{ @$airline->image }}"
                                                     alt="{{ @$airline->name }}">
                                             </li>
 
@@ -939,7 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="relative">
                                     <div class="relative aspect-[1/1] overflow-hidden">
                                         <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}" target="_blank">
-                                            <img src="https://nexttripholiday.b-cdn.net/{{ @$tour->image }}"
+                                            <img src="https://nexttrip.b-cdn.net/{{ @$tour->image }}"
                                                 alt="{{ $tour->name }}"
                                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                         </a>
@@ -960,7 +965,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                             </svg>
-                                            สายการบิน <img src="https://nexttripholiday.b-cdn.net/{{ @$airline->image }}"
+                                            สายการบิน <img src="https://nexttrip.b-cdn.net/{{ @$airline->image }}"
                                                 alt="{{ @$airline->name }}">
                                         </li>
 
@@ -1398,7 +1403,7 @@ document.addEventListener('DOMContentLoaded', () => {
                           bg-white overflow-hidden rounded-2xl ring-1 ring-slate-200 shadow-sm">
                             <a href="https://nexttripholiday.com/clients-review/0/0" class="block group">
                                 <div class="relative aspect-[4/3] overflow-hidden">
-                                    <img src="https://nexttripholiday.b-cdn.net/{{ $re->img }}"
+                                    <img src="https://nexttrip.b-cdn.net/{{ $re->img }}"
                                         alt="{{ $re->title }}"
                                         class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                 </div>
@@ -1421,7 +1426,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </p>
 
                                     <div class="mt-4 flex items-center gap-3">
-                                        <img src="https://nexttripholiday.b-cdn.net/{{ $re->profile }}"
+                                        <img src="https://nexttrip.b-cdn.net/{{ $re->profile }}"
                                             class="h-9 w-9 rounded-full object-cover ring-1 ring-slate-200"
                                             alt="">
                                         <div class="leading-tight">
@@ -1523,19 +1528,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div
                     class="flex items-center gap-10 animate-logo-marquee group-hover:[animation-play-state:paused] [--speed:28s]">
                     @foreach ($customer as $cus)
-                        <a href="https://nexttripholiday.b-cdn.net/{{ $cus->id }}" class="shrink-0"
+                        <a href="https://nexttripholiday.com/clients-detail/{{ $cus->id }}" class="shrink-0"
                             title="{{ $cus->title ?? 'ลูกค้า' }}">
-                            <img src="https://nexttripholiday.b-cdn.net/{{ $cus->logo }}"
-                                alt="https://nexttripholiday.b-cdn.net/{{ $cus->title ?? 'ลูกค้า' }}" loading="lazy"
+                            <img src="https://nexttrip.b-cdn.net/{{ $cus->logo }}"
+                                alt="https://nexttripholiday.com/{{ $cus->title ?? 'ลูกค้า' }}" loading="lazy"
                                 class="h-12 sm:h-14 md:h-16 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition">
                         </a>
                     @endforeach
 
                     {{-- สำเนาชุดที่ 2 เพื่อให้เลื่อนต่อเนื่องไร้รอยต่อ --}}
                     @foreach ($customer as $cus)
-                        <a href="https://nexttripholiday.b-cdn.net/{{ $cus->id }}" aria-hidden="true"
+                        <a href="https://nexttripholiday.com/clients-detail/{{ $cus->id }}" aria-hidden="true"
                             class="shrink-0">
-                            <img src="https://nexttripholiday.b-cdn.net/{{ $cus->logo }}" alt=""
+                            <img src="https://nexttrip.b-cdn.net/{{ $cus->logo }}" alt=""
                                 loading="lazy"
                                 class="h-12 sm:h-14 md:h-16 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition">
                         </a>
@@ -1545,7 +1550,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <!-- ปุ่มดูทั้งหมด (ถ้าต้องการ) -->
             <div class="mt-8 text-center">
-                <a href="https://nexttripholiday.com/clients-review/0/0"
+                <a href="https://nexttripholiday.com/clients-govern/0"
                     class="inline-flex items-center gap-2 text-orange-600 font-semibold hover:gap-3 transition-all">
                     ดูผลงานลูกค้าทั้งหมด
                     <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">

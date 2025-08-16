@@ -34,10 +34,10 @@
 
           {{-- QR + LINE (ซ่อนบนมือถือเพื่อความเบา) --}}
           <div class="hidden md:flex items-center justify-center gap-6">
-            <img src="https://nexttripholiday.b-cdn.net/{{ $contact->qr_code }}" alt="LINE QR" class="h-28 w-28 rounded-lg ring-1 ring-slate-200 object-contain">
+            <img src="https://nexttrip.b-cdn.net/{{ $contact->qr_code }}" alt="LINE QR" class="h-28 w-28 rounded-lg ring-1 ring-slate-200 object-contain">
             <div class="text-sm">
               <a href="{{ $lineUrl }}" target="_blank" class="inline-flex items-center gap-2 rounded-full bg-[#00c300] px-4 py-2 text-white font-semibold">
-                <img src="https://nexttripholiday.b-cdn.net/frontend/images/line_share.svg" class="h-5 w-5">
+                <img src="https://nexttrip.b-cdn.net/frontend/images/line_share.svg" class="h-5 w-5">
                 {{ $contact->line_id }}
               </a>
               <div class="mt-2 text-slate-600">ติดตามเราผ่านไลน์</div>
@@ -125,7 +125,7 @@
                 @foreach($country as $co)
                   <li>
                     <a href="https://nexttripholiday.com/oversea/{{$co->slug}}" class="inline-flex items-center gap-2 hover:text-[#214e9a]">
-                      <img src="https://nexttripholiday.b-cdn.net/{{$co->img_icon}}" class="h-[18px] w-[24px] object-contain rounded-sm" alt="">
+                      <img src="https://nexttrip.b-cdn.net/{{$co->img_icon}}" class="h-[18px] w-[24px] object-contain rounded-sm" alt="">
                       ทัวร์{{ $co->country_name_th }}
                     </a>
                   </li>
@@ -168,7 +168,7 @@
     {{-- แบนเนอร์ท้าย (ถ้ามี) --}}
     @if($footer->status == 'on')
       <div class="mt-8">
-        <img src="https://nexttripholiday.b-cdn.net/{{ $footer->img_footer }}" alt="" class="w-full rounded-xl ring-1 ring-slate-200">
+        <img src="https://nexttrip.b-cdn.net/{{ $footer->img_footer }}" alt="" class="w-full rounded-xl ring-1 ring-slate-200">
       </div>
     @endif
   </div>
@@ -186,14 +186,14 @@
     &times;
   </button>
   <div class="flex items-center gap-3">
-    <img src="https://nexttripholiday.b-cdn.net/frontend/images/customer_sercvice.webp" alt="" class="h10 w-20 object-cover rounded-xl">
+    <img src="https://nexttrip.b-cdn.net/frontend/images/customer_sercvice.webp" alt="" class="h10 w-20 object-cover rounded-xl">
     <div class="text-sm">
       วันนี้เปิดบริการ <span class="text-[#f0742f] font-semibold">{{ $contact->service_time }}</span><br>
       <h5 class="font-bold text-slate-800">เน็กซ์ ทริป ฮอลิเดย์พร้อมให้บริการ</h5>
       <div class="text-lg font-extrabold text-[#214e9a]">{{ $contact->phone_front }}</div>
       <a href="{{ $lineUrl }}" target="_blank"
          class="mt-2 inline-flex items-center gap-2 rounded-full bg-[#00c300] px-3 py-1.5 text-white text-sm">
-        <img src="https://nexttripholiday.b-cdn.net/frontend/images/line_share.svg" class="h-4 w-4" alt=""> {{ $contact->line_id }}
+        <img src="https://nexttrip.b-cdn.net/frontend/images/line_share.svg" class="h-4 w-4" alt=""> {{ $contact->line_id }}
       </a>
     </div>
   </div>

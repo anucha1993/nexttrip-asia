@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>@yield('title','TourBooking')</title>
   <meta name="description" content="@yield('meta_description','แพลตฟอร์มจองทัวร์คุณภาพ ครบ จบ โปร่งใส')" />
-
+<link type="image/ico" rel="shortcut icon" href="https://nexttrip.asia/frontend/images/favicon.ico">
   {{-- ถ้าจะใช้รูป preload คงไว้ได้ --}}
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
   <link rel="dns-prefetch" href="//images.unsplash.com" />
