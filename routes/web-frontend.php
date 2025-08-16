@@ -13,9 +13,9 @@ Route::post('/login',  [Frontend\HomeController::class, 'LogIn'])->middleware('t
 Route::get('/logout',  [Frontend\HomeController::class, 'LogOut'])->middleware('auth');
 Route::controller(Frontend\HomeController::class)->group(function () {
     // ✅ กลุ่มหน้า PUBLIC + แคชได้
-    Route::middleware('responsecache')->group(function () {
+    // Route::middleware('responsecache')->group(function () {
         Route::get('/', 'index')->name('home');
-          });
+      //    });
         Route::get('/about', 'about');
         Route::get('/aroundworld/{id}/{tyid}/{tid}', 'aroundworld')
             ->whereNumber(['id','tyid','tid']);

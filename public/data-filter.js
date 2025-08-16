@@ -1,5 +1,6 @@
                
     // holiday_date = Array.from([holiday_date], (x) => x );
+    window.ASSET_URL = "{{ env('ASSET_URL') }}";
     var menu_country = new Array();
         var menu_price = new Array();
         var menu_airline = new Array();
@@ -1246,25 +1247,23 @@
             
           }
           var count_pagin = 1;
+
           async function show_tour(x){
-            // console.log(count_pagin,'page',Object.keys(main_tour),'main_tour.length')
+           
             if(x == undefined){
                 count_pagin++;
             }
            
-            // $('#page'+paginat_act).removeClass('pagination-active');
-            // $('#page'+(x+1)).addClass('pagination-active');
-            // paginat_act = x;
-            // await count_paginate(paginat_act);
             var tour_show = main_tour[count_pagin-1];
-            // console.log(typeof tour_show === 'object' && tour_show.length >= 15 ,'check data',main_tour.length)
             if(tour_show && (typeof tour_show === 'string' || (typeof tour_show === 'object' && tour_show.length >= 15)) && main_tour.length > 1){
                 $('#btn-showmore').removeClass('d-none');
             }else{
                 $('#btn-showmore').addClass('d-none');
             }
             var text = '';
+            
             var text_grid = '';
+            
             // console.log(tour_show,'show',count_pagin,'count_pagin')
             for(let y in tour_show){
                 var order_period = Object.keys(tour_show[y].period).sort((a, b) => a - b);
@@ -1278,12 +1277,12 @@
                 text +=                        "<div class='col-lg-12 col-xl-3 pe-xl-0'>";
                 text +=                            "<div class='covertourimg'>";
                 text +=                                "<figure>";
-                text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'><img src='/"+tour_show[y].tour.image+"' alt=''></a>";
+                text +=                                    "<a href='https://nexttripholiday.b-cdn.net/tour/"+tour_show[y].tour.slug+"' target='_blank'><img src='https://nexttripholiday.b-cdn.net/"+tour_show[y].tour.image+"' alt=''></a>";
                 text +=                                "</figure>";
                 text +=                                "<div class='d-block d-sm-block d-md-block d-lg-none d-xl-none'>";
-                text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' class='tagicbest'>";
+                text +=                                    "<a href='https://nexttripholiday.b-cdn.net/tour/"+tour_show[y].tour.slug+"' target='_blank' class='tagicbest'>";
                                                             if(tour_show[y].tour_type){
-                text +=                                          "<img src='/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
+                text +=                                          "<img src='https://nexttripholiday.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
                                                             }
                 text +=                                     "</a>";
                 text +=                                "</div>";
@@ -1298,7 +1297,7 @@
                 text +=                                     "<div class='soldop'>";
                 text +=                                         "<span class='bigSold'>SOLD OUT </span> <br>";
                 text +=                                         "<span class='textsold'> ว้า! หมดแล้ว คุณตัดสินใจช้าไป</span> <br>";
-                text +=                                         "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' class='btn btn-second mt-3'><i class='fi fi-rr-search'></i> หาโปรแกรมทัวร์ใกล้เคียง</a>";
+                text +=                                         "<a href='https://nexttripholiday.b-cdn.net/tour/"+tour_show[y].tour.slug+"' target='_blank' class='btn btn-second mt-3'><i class='fi fi-rr-search'></i> หาโปรแกรมทัวร์ใกล้เคียง</a>";
                 text +=                                     "</div>";
                 text +=                                 "</div>";
                                                     }

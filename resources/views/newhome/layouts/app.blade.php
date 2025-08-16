@@ -16,6 +16,7 @@
         imagesizes="100vw" />
 
   {{-- Critical CSS (ตามเดิม) --}}
+  
   <style>
     .cv{content-visibility:auto;contain-intrinsic-size:600px 1000px;}
     @media (prefers-reduced-motion:reduce){

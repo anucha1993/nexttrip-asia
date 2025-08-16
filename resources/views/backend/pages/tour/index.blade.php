@@ -165,12 +165,13 @@
             </div>
             <br>
             <div class="intro-y box p-5 place-content-center">
-                <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-                    <div class="hidden md:block mx-auto text-slate-500"></div>
-                </div>
-                <div class="overflow-x-auto" style="background-color: #F5F5F5;padding:15px;border-radius:5px;">
-                    <table id="datatable" class="table table-report"></table>
-                </div>
+                    <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+                        <button id="delete-selected" class="btn btn-danger mr-2">ลบที่เลือก</button>
+                        <div class="hidden md:block mx-auto text-slate-500"></div>
+                    </div>
+                    <div class="overflow-x-auto" style="background-color: #F5F5F5;padding:15px;border-radius:5px;">
+                        <table id="datatable" class="table table-report"></table>
+                    </div>
             </div>
                 
         <!-- BEGIN: JS Assets-->
@@ -198,64 +199,89 @@
             });
 
             $(function () {
-                oTable = $('#datatable').DataTable({
-                    searching: false,
-                    ordering: false,
-                    lengthChange: false,
-                    pageLength: 10,
-                    processing: true,
-                    serverSide: true,
-                    "language": {
-                        "lengthMenu": "แสดง _MENU_ แถว",
-                        "zeroRecords": "ไม่พบข้อมูล",
-                        "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
-                        "search": "ค้นหา",
-                        "infoEmpty": "",
-                        "infoFiltered": "",
-                        "paginate": {
-                            "first": "หน้าแรก",
-                            "previous": "ย้อนกลับ",
-                            "next": "ถัดไป",
-                            "last": "หน้าสุดท้าย"
+                    oTable = $('#datatable').DataTable({
+                        searching: false,
+                        ordering: false,
+                        lengthChange: false,
+                        pageLength: 10,
+                        processing: true,
+                        serverSide: true,
+                        "language": {
+                            "lengthMenu": "แสดง _MENU_ แถว",
+                            "zeroRecords": "ไม่พบข้อมูล",
+                            "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                            "search": "ค้นหา",
+                            "infoEmpty": "",
+                            "infoFiltered": "",
+                            "paginate": {
+                                "first": "หน้าแรก",
+                                "previous": "ย้อนกลับ",
+                                "next": "ถัดไป",
+                                "last": "หน้าสุดท้าย"
+                            },
+                            'processing': "กำลังโหลดข้อมูล",
                         },
-                        'processing': "กำลังโหลดข้อมูล",
-                    },
-                    iDisplayLength: 25,
-                    ajax: {
-                        url: fullUrl + "/datatable",
-                        data: function (d) {
-                            d.Like = {};
-                            $('.myLike').each(function () {
-                                if ($.trim($(this).val()) && $.trim($(this).val()) != '0') {
-                                    d.Like[$(this).attr('name')] = $.trim($(this).val());
-                                }
-                            });
-                            if(s_tab){
-                                d.Like['search_tab_name'] = s_tab;
-                            } 
-                            oData = d;
+                        iDisplayLength: 25,
+                        ajax: {
+                            url: fullUrl + "/datatable",
+                            data: function (d) {
+                                d.Like = {};
+                                $('.myLike').each(function () {
+                                    if ($.trim($(this).val()) && $.trim($(this).val()) != '0') {
+                                        d.Like[$(this).attr('name')] = $.trim($(this).val());
+                                    }
+                                });
+                                if(s_tab){
+                                    d.Like['search_tab_name'] = s_tab;
+                                } 
+                                oData = d;
+                            },
+                            method: 'POST'
                         },
-                        method: 'POST'
-                    },
-                    columns: [
-                        {  data: 'DT_RowIndex',        title :'#',     className: 'whitespace-nowrap w-10 text-center'},
-                        {  data: 'image',       title: '<center>รหัสทัวร์</center>',     className: 'items-center w-60 text-center'},
-                        {  data: 'name',        title: '<center>ชื่อ</center>',     className: 'items-center w-40 text-center'},
-                        {  data: 'country',     title: '<center>ประเทศ</center>',     className: 'items-center w-20 text-center'},
-                        {  data: 'period',      title: '<center>Period</center>',     className: 'items-center w-60 text-center'},
-                        {  data: 'price',       title: '<center>ราคา</center>',     className: 'items-center w-20 text-center'},
-                        {  data: 'status',      title: '<center>สถานะ</center>',     className: 'items-center w-10 text-center'},
-                        {  data: 'tab_status',  title: '<center>สถานะจัดการ</center>',     className: 'items-center w-10 text-center'},
-                        {  data: 'updated_at',  title: '<center>วันที่อัพเดท</center>',     className: 'items-center w-20 text-center'},
-                        {  data: 'action',      title: '<center>จัดการ</center>',     className: 'items-center w-20 text-center'},
-                    ],
-                    rowCallback: function (nRow, aData, dataIndex) {
+                        columns: [
+                            { data: null, title: '<input type="checkbox" id="select-all">', orderable: false, className: 'text-center', render: function (data, type, row) {
+                                return '<input type="checkbox" class="row-checkbox" value="' + row.id + '">';
+                            }},
+                            {  data: 'DT_RowIndex',        title :'#',     className: 'whitespace-nowrap w-10 text-center'},
+                            {  data: 'image',       title: '<center>รหัสทัวร์</center>',     className: 'items-center w-60 text-center'},
+                            {  data: 'name',        title: '<center>ชื่อ</center>',     className: 'items-center w-40 text-center'},
+                            {  data: 'country',     title: '<center>ประเทศ</center>',     className: 'items-center w-20 text-center'},
+                            {  data: 'period',      title: '<center>Period</center>',     className: 'items-center w-60 text-center'},
+                            {  data: 'price',       title: '<center>ราคา</center>',     className: 'items-center w-20 text-center'},
+                            {  data: 'status',      title: '<center>สถานะ</center>',     className: 'items-center w-10 text-center'},
+                            {  data: 'tab_status',  title: '<center>สถานะจัดการ</center>',     className: 'items-center w-10 text-center'},
+                            {  data: 'updated_at',  title: '<center>วันที่อัพเดท</center>',     className: 'items-center w-20 text-center'},
+                            {  data: 'action',      title: '<center>จัดการ</center>',     className: 'items-center w-20 text-center'},
+                        ],
+                        rowCallback: function (nRow, aData, dataIndex) {
+                        }
+                    });
+                    $('.myWhere,.myLike,.myCustom,#onlyTrashed').on('change', function (e) {
+                        oTable.draw();
+                    });
 
-                    }
-                });
-                $('.myWhere,.myLike,.myCustom,#onlyTrashed').on('change', function (e) {
-                    oTable.draw();
-                });
+                    // เลือก/ไม่เลือกทั้งหมด
+                    $(document).on('click', '#select-all', function(){
+                        $('.row-checkbox').prop('checked', this.checked);
+                    });
+                    // ถ้า uncheck รายแถว ให้ uncheck select-all ด้วย
+                    $(document).on('click', '.row-checkbox', function(){
+                        if(!this.checked){
+                            $('#select-all').prop('checked', false);
+                        }
+                    });
+                    // ปุ่มลบที่เลือก
+                    $('#delete-selected').on('click', function() {
+                        var ids = [];
+                        $('.row-checkbox:checked').each(function() {
+                            ids.push($(this).val());
+                        });
+                        if(ids.length > 0){
+                            destroy(ids);
+                        }else{
+                            Swal.fire('กรุณาเลือกข้อมูลที่ต้องการลบ');
+                        }
+                    });
             });
 
             function getTabValue(tab) {

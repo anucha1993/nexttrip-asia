@@ -250,6 +250,7 @@
                                             </div>  
                                     </div> 
                                 </div>
+                                
                                 <div class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
                                     <button class="btn btnfilter" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
                                         aria-controls="offcanvasBottom">ตัวกรอง</button>
@@ -445,13 +446,7 @@
 
                         </div>
                     </div>
-                    {{-- <div class="row">
-                        <div class="col-lg-12">
-                            <p id="show_total"></p>
-                            <ul id="show_tour"></ul>
-                        </div>
-                        <div class="col-lg-12" id="pagination"></div>
-                    </div> --}}
+               
                     <div class="row">
                         <div class="col">
                             <div class="table-grid">
@@ -486,19 +481,18 @@
                                     <div class="pagination_bot">
                                         <nav class="pagination-container">
                                             <button class="btn btn-submit d-none" id="btn-showmore" onClick="show_tour()">ดูเพิ่มเติม</button>
-                                            {{-- <div class="pagination" id="pagination">
-                                            </div> --}}
                                         </nav>
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="col-lg-12" id="pagination"></div> --}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
     @include("frontend.layout.inc_footer")
    
     <script>

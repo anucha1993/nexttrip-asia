@@ -1234,59 +1234,107 @@ class TourController extends Controller
         }
     }
 
-    public function destroy(Request $request)
-    {
-        $datas = TourModel::find($request->id);
+    // public function destroy(Request $request)
+    // {
+    //     $datas = TourModel::find($request->id);
 
-        if (!$datas) {
-            return response()->json(false);
-        }
+    //     if (!$datas) {
+    //         return response()->json(false);
+    //     }
         
-        foreach ($datas as $data) {
-            // Delete files
-            Storage::disk('public')->delete([$data->image, $data->video_cover, $data->pdf_file, $data->word_file]);
+    //     foreach ($datas as $data) {
+    //         // Delete files
+    //         Storage::disk('public')->delete([$data->image, $data->video_cover, $data->pdf_file, $data->word_file]);
 
-            // Delete files In tour_detail column
-            $jsonData = $data->tour_detail;
+    //         // Delete files In tour_detail column
+    //         $jsonData = $data->tour_detail;
 
-            $tourDetails = json_decode($jsonData, true);
+    //         $tourDetails = json_decode($jsonData, true);
 
+    //         foreach ($tourDetails as $tourDetail) {
+
+    //             if(isset($tourDetail['sub'])){
+
+    //                 foreach ($tourDetail['sub'] as $detail) {
+    //                     $imagePath = $detail['image'];
+    
+    //                     if($imagePath){
+    //                         // Storage::disk('public')->delete($imagePath);
+    //                     }
+    //                 }
+
+    //             }
+                
+    //         }
+        
+    //         // Soft delete
+    //         $data->deleted_at = now();
+        
+    //         if ($data->save()) {
+    //             // Delete associated gallery items and their images
+    //             $gallery = TourGalleryModel::where('tour_id', $data->id)->get();
+    //             foreach ($gallery as $gal) {
+    //                 Storage::disk('public')->delete($gal->img);
+    //             }
+    //             TourGalleryModel::where('tour_id', $data->id)->delete();
+        
+    //             // Soft delete associated tour periods
+    //             TourPeriodModel::where('tour_id', $data->id)->update(['deleted_at' => now()]);
+    //         } else {
+    //             return response()->json(false);
+    //         }
+    //     }
+        
+    //     return response()->json(true);
+    // }
+
+    public function destroy(Request $request)
+{
+    $ids = is_array($request->id) ? $request->id : [$request->id];
+
+    foreach ($ids as $id) {
+        $data = TourModel::find($id);
+
+        if (!$data) {
+            continue;
+        }
+
+        // Delete files
+        Storage::disk('public')->delete([$data->image, $data->video_cover, $data->pdf_file, $data->word_file]);
+
+        // Delete files In tour_detail column
+        $jsonData = $data->tour_detail;
+        $tourDetails = json_decode($jsonData, true);
+
+        if (is_array($tourDetails)) {
             foreach ($tourDetails as $tourDetail) {
-
-                if(isset($tourDetail['sub'])){
-
+                if (isset($tourDetail['sub'])) {
                     foreach ($tourDetail['sub'] as $detail) {
                         $imagePath = $detail['image'];
-    
-                        if($imagePath){
+                        if ($imagePath) {
                             // Storage::disk('public')->delete($imagePath);
                         }
                     }
-
                 }
-                
-            }
-        
-            // Soft delete
-            $data->deleted_at = now();
-        
-            if ($data->save()) {
-                // Delete associated gallery items and their images
-                $gallery = TourGalleryModel::where('tour_id', $data->id)->get();
-                foreach ($gallery as $gal) {
-                    Storage::disk('public')->delete($gal->img);
-                }
-                TourGalleryModel::where('tour_id', $data->id)->delete();
-        
-                // Soft delete associated tour periods
-                TourPeriodModel::where('tour_id', $data->id)->update(['deleted_at' => now()]);
-            } else {
-                return response()->json(false);
             }
         }
-        
-        return response()->json(true);
+        // Soft delete
+        $data->deleted_at = now();
+        if ($data->save()) {
+            // Delete associated gallery items and their images
+            $gallery = TourGalleryModel::where('tour_id', $data->id)->get();
+            foreach ($gallery as $gal) {
+                Storage::disk('public')->delete($gal->img);
+            }
+            TourGalleryModel::where('tour_id', $data->id)->delete();
+            // Soft delete associated tour periods
+            TourPeriodModel::where('tour_id', $data->id)->update(['deleted_at' => now()]);
+        }
     }
+
+    return response()->json(true);
+}
+
 
     // deleted file
     public function destroy_pdf($id)

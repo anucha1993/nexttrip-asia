@@ -120,15 +120,28 @@
       <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-600">
         <svg viewBox="0 0 24 24" class="h-5 w-5"><path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z" fill="currentColor"/></svg>
       </span>
-      <input id="search_data" name="search_data" autocomplete="off"
-             placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
-             class="h-12 w-full rounded-lg border text-slate-900 border-white/30 bg-white/10 pl-10 pr-3 text-sm placeholder-text-slate-900
-                    focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
-      <!-- ถ้ามี live search เดิมของคุณจะใช้งานร่วมได้ -->
-      <div id="livesearch" class="hidden"></div>
-      <div id="search_famus" class="hidden"></div>
-    </div>
 
+  <!-- คำค้น -->
+<div class="relative sm:col-span-6">
+  <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-600">
+    <svg viewBox="0 0 24 24" class="h-5 w-5"><path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z" fill="currentColor"/></svg>
+  </span>
+
+<div class="relative" data-nt-anchor>
+  <input id="search_data" name="search_data" autocomplete="on"
+         placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
+         class="h-12 w-full rounded-lg border text-slate-900 border-white/30 bg-white/10 pl-10 pr-3 text-sm
+                placeholder-text-slate-900 focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
+
+  <div id="livesearch"    class="nt-suggest hidden"></div>
+  <div id="search_famus"  class="nt-suggest hidden"></div>
+</div>
+
+
+</div>
+
+    
+    </div>
     <!-- วันที่ (ช่วงเดียว) -->
     <div class="relative sm:col-span-6">
       <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-600">
@@ -180,6 +193,8 @@
     </div>
   </div>
 </section>
+
+
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css">
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
@@ -292,7 +307,7 @@
                         )->count();
                     @endphp
 
-                    <a href="https://nexttripholiday.com/clients-review/{{ @$co->id ?? 0 }}/0"
+                    <a href="https://nexttripholiday.com/oversea/{{ @$co->country_name_en}}"
                         class="group relative block rounded-[26px] bg-gradient-to-br from-orange-200/40 via-rose-200/30 to-amber-200/40 p-[1px] hover:shadow-xl hover:shadow-orange-100/60 transition">
 
                         <!-- การ์ดด้านใน -->
@@ -319,6 +334,8 @@
                                         </svg>
                                     </span>
                                 </div>
+                                {{-- <input type="text" ao> --}}
+                                
 
                                 <!-- ชิปมุมบนขวา: จำนวนโปรแกรม -->
                                 <div
@@ -333,7 +350,7 @@
                                             <div class="text-lg md:text-xl font-extrabold drop-shadow-sm">
                                                 {{ @$co->country_name_th }}</div>
                                             <div class="mt-0.5 text-[13px] md:text-sm text-white/85 font-medium">
-                                                สำรวจแพ็คเกจยอดนิยม พร้อมดีลพิเศษ
+                                              {!! @$co->description !!}
                                             </div>
                                         </div>
                                         <span
@@ -1306,6 +1323,223 @@
     </script>
 
     <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) !!}</script>
+
+
+    <!-- ===== CSS เบา ๆ ===== -->
+<style>
+  .nt-suggest{
+    position:absolute;                /* เราจะย้ายออกไปแปะกับ body */
+    z-index:2147483647;               /* ชนะแทบทุกชั้น */
+    background:#fff;
+    border:1px solid rgba(0,0,0,.06);
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    max-height:clamp(260px,60vh,520px);
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain; scrollbar-gutter:stable;
+  }
+  .nt-sec{ padding:12px 14px; border-top:1px solid #f2f2f2; }
+  .nt-sec:first-child{ border-top:none; }
+  .nt-sec h6{ margin:0 0 6px; font:600 13px/1.2 ui-sans-serif,system-ui; color:#4b5563; position:sticky; top:0; background:#fff; }
+  .nt-row{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; cursor:pointer; }
+  .nt-row:hover{ background:#f8fafc; }
+  .nt-flag{ width:24px; height:18px; object-fit:cover; border-radius:3px; }
+  .nt-chipwrap{ display:flex; flex-wrap:wrap; gap:8px; }
+  .nt-chip{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid #e5e7eb; background:#fff; cursor:pointer; }
+  .nt-chip:hover{ background:#f8fafc; }
+  .hidden{display:none!important;}
+</style>
+
+<script>
+(function(){
+  const $input  = document.getElementById('search_data');
+  let   $live   = document.getElementById('livesearch');
+  let   $famous = document.getElementById('search_famus');
+  if(!$input || !$live || !$famous) return;
+
+  // --- กัน ID ซ้ำจากเท็มเพลต ---
+  const killDup = (id) => {
+    const nodes = Array.from(document.querySelectorAll('#'+id));
+    nodes.slice(1).forEach(n=>n.remove());
+    return nodes[0];
+  };
+  $live   = killDup('livesearch');
+  $famous = killDup('search_famus');
+
+  // --- ย้ายกล่องไป body เพื่อไม่โดน overflow/transform บัง ---
+  document.body.appendChild($live);
+  document.body.appendChild($famous);
+  const anchor = $input.closest('[data-nt-anchor]') || $input.parentElement;
+
+  // --- helpers: วางตำแหน่ง/เปิด-ปิด ---
+  const place = (el) => {
+    const r = anchor.getBoundingClientRect();
+    el.style.position = 'absolute';
+    el.style.left  = (r.left + window.scrollX) + 'px';
+    el.style.top   = (r.top  + window.scrollY + r.height + 6) + 'px';
+    el.style.width = r.width + 'px';
+  };
+  const show = (el) => {
+    place(el);
+    el.style.display = 'block';
+    el.classList.remove('hidden');
+    el.removeAttribute('aria-hidden');
+  };
+  const hide = (el) => {
+    el.style.display = 'none';
+    el.classList.add('hidden');
+    el.setAttribute('aria-hidden','true');
+  };
+  const openLive   = () => { show($live);   hide($famous); };
+  const openFamous = () => { show($famous); hide($live);   };
+
+  // ให้ live อยู่เหนือ famous เสมอ
+  $live.style.zIndex   = 2147483647;
+  $famous.style.zIndex = 2147483646;
+
+  // --- render famous (ชิป) ---
+  const esc = s => String(s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
+  function renderFamous(){
+    let html = '';
+    if (Array.isArray(window.country_famus) && window.country_famus.length){
+      const chips = window.country_famus.map(c=>{
+        const label = 'ทัวร์' + (c.country_name_th||'');
+        const flag  = c.img_icon ? `<img class="nt-flag" src="https://nexttripholiday.b-cdn.net/${esc(c.img_icon)}" alt="">` : '';
+        return `<button type="button" class="nt-chip" data-label="${esc(label)}">${flag}<span>${esc(label)}</span></button>`;
+      }).join('');
+      html += `<div class="nt-sec"><h6>ประเทศยอดนิยม</h6><div class="nt-chipwrap">${chips}</div></div>`;
+    }
+    if (Array.isArray(window.keyword_famus) && window.keyword_famus.length){
+      const chips = window.keyword_famus.map(k=>{
+        const label = k.keyword || k.name || '';
+        return `<button type="button" class="nt-chip" data-label="${esc(label)}">${esc(label)}</button>`;
+      }).join('');
+      html += `<div class="nt-sec"><h6>คำค้นยอดฮิต</h6><div class="nt-chipwrap">${chips}</div></div>`;
+    }
+    const quicks = ['ญี่ปุ่น','จีน','เกาหลี','เวียดนาม','ไต้หวัน','โอซาก้า','ฮอกไกโด','2024'];
+    html += `<div class="nt-sec"><h6>ค้นด่วน</h6><div class="nt-chipwrap">${
+      quicks.map(x=>`<button type="button" class="nt-chip" data-label="${esc(x)}">${esc(x)}</button>`).join('')
+    }</div></div>`;
+    $famous.innerHTML = html;
+  }
+
+  // --- live search (ใช้ข้อมูลจริงถ้ามี, ถ้าไม่มีใช้ famous เป็น fallback) ---
+  const norm = s => (s||'').toString().trim();
+  const cleanQuery = q => norm(q).toLowerCase().replace(/^ทัวร์\s*/,'').trim();
+
+  function searchData(qRaw){
+    const q = cleanQuery(qRaw);
+    if(!q) return [];
+    const out = [];
+    const country = Array.isArray(window.country)  ? window.country  : [];
+    const city    = Array.isArray(window.city)     ? window.city     : [];
+    const prov    = Array.isArray(window.province) ? window.province : [];
+    const amupur  = Array.isArray(window.amupur)   ? window.amupur   : [];
+
+    // แหล่งข้อมูลหลัก
+    if (country.length+city.length+prov.length+amupur.length>0){
+      country.forEach(c=>{
+        const name = ((c.country_name_th||'')+' '+(c.country_name_en||'')).toLowerCase();
+        if(name.includes(q)) out.push({label:'ทัวร์'+(c.country_name_th||c.country_name_en||''),icon:c.img_icon?`https://nexttripholiday.b-cdn.net/${c.img_icon}`:''});
+      });
+      city.forEach(c=>{
+        const name = ((c.city_name_th||'')+' '+(c.city_name_en||'')).toLowerCase();
+        if(name.includes(q)) out.push({label:(c.city_name_th||c.city_name_en||''),icon:''});
+      });
+      prov.forEach(p=>{
+        const name = ((p.name_th||'')+' '+(p.name_en||'')).toLowerCase();
+        if(name.includes(q)) out.push({label:'ทัวร์'+(p.name_th||p.name_en||''),icon:''});
+      });
+      amupur.forEach(a=>{
+        const name = ((a.name_th||'')+' '+(a.name_en||'')).toLowerCase();
+        if(name.includes(q)) out.push({label:(a.name_th||a.name_en||''),icon:''});
+      });
+    }
+
+    // fallback: ดึงจาก famous ถ้าไม่มีข้อมูลหลัก
+    if (out.length===0){
+      (Array.isArray(window.country_famus)?window.country_famus:[]).forEach(c=>{
+        const label = ('ทัวร์'+(c.country_name_th||'')).toLowerCase();
+        if(label.includes(q)) out.push({label:'ทัวร์'+(c.country_name_th||''),icon:c.img_icon?`https://nexttripholiday.b-cdn.net/${c.img_icon}`:''});
+      });
+      (Array.isArray(window.keyword_famus)?window.keyword_famus:[]).forEach(k=>{
+        const label = (k.keyword||k.name||'').toLowerCase();
+        if(label.includes(q)) out.push({label:(k.keyword||k.name||''),icon:''});
+      });
+    }
+
+    // unique by label
+    const seen = new Set();
+    return out.filter(x=>!seen.has(x.label) && seen.add(x.label)).slice(0,30);
+  }
+
+  function renderLive(list){
+    if(!list.length){ $live.innerHTML = `<div class="nt-sec"><div class="nt-row">ไม่พบผลลัพธ์</div></div>`; return; }
+    $live.innerHTML = `<div class="nt-sec">${
+      list.map(it=>`
+        <div class="nt-row" data-label="${esc(it.label)}">
+          ${it.icon?`<img class="nt-flag" src="${esc(it.icon)}" alt="">`:''}
+          <div>${esc(it.label)}</div>
+        </div>
+      `).join('')
+    }</div>`;
+  }
+
+  // --- events: คุมให้ famous ไม่บัง live ---
+  let suppressInput = false; // กัน loop ตอน set ค่าโดยโปรแกรม
+
+  // โฟกัส: ช่องว่าง → แสดง famous, มีข้อความ → แสดง live
+  $input.addEventListener('focus', ()=>{
+    if(norm($input.value)===''){ renderFamous(); openFamous(); }
+    else { renderLive(searchData($input.value)); openLive(); }
+  });
+
+  // พิมพ์: แสดง live เท่านั้น
+  $input.addEventListener('input', ()=>{
+    if(suppressInput){ suppressInput=false; return; }
+    const v = norm($input.value);
+    if(!v){ renderFamous(); openFamous(); return; }
+    renderLive(searchData(v));
+    openLive();
+  });
+
+  // เลือกจากรายการ/ชิป: ใส่ค่าเฉย ๆ ไม่ยิงค้นหาใหม่ และปิดกล่อง (ใช้ mousedown กัน blur)
+  [$live,$famous].forEach(box=>{
+    box.addEventListener('mousedown',(e)=>{
+      const el = e.target.closest('[data-label]');
+      if(!el) return;
+      e.preventDefault();
+      suppressInput = true;
+      $input.value = el.getAttribute('data-label') || el.textContent.trim();
+      hide($live); hide($famous);
+      $input.focus();
+    });
+  });
+
+  // คลิกนอก → ปิดทั้งหมด
+  document.addEventListener('click',(e)=>{
+    const inside = e.target.closest('#livesearch') ||
+                   e.target.closest('#search_famus') ||
+                   e.target.closest('#search_data');
+    if(!inside){ hide($live); hide($famous); }
+  });
+
+  // ส่งฟอร์ม → ปิดกล่อง
+  $input.form && $input.form.addEventListener('submit', ()=>{
+    hide($live); hide($famous);
+  });
+
+  // เลื่อน/ย่อขยาย → อัปเดตตำแหน่งกล่อง
+  const syncPos=()=>{
+    if($live.style.display==='block')  place($live);
+    if($famous.style.display==='block')place($famous);
+  };
+  window.addEventListener('scroll', syncPos, {passive:true});
+  window.addEventListener('resize', syncPos);
+})();
+</script>
+
+
 @endsection
 
 <!-- Removed old delayed background script; hero now uses direct media panel for clarity & aesthetics -->
