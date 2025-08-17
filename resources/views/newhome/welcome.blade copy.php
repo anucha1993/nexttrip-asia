@@ -8,167 +8,161 @@
 
 @section('content')
 
+{{-- Hero Section (optimized for LCP/CLS) --}}
+<section class="relative isolate overflow-hidden h-[55vh] max-h-[40vh]">
 
-    {{-- <section class="relative h-[60vh] max-h-[60vh] overflow-hidden"> --}}
-    <section class="relative isolate overflow-hidden h-[60vh] max-h-[60vh]">
-        {{-- แทร็คสไลด์ --}}
-        <div id="hero" class="h-full w-full">
+  {{-- ช่วย TLS handshake เร็วขึ้น --}}
+  <link rel="preconnect" href="https://nexttrip.b-cdn.net" crossorigin>
 
-            {{-- สร้าง preload ให้สไลด์แรก (เดสก์ท็อป/โมบาย) --}}
-@if(isset($slide[0]))
-<link rel="preload" as="image"
-      imagesrcset="
-        https://nexttrip.b-cdn.net/{{ $slide[0]->img_mobile }} 768w,
-        https://nexttrip.b-cdn.net/{{ $slide[0]->img }} 1280w,
-        https://nexttrip.b-cdn.net/{{ $slide[0]->img }} 1920w"
-      imagesizes="100vw"
-      fetchpriority="high">
-@endif
+  {{-- ✅ PRELOAD เฉพาะสไลด์แรก --}}
+  @if(isset($slide[0]))
+    <link rel="preload" as="image"
+          href="https://nexttrip.b-cdn.net/{{ $slide[0]->img }}?w=1920&format=webp"
+          imagesrcset="
+            https://nexttrip.b-cdn.net/{{ $slide[0]->img_mobile }}?w=768&format=webp 768w,
+            https://nexttrip.b-cdn.net/{{ $slide[0]->img }}?w=1280&format=webp 1280w,
+            https://nexttrip.b-cdn.net/{{ $slide[0]->img }}?w=1920&format=webp 1920w"
+          imagesizes="120vw"
+          fetchpriority="high">
+  @endif
 
+  {{-- แทร็คสไลด์ --}}
+  <div id="hero" class="h-full w-full" role="region" aria-label="Hero slides">
+    <div id="heroTrack"
+         class="flex h-full w-full snap-x snap-mandatory overflow-x-auto scroll-smooth no-scrollbar">
 
-       <div id="heroTrack" class="flex h-full w-full snap-x snap-mandatory overflow-x-auto scroll-smooth no-scrollbar">
-  @foreach ($slide as $s)
-    <div class="relative h-full w-full shrink-0 snap-center">
-      <picture>
-        <source media="(min-width:1024px)" srcset="https://nexttrip.b-cdn.net/{{ $s->img }}">
-        <img
-          src="https://nexttrip.b-cdn.net/{{ $s->img_mobile }}"
-          alt="slide- {!! $s->detail !!}"
-          width="1955" height="500"
-          class="h-full w-full object-cover object-center"
-          @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
-        />
-      </picture>
+      @foreach ($slide as $s)
+        <div class="relative h-full w-full shrink-0 snap-center">
+          <picture class="block">
+            {{-- Desktop ≥1024px (next-gen ก่อน) --}}
+            <source media="(min-width:1024px)" type="image/avif"
+                    srcset="
+                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1280&format=avif 1280w,
+                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1920&format=avif 1920w">
+            <source media="(min-width:1024px)" type="image/webp"
+                    srcset="
+                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1280&format=webp 1280w,
+                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1920&format=webp 1920w">
 
-      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+            {{-- Mobile <1024px --}}
+            <source media="(max-width:1023px)" type="image/avif"
+                    srcset="
+                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=480&format=avif 480w,
+                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=768&format=avif 768w">
+            <source media="(max-width:1023px)" type="image/webp"
+                    srcset="
+                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=480&format=webp 480w,
+                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=768&format=webp 768w">
 
-      @if (!empty($s->detail))
-        <div class="absolute bottom-4 left-4 right-4 z-10 text-white drop-shadow text-center">
-          {!! $s->detail !!}
-        </div>
-      @endif
-    </div>
-  @endforeach
-</div>
+            {{-- Fallback + กัน CLS ด้วยขนาดจริง 1955x500 --}}
+            <img
+              src="https://nexttrip.b-cdn.net/{{ $s->img_mobile }}"
+              srcset="
+                https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=480 480w,
+                https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=768 768w,
+                https://nexttrip.b-cdn.net/{{ $s->img }}?w=1280 1280w,
+                https://nexttrip.b-cdn.net/{{ $s->img }}?w=1920 1920w"
+              sizes="100vw"
+              alt="slide- {!! strip_tags($s->detail ?? '') !!}"
+              width="1955" height="500"
+              class="h-full w-full object-cover object-center"
+              decoding="async"
+              @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
+            />
+          </picture>
 
+          {{-- Gradient overlay ใส ๆ เพื่อให้อ่านตัวอักษรง่าย --}}
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
 
-            {{-- ปุ่มเลื่อนซ้าย/ขวา --}}
-            <button type="button" data-dir="-1"
-                class="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60">
-                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor">
-                    <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-                </svg>
-            </button>
-            <button type="button" data-dir="1"
-                class="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60">
-                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor">
-                    <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
-                </svg>
-            </button>
-        </div>
-
-        {{-- คอนเทนต์กลาง (หัวข้อ + ฟอร์มค้นหา) --}}
-
-
-
-        <div class="pointer-events-none absolute inset-0 grid place-items-center px-3">
-            <div
-                class="rounded-2xl bg-white/10 backdrop-blur-sm backdrop-saturate-150
-              ring-1 ring-white/20 shadow-xl p-4 sm:p-5">
-                <div class="pointer-events-auto w-full max-w-6xl text-center text-white">
-                    <h1 class="text-3xl font-bold sm:text-5xl">สำรวจโลกกว้างกับเรา</h1>
-                    <p class="mt-2 mb-4 text-white/85">ดีลทัวร์ต่างประเทศประจำสัปดาห์ อัปเดตราคาเรียลไทม์</p>
-                    <!-- ฟอร์มค้นหา (ไม่มีค่า default ของวัน) -->
-
-                    <div class="relative">
-
-
-                    </div>
-
-                    <form action="{{ url('search-tour') }}" method="GET" id="searchFormLite"
-                        class="mx-auto w-full max-w-3xl">
-                        @csrf
-                        <div
-                            class="rounded-2xl bg-white/15 backdrop-blur-md ring-1 ring-white/30 shadow-lg p-3 sm:p-4
-                      grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 text-white">
-
-                            <!-- คำค้น -->
-                            <div class="relative sm:col-span-6">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-200">
-                                    <svg viewBox="0 0 24 24" class="h-5 w-5">
-                                        <path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z"
-                                            fill="currentColor" />
-                                    </svg>
-                                </span>
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                                    <svg viewBox="0 0 24 24" class="h-5 w-5">
-                                        <path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z"
-                                            fill="currentColor" />
-                                    </svg>
-                                </span>
-                                <input id="mb_search" type="text" placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
-                                    name="search_data"
-                                    class="h-12 w-full rounded-lg border border-white/30 bg-white/10 pl-10 pr-3 text-sm placeholder-white/70
-                            focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
-                                <div id="mb_livesearch" class="absolute z-50 mt-2 w-full hidden" style="z-index: 999999">
-                                </div>
-                                <div id="mb_famus" class="absolute z-40 mt-2 w-full hidden" style="z-index: 999999"></div>
-                            </div>
-
-                            <!-- วันที่ (ช่วงเดียว; ไม่มี default; ถ้าไม่เลือกจะไม่ส่งค่า) -->
-                            <div class="relative sm:col-span-6">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-200">
-                                    <svg viewBox="0 0 24 24" class="h-5 w-5">
-                                        <path
-                                            d="M7 2h10a3 3 0 013 3v14a3 3 0 01-3 3H7a3 3 0 01-3-3V5a3 3 0 013-3zm2 6h6v2H9V8z"
-                                            fill="currentColor" />
-                                    </svg>
-                                </span>
-                                <input id="date_range" type="text" readonly placeholder="ช่วงวันที่ (ไม่จำเป็น)"
-                                    class="h-12 w-full rounded-lg border border-white/30 bg-white/10 pl-10 pr-3 text-sm text-white/90 placeholder-white/70
-                            focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
-                                <!-- ค่าที่จะส่งจริง -->
-                                <input type="hidden" id="start_date" name="start_date">
-                                <input type="hidden" id="end_date" name="end_date">
-                            </div>
-
-                            <!-- ช่วงราคา -->
-                            <div class="sm:col-span-6">
-                                <select name="price"
-                                    class="h-12 w-full appearance-none rounded-lg border border-white/30 bg-white/10 px-3 text-sm
-                             focus:border-white focus:ring-2 focus:ring-white focus:outline-none text-white/90">
-                                    <option value="">ช่วงราคา</option>
-                                    <option value="1" class="text-gray-900">ต่ำกว่า 10,000</option>
-                                    <option value="2" class="text-gray-900">10,001–20,000</option>
-                                    <option value="3" class="text-gray-900">20,001–30,000</option>
-                                    <option value="4" class="text-gray-900">30,001–50,000</option>
-                                    <option value="5" class="text-gray-900">50,001–80,000</option>
-                                    <option value="6" class="text-gray-900">80,001 ขึ้นไป</option>
-                                </select>
-                            </div>
-
-                            <!-- รหัสทัวร์ -->
-                            <div class="sm:col-span-3">
-                                <input type="text" name="code_tour" placeholder="รหัสทัวร์"
-                                    class="h-12 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm placeholder-white/70
-                            focus:border-white focus:ring-2 focus:ring-white focus:outline-none" />
-                            </div>
-
-                            <!-- ปุ่มค้นหา -->
-                            <div class="sm:col-span-3">
-                                <button type="submit" form="searchFormLite"
-                                    class="h-12 w-full rounded-lg bg-orange-500 text-sm font-semibold text-white
-                             hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-white/80">
-                                    ค้นหาทัวร์
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
+          {{-- ข้อความบนรูป --}}
+          @if (!empty($s->detail))
+            <div class="absolute bottom-4 left-4 right-4 z-10 text-white drop-shadow text-center">
+              {!! $s->detail !!}
             </div>
+          @endif
         </div>
-    </section>
+      @endforeach
+    </div>
+
+    {{-- ปุ่มเลื่อนซ้าย/ขวา --}}
+    <button type="button" data-dir="-1" aria-label="Previous slide"
+            class="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60">
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <button type="button" data-dir="1" aria-label="Next slide"
+            class="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60">
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </button>
+  </div>
+
+  {{-- คอนเทนต์กลาง (หัวข้อ + ฟอร์มค้นหา) --}}
+  <div class="pointer-events-none absolute inset-0 grid place-items-center px-3">
+    <div class="rounded-2xl bg-white/10 backdrop-blur-sm backdrop-saturate-150 ring-1 ring-white/20 shadow-xl p-4 sm:p-5">
+      <div class="pointer-events-auto w-full max-w-6xl text-center text-white">
+        <h1 class="text-3xl font-bold sm:text-5xl">สำรวจโลกกว้างกับเรา</h1>
+        <p class="mt-2 mb-4 text-white/85">ดีลทัวร์ต่างประเทศประจำสัปดาห์ อัปเดตราคาเรียลไทม์</p>
+
+        <form action="{{ url('search-tour') }}" method="GET" id="searchFormLite" class="mx-auto w-full max-w-3xl">
+          @csrf
+          <div class="rounded-2xl bg-white/15 backdrop-blur-md ring-1 ring-white/30 shadow-lg p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 text-white">
+
+            {{-- คำค้น --}}
+            <div class="relative sm:col-span-6">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-200">
+                <svg viewBox="0 0 24 24" class="h-5 w-5"><path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z" fill="currentColor"/></svg>
+              </span>
+              <input id="mb_search" type="text" name="search_data" placeholder="ประเทศ, เมือง, สถานที่ท่องเที่ยว"
+                     class="h-12 w-full rounded-lg border border-white/30 bg-white/10 pl-10 pr-3 text-sm placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white focus:outline-none"/>
+              <div id="mb_livesearch" class="absolute z-50 mt-2 w-full hidden"></div>
+              <div id="mb_famus" class="absolute z-40 mt-2 w-full hidden"></div>
+            </div>
+
+            {{-- วันที่ (ไม่มีค่า default) --}}
+            <div class="relative sm:col-span-6">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 opacity-90 text-slate-200">
+                <svg viewBox="0 0 24 24" class="h-5 w-5"><path d="M7 2h10a3 3 0 013 3v14a3 3 0 01-3 3H7a3 3 0 01-3-3V5a3 3 0 013-3zm2 6h6v2H9V8z" fill="currentColor"/></svg>
+              </span>
+              <input id="date_range" type="text" readonly placeholder="ช่วงวันที่ (ไม่จำเป็น)"
+                     class="h-12 w-full rounded-lg border border-white/30 bg-white/10 pl-10 pr-3 text-sm text-white/90 placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white focus:outline-none"/>
+              <input type="hidden" id="start_date" name="start_date">
+              <input type="hidden" id="end_date" name="end_date">
+            </div>
+
+            {{-- ช่วงราคา --}}
+            <div class="sm:col-span-6">
+              <select name="price"
+                      class="h-12 w-full appearance-none rounded-lg border border-white/30 bg-white/10 px-3 text-sm focus:border-white focus:ring-2 focus:ring-white focus:outline-none text-white/90">
+                <option value="">ช่วงราคา</option>
+                <option value="1" class="text-gray-900">ต่ำกว่า 10,000</option>
+                <option value="2" class="text-gray-900">10,001–20,000</option>
+                <option value="3" class="text-gray-900">20,001–30,000</option>
+                <option value="4" class="text-gray-900">30,001–50,000</option>
+                <option value="5" class="text-gray-900">50,001–80,000</option>
+                <option value="6" class="text-gray-900">80,001 ขึ้นไป</option>
+              </select>
+            </div>
+
+            {{-- รหัสทัวร์ --}}
+            <div class="sm:col-span-3">
+              <input type="text" name="code_tour" placeholder="รหัสทัวร์"
+                     class="h-12 w-full rounded-lg border border-white/30 bg-white/10 px-3 text-sm placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white focus:outline-none"/>
+            </div>
+
+            {{-- ปุ่มค้นหา --}}
+            <div class="sm:col-span-3">
+              <button type="submit" form="searchFormLite"
+                      class="h-12 w-full rounded-lg bg-orange-500 text-sm font-semibold text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-white/80">
+                ค้นหาทัวร์
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
     <style>
         /* ป๊อปอัปผลลัพธ์: ลอยบนสุดจริง ๆ ไม่โดน hero/overflow บัง */
         .nt-pop {

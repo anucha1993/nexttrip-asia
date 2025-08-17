@@ -40,7 +40,7 @@
   <noscript><link rel="stylesheet" href="newhome/build/assets/app-H1hUJS3W.css"/></noscript>
 
   {{-- ถ้าต้องใช้ Font Awesome ให้ลิ้งค์จากไฟล์ที่คัดลอกไว้เอง หรือ CDN นี้ก็ได้ --}}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/> --}}
 {{-- @php $appCss = Vite::asset('resources/newhome/css/app.css'); @endphp --}}
   <meta name="theme-color" content="#ea580c" />
 </head>

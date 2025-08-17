@@ -319,7 +319,7 @@
               <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#00c300] text-white text-[11px] font-black">LINE</span>
               <div class="flex flex-col leading-tight">
                 <span class="text-[#ef6f2e] font-semibold">เราพร้อมช่วยคุณ</span>
-                <span class="text-[#214e9a] font-semibold">{{ '@'.$contact->line_id ?? '@nexttripholiday' }}</span>
+                <span class="text-[#214e9a] font-semibold">{{ $contact->line_id ?? '@nexttripholiday' }}</span>
               </div>
             </div>
           </div>
@@ -477,13 +477,13 @@
 
             <!-- Desktop Search button + popover -->
             <div class="relative hidden md:block">
-              <button id="navSearchBtn" type="button"
+              {{-- <button id="navSearchBtn" type="button"
                       class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-300"
                       aria-label="Search">
                 <svg viewBox="0 0 24 24" class="h-5 w-5 text-slate-600">
                   <path d="M11 4a7 7 0 105.29 12.29l3.7 3.7 1.42-1.42-3.7-3.7A7 7 0 0011 4z" fill="currentColor"/>
                 </svg>
-              </button>
+              </button> --}}
               <div id="navSearchPanel"
                    class="absolute right-0 mt-2 w-[min(92vw,520px)] p-3 rounded-xl border border-slate-200 bg-white shadow-xl hidden">
                 <div class="relative">
@@ -558,8 +558,9 @@
         <div class="pt-3">
           <div class="text-center text-xs text-slate-400">หรือเข้าสู่ระบบด้วย</div>
           <div class="mt-2 flex items-center justify-center gap-3">
-            <a href="{{ url('auth/facebook') }}"><img src="{{ asset('frontend/Facebook.svg') }}" class="h-9" alt="Facebook"></a>
-            <a href="{{ url('/google') }}"><img src="{{ asset('frontend/gglogin.svg') }}" class="h-9" alt="Google"></a>
+            <a href="{{ url('auth/facebook') }}"><img src="{{ asset('frontend/Facebook.svg') }}" class="h-12" alt="Facebook"></a>
+            <a href="{{ url('/google') }}"><img src="{{ asset('frontend/gglogin.svg') }}" class="h-12" alt="Google"></a>
+            <a href="javascript:void(0);"  onclick="LoginLine()"><img src="{{asset('frontend/linelogin.svg')}}" class="h-12" alt=""></a>
           </div>
         </div>
       </form>
@@ -810,4 +811,41 @@
     }
   }
 </script>
+
+
+
+<script src="https://static.line-scdn.net/liff/edge/versions/2.3.0/sdk.js"></script>
+<script>       
+        function LoginLine(){
+            var profile = null;
+            liff.init({ liffId: '2003705473-mOBqvyPY' },async () => {
+                // liff.logout();
+                if(!liff.isLoggedIn()){
+                    console.log('1')
+                    await liff.login();
+                }else{
+                    profile = await liff.getProfile();
+                    console.log(profile);
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{url("/line-login")}}',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            profile:profile,
+                        },
+                        success: function (data) {
+                            console.log(data)
+                                if(data){
+                                    window.location.replace('/member-booking');
+                                }else{
+                                    liff.login();
+                                }
+                        },
+                    });
+                }   
+            });
+        }
+        </script> 
+
+
 <!-- ==================== /SCRIPTS ==================== -->
