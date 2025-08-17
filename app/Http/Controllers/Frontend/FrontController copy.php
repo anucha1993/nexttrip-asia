@@ -2877,6 +2877,13 @@ class FrontController extends Controller
 
         $dat = TourModel::where('slug',$detail_slug)->whereNull('deleted_at')->first();
 
+         // แก้ไขตรงนี้
+    if (!$dat) {
+        // อาจจะ redirect กลับหรือแสดง error page
+        return redirect()->back()->with('error', 'ไม่พบข้อมูลทัวร์นี้');
+    }
+    
+
         $periods = TourPeriodModel::where(['tour_id'=>$dat->id,'status_display'=>'on','status_period'=>1])->whereDate('start_date','>=',now())->whereNull('deleted_at')->orderby('start_date','asc')->get();
 
         $period = TourPeriodModel::find($id);

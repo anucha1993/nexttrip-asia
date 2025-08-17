@@ -785,21 +785,7 @@ class TourController extends Controller
                     }
                 }
 
-                // $detail = TourDetailModel::where('tour_id',$data->id)->delete();
-    
-                // if($request->detail){
-                //     foreach($request->detail as $i => $de){
-                //         if($de){
-                //             $data2 = new TourDetailModel;
-                //             $data2->tour_id = $data->id;
-                //             $data2->title = $de['title'][0];
-                //             $data2->detail = $de['detail'][0];
-                //             $data2->save();
-                //         }
-                //     }
-                // }
-
-                // $period = TourPeriodModel::where('tour_id',$data->id)->delete();
+             
 
                 if($request->period){
                     $max = array();
@@ -1002,17 +988,7 @@ class TourController extends Controller
                             if($day && $night){
                                 $num_day = $day.' วัน '.$night.' คืน';
                             }
-                            // if($data5->day && $data5->night){
-                            //     $num_day = $data5->day.' วัน '.$data5->night.' คืน';
-                            // }
-                            // $price = $data5->price1;
-                            // $special_price = $data5->special_price1;
-                            // if($special_price && $special_price > 0){
-                            //     $net_price = $price - $special_price;
-                            // }else{
-                            //     $net_price = $price;
-                            // }
-
+                          
                             $price = $data5->price1;
                             $special_price = $data5->special_price1;
                             $net_price = $special_price && $special_price > 0 ? $price - $special_price : $price;
@@ -1288,7 +1264,7 @@ class TourController extends Controller
     //     return response()->json(true);
     // }
 
-    public function destroy(Request $request)
+   public function destroy(Request $request)
 {
     $ids = is_array($request->id) ? $request->id : [$request->id];
 
@@ -1319,8 +1295,7 @@ class TourController extends Controller
             }
         }
         // Soft delete
-        $data->deleted_at = now();
-        if ($data->save()) {
+        if ($data->delete()) {
             // Delete associated gallery items and their images
             $gallery = TourGalleryModel::where('tour_id', $data->id)->get();
             foreach ($gallery as $gal) {
@@ -1334,6 +1309,7 @@ class TourController extends Controller
 
     return response()->json(true);
 }
+
 
 
     // deleted file

@@ -561,7 +561,8 @@
                 if(liff.isLoggedIn()){
                     await liff.logout();  
                 }
-                window.location.replace('/logout');  
+                // window.location.replace('/logout');  
+                 window.location.replace('/');  
         });
 
     }
