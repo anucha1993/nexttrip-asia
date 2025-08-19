@@ -174,29 +174,30 @@ class TourController extends Controller
         $menu_control = Helper::menu_active($this->menu_id);
         if($menu_control){ if($menu_control->read  == "off") { return $this->auth_menu(); } } else { return $this->auth_menu();}
 
-        $sTable = TourModel::select(
-                'tb_tour.id as id',
-                'tb_tour.wholesale_id',
-                'tb_tour.type_id',
-                'tb_tour.image',
-                'tb_tour.name',
-                'tb_tour.code',
-                'tb_tour.code1',
-                'tb_tour.word_file',
-                'tb_tour.pdf_file',
-                'tb_tour.country_id',
-                'tb_tour.city_id',
-                'tb_tour.province_id',
-                'tb_tour.district_id',
-                'tb_tour.promotion1',
-                'tb_tour.promotion2',
-                'tb_tour.status',
-                'tb_tour.tab_status',
-                'tb_tour.updated_at',
-                'tb_tour.deleted_at',
-                'tb_tour_period.start_date',
-                'tb_tour_period.promotion_id',
-            )
+    $sTable = TourModel::select(
+        'tb_tour.id as id',
+        'tb_tour.wholesale_id',
+        'tb_tour.type_id',
+        'tb_tour.image',
+        'tb_tour.name',
+        'tb_tour.code',
+        'tb_tour.code1',
+        'tb_tour.word_file',
+        'tb_tour.pdf_file',
+        'tb_tour.country_id',
+        'tb_tour.city_id',
+        'tb_tour.province_id',
+        'tb_tour.district_id',
+        'tb_tour.promotion1',
+        'tb_tour.promotion2',
+        'tb_tour.status',
+        'tb_tour.tab_status',
+        'tb_tour.updated_at',
+        'tb_tour.deleted_at',
+        'tb_tour.data_type', // เพิ่ม data_type
+        'tb_tour_period.start_date',
+        'tb_tour_period.promotion_id',
+        )
             ->leftjoin('tb_tour_period', 'tb_tour_period.tour_id', 'tb_tour.id')->orderby('tb_tour.id','desc')
             ->when($like, function ($query) use ($like) {
                 if (@$like['search_tab_name'] != "") {
@@ -284,6 +285,14 @@ class TourController extends Controller
                 $data .= "<b>$row->code1</b><p>$wholesale->wholesale_name_th</p><br>";
             }else{
                 $data .= "<p><b>$row->code1</b></p><br>";
+            }
+            // ICON: แหล่งที่มา
+            if(isset($row->data_type)) {
+                if($row->data_type == 2) {
+                    $data .= '<span title="ข้อมูลจาก API" style="color:#21f39c;font-size:16px;"> API -</span> ';
+                } else {
+                    $data .= '<span title="ข้อมูลกรอกเอง" style="color:#43a047;font-size:16px;"> Manual-</span> ';
+                }
             }
             $data .= "<a href='$this->segment/$this->folder/edit/$row->id' style='text-decoration: underline; color:#0283df;'>".$row->name."</a><br><br>";
             if($row->pdf_file || $row->word_file){

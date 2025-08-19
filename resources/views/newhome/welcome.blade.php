@@ -9,6 +9,9 @@
 @section('content')
 
 
+
+
+
     {{-- <section class="relative h-[60vh] max-h-[60vh] overflow-hidden"> --}}
     <section class="relative isolate overflow-hidden h-[60vh] max-h-[60vh]">
         {{-- แทร็คสไลด์ --}}
@@ -52,7 +55,7 @@
 </div>
 
 
-            {{-- ปุ่มเลื่อนซ้าย/ขวา --}}
+
             <button type="button" data-dir="-1"
                 class="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60">
                 <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor">
@@ -66,8 +69,6 @@
                 </svg>
             </button>
         </div>
-
-        {{-- คอนเทนต์กลาง (หัวข้อ + ฟอร์มค้นหา) --}}
 
 
 
@@ -600,10 +601,10 @@
                         <div
                             class="relative overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5 transition-transform duration-300 group-hover:-translate-y-0.5">
                             <!-- รูป -->
-                            <div class="relative aspect-[4/3] lg:aspect-[3/2] overflow-hidden">
+                          <div class="relative aspect-[4/3] overflow-hidden">
                                 <img src="https://nexttrip.b-cdn.net/{{ @$co->img_banner }}"
                                     alt="{{ @$co->country_name_th }}" loading="lazy"
-                                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+                                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
                                 <!-- gradient ซ้อนบนรูป -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent">
                                 </div>
@@ -660,11 +661,8 @@
         </div>
     </section>
 
-    <!-- โปรโมชั่นแพ็คเกจทัวร์  https://www.nexttripholiday.com/promotiontour/0/0-->
-    <!-- โปรโมชั่นแพ็คเกจทัวร์ (Infinite Loop) -->
-    <section class="py-10">
-        <div class="mx-auto max-w-7xl px-4">
-            <div class="flex items-baseline justify-between gap-4">
+<section id="promo-loop" class="mx-auto max-w-7xl px-4 md:px-6 py-8">
+  <div class="flex items-baseline justify-between gap-4">
                 <h2 class="text-2xl font-extrabold text-orange-500">โปรโมชั่นแพ็คเกจทัวร์</h2>
 
                 <a href="https://www.nexttripholiday.com/promotiontour/0/0"
@@ -676,64 +674,151 @@
                 </a>
             </div>
 
-            <div class="relative mt-6 overflow-hidden group">
-                <div class="flex gap-6 animate-marquee group-hover:[animation-play-state:paused]">
-                    @foreach ($ads as $ad)
-                        <a href="https://www.nexttripholiday.com/promotiontour/0/0"
-                            class="shrink-0 w-[300px] sm:w-[380px] lg:w-[460px] xl:w-[520px]
-                block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm hover:shadow-md transition">
-                            <div class="relative aspect-[2/1] overflow-hidden"> <!-- เตี้ยลง -->
-                                <img src="https://nexttrip.b-cdn.net/{{ $ad->img }}" alt="promotion"
-                                    class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.02]">
-                            </div>
-                        </a>
-                    @endforeach
+  @php $items = collect($ads ?? []); @endphp
 
-                    {{-- duplicate set for infinite loop --}}
-                    @foreach ($ads as $ad)
-                        <a href="https://www.nexttripholiday.com/promotiontour/0/0" aria-hidden="true"
-                            class="shrink-0 w-[300px] sm:w-[380px] lg:w-[460px] xl:w-[520px]
-                block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm">
-                            <div class="relative aspect-[2/1] overflow-hidden">
-                                <img src="https://nexttrip.b-cdn.net/{{ $ad->img }}" alt=""
-                                    class="absolute inset-0 h-full w-full object-cover object-center">
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
+  @if($items->isEmpty())
+    <div class="text-sm text-slate-500">ยังไม่มีโปรโมชั่น</div>
+  @else
+  <div class="relative select-none [touch-action:pan-y]">
+    <!-- เอา gradient ขอบซ้าย/ขวาออกไปแล้ว -->
+    <div class="loop-wrapper overflow-hidden no-scrollbar overscroll-contain cursor-grab active:cursor-grabbing">
+      <ul class="loop-track flex items-center gap-4 py-2">
+        @foreach($items as $ad)
+          @php
+            $href = $ad->link ?? $ad->url ?? url('promotiontour/0/0');
+            $img  = $ad->img && filter_var($ad->img, FILTER_VALIDATE_URL) ? $ad->img : 'https://nexttrip.b-cdn.net/'.ltrim($ad->img ?? '', '/');
+            $alt  = $ad->title ?? $ad->name ?? 'promotion';
+          @endphp
+          <li class="shrink-0">
+            <a href="{{ $href }}" class="block w-[396px] rounded-2xl ring-1 ring-slate-200 bg-white overflow-hidden shadow-sm transition hover:shadow-md hover:ring-orange-200">
+              <img src="{{ $img }}" alt="{{ $alt }}" width="396" height="191" class="block w-[396px] h-[191px] object-contain" loading="lazy" decoding="async" draggable="false">
+            </a>
+          </li>
+        @endforeach
+        @foreach($items as $ad)
+          @php
+            $href = $ad->link ?? $ad->url ?? url('promotiontour/0/0');
+            $img  = $ad->img && filter_var($ad->img, FILTER_VALIDATE_URL) ? $ad->img : 'https://nexttrip.b-cdn.net/'.ltrim($ad->img ?? '', '/');
+            $alt  = $ad->title ?? $ad->name ?? 'promotion';
+          @endphp
+          <li class="shrink-0">
+            <a href="{{ $href }}" class="block w-[396px] rounded-2xl ring-1 ring-slate-200 bg-white overflow-hidden shadow-sm transition hover:shadow-md hover:ring-orange-200">
+              <img src="{{ $img }}" alt="{{ $alt }}" width="396" height="191" class="block w-[396px] h-[191px] object-contain" loading="lazy" decoding="async" draggable="false">
+            </a>
+          </li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+  @endif
+</section>
 
-    <!-- CSS keyframes -->
-    <style>
-        /* งูกินหาง: มี 2 ชุดเรียงต่อกันในแทร็คเดียว เลื่อนไป -50% เท่าความกว้างของ 1 ชุดพอดี */
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-marquee {
-            animation: marquee 28s linear infinite;
-            /* ปรับความเร็วได้ */
-            will-change: transform;
-        }
-
-        /* เคารพผู้ใช้ที่ไม่ต้องการแอนิเมชัน */
-        @media (prefers-reduced-motion: reduce) {
-            .animate-marquee {
-                animation: none;
-            }
-        }
-    </style>
+<style>
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+</style>
 
 
 
+{{-- ซ่อนสกอลบาร์แบบเบา ๆ --}}
+{{-- <style>
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+</style> --}}
+
+<script>
+(() => {
+  const box   = document.querySelector('#promo-loop .loop-wrapper');
+  if (!box) return;
+  const track = box.querySelector('.loop-track');
+
+  // ปรับได้ตามชอบ
+  const speed        = 0.6;     // ความเร็วเลื่อนอัตโนมัติ
+  const holdDelay    = 220;     // ต้องกดค้างกี่ ms ก่อนจะ “เข้าโหมดลาก”
+  const moveThreshold= 6;       // ขยับกี่ px ถึงจะนับว่าเริ่มลากจริง
+
+  let pressTimer = null;
+  let armed      = false;       // พร้อมลาก (ผ่าน holdDelay แล้ว)
+  let dragging   = false;       // กำลังลากอยู่
+  let suppressClick = false;    // ยกเลิกคลิกหลังจากลาก เพื่อไม่ให้เปิดลิงก์
+  let startX = 0;
+  let startSL= 0;
+
+  function loopFix(){
+    const single = track.scrollWidth / 2; // ครึ่งหนึ่งคือชุดจริง (อีกครึ่งคือโคลน)
+    if (box.scrollLeft >= single) box.scrollLeft -= single;
+    else if (box.scrollLeft < 0)  box.scrollLeft += single;
+  }
+
+  function tick(){
+    if (!dragging) {
+      box.scrollLeft += speed;
+      loopFix();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // เริ่มจับกด — ยังไม่ลากจนกว่าจะครบ holdDelay
+  box.addEventListener('pointerdown', e => {
+    startX  = e.clientX;
+    startSL = box.scrollLeft;
+    armed   = false;
+    dragging= false;
+    suppressClick = false;
+
+    pressTimer = setTimeout(() => {
+      armed = true; // ผ่านเวลา hold แล้ว ถึงจะ “อนุญาต” ให้ลาก
+    }, holdDelay);
+
+    box.setPointerCapture(e.pointerId);
+  });
+
+  // ขณะขยับ
+  box.addEventListener('pointermove', e => {
+    // ยังไม่ผ่าน holdDelay -> ห้ามลาก
+    if (!armed) return;
+
+    const dx = e.clientX - startX;
+
+    // ผ่าน threshold ครั้งแรก -> เข้าสู่โหมดลากจริง
+    if (!dragging && Math.abs(dx) >= moveThreshold) {
+      dragging = true;
+      suppressClick = true; // ถ้าลากแล้ว ไม่ให้คลิกเปิดลิงก์
+    }
+
+    if (dragging) {
+      box.scrollLeft = startSL - dx;
+      loopFix();
+    }
+  });
+
+  // ปล่อย
+  box.addEventListener('pointerup', e => {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+    armed = false;
+    dragging = false;
+    box.releasePointerCapture(e.pointerId);
+    // ถ้าไม่ได้ลากจริง (ไม่มี suppressClick) จะยังคลิกลิงก์ได้ตามปกติ
+    // ถ้าลาก -> click ถัดไปจะถูกยกเลิกหนึ่งครั้ง
+    setTimeout(() => { suppressClick = false; }, 0);
+  });
+
+  // ยกเลิกคลิกหลังจากมีการลาก (ป้องกันเปิดลิงก์ตอนลาก)
+  box.addEventListener('click', (e) => {
+    if (suppressClick) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true); // ใช้ capture เพื่อดัก click ของ <a> ภายใน
+
+  // ปรับเมื่อรีไซซ์
+  addEventListener('resize', loopFix, { passive: true });
+
+  // เริ่มเลื่อนอัตโนมัติ
+  tick();
+})();
+</script>
 
 
     {{-- ==================== เลือกทัวร์ที่ใช่ในสไตล์คุณ (Tailwind + Backend) ==================== --}}

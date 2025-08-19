@@ -165,7 +165,7 @@
             </div>
             <br>
             <div class="intro-y box p-5 place-content-center">
-                    <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+                    <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2" >
                         <button id="delete-selected" class="btn btn-danger mr-2">ลบที่เลือก</button>
                         <div class="hidden md:block mx-auto text-slate-500"></div>
                     </div>

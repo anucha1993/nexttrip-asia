@@ -356,6 +356,9 @@
                 
             //เมนูวันหยุด
         }
+        
+
+        
         var country_act = 0;
         async function show_country(){
             var data = menu_country[0];
@@ -399,21 +402,85 @@
                 $('#country-topic').hide();
                 $('#country_input').hide();
             }
-            //ชื่อประเทศยอดนิยม
-            for(let c in country_slide){
-                text_slide = text_slide+'<div class="col-4 col-lg-2">';
-                text_slide = text_slide+       '<div class="groupsFlag">';
-                text_slide = text_slide+            '<div class="flagCir mb-2">';
-                text_slide = text_slide+                '<a href="javascript:void(0);" onclick="document.getElementById(`country'+country_slide[c].id+'`).click()"><img src="https://nexttrip.b-cdn.net/'+country_slide[c].img+'" alt=""></a>';
-                text_slide = text_slide+           '</div>';
-                text_slide = text_slide+           '<a href="javascript:void(0);" onclick="document.getElementById(`country'+country_slide[c].id+'`).click()"> ทัวร์'+country_slide[c].name+holiday_name+'</a><br>';
-                text_slide = text_slide+           '<span>'+country_slide[c].num+' รายการ</span>';
-                text_slide = text_slide+       '</div>';
-                text_slide = text_slide+  '</div>';
-            }
-      
-            document.getElementById('popular_country').innerHTML = await text_slide;
+// 1) เรียงจาก num มาก -> น้อย
+country_slide.sort((a, b) => (b.num || 0) - (a.num || 0));
+
+// 2) เรนเดอร์การ์ด
+let html = '';
+for (const it of country_slide) {
+  html += `
+    <div class="col-12 col-md-6 col-lg-3 country-col">
+      <div class="tripcard" role="button"
+           onclick="document.getElementById('country${it.id}').click()">
+        <div class="tripcard-icon">
+          <img src="https://nexttrip.b-cdn.net/${it.img}" alt="${it.name}" loading="lazy" decoding="async">
+        </div>
+        <div class="tripcard-body">
+          <div class="tripcard-title">ทัวร์${it.name}</div>
+          <div class="tripcard-sub">${Number(it.num).toLocaleString('th-TH')} รายการ</div>
+        </div>
+        <div class="tripcard-cta" aria-hidden="true">›</div>
+      </div>
+    </div>`;
+}
+const grid = document.getElementById('popular_country');
+grid.innerHTML = html;
+
+// 3) พับให้เหลือ 3 แถวแรก
+let collapsed = true;
+const toggleBtn = document.getElementById('togglePopular');
+
+function applyRowCollapse() {
+  const cards = Array.from(grid.querySelectorAll('.country-col'));
+  if (!cards.length) return;
+
+  // หา row (ด้วย offsetTop ของคอลัมน์)
+  const rowTops = [];
+  for (const el of cards) {
+    const top = el.offsetTop;
+    if (!rowTops.includes(top)) rowTops.push(top);
+  }
+
+  const hasMoreThan3 = rowTops.length > 3;
+  const thresholdTop = hasMoreThan3 ? rowTops[2] : Infinity;
+
+  for (const el of cards) {
+    if (collapsed && el.offsetTop > thresholdTop) {
+      el.classList.add('nt-hide');
+    } else {
+      el.classList.remove('nt-hide');
+    }
+  }
+
+  // อัปเดตสถานะปุ่ม (มี/ไม่มี & หมุนลูกศร)
+  if (toggleBtn) {
+    toggleBtn.style.display = hasMoreThan3 ? '' : 'none';
+    toggleBtn.classList.toggle('expanded', !collapsed);
+  }
+}
+
+// 4) ติดปุ่มสลับ + รีคอมพิวต์เมื่อรีไซซ์ (debounce)
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    collapsed = !collapsed;
+    applyRowCollapse();
+  });
+}
+
+let resizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(applyRowCollapse, 150);
+});
+
+// 5) เรียกครั้งแรก
+applyRowCollapse();
+
+
         }
+
+
+
         async function show_city(){
             var data = menu_city[0];
             var text = '';

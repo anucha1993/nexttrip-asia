@@ -71,9 +71,26 @@
                         <h1>{{$row->title}}</h1>
                         <p>{{date('d',strtotime($row->created_at))}} {{ $month[date('n',strtotime($row->created_at))] }}  {{date('Y',strtotime($row->created_at)) + $addYear}}</p>
                     </div>
+
                     <div class="contentde mb-3">
                         {!! $row->detail !!}
                     </div>
+<script>
+$(function () {
+  $('img[src*="moxieupload/"]').each(function () {
+    var s = $(this).attr('src');
+    var abs = new URL(s, location.href);
+    var i = abs.pathname.toLowerCase().indexOf('/moxieupload/');
+    if (i !== -1) {
+      var path = abs.pathname.slice(i + 1).replace(/^\//, '');
+      $(this).attr('src', 'https://nexttrip.b-cdn.net/' + path);
+    }
+  });
+});
+</script>
+
+                
+                    
                     <div class="tagcat02">
                         @foreach($tag as $t)
                             <li><a href="{{url('aroundworld/0/0/'.$t->id)}}">#{{$t->tag}}</a></li>

@@ -25,6 +25,22 @@
                     {!! $about->detail  !!}
                 </div>
             </div>
+
+            <script>
+$(function () {
+  $('img[src*="moxieupload/"]').each(function () {
+    var s = $(this).attr('src');
+    var abs = new URL(s, location.href);
+    var i = abs.pathname.toLowerCase().indexOf('/moxieupload/');
+    if (i !== -1) {
+      var path = abs.pathname.slice(i + 1).replace(/^\//, '');
+      $(this).attr('src', 'https://nexttrip.b-cdn.net/' + path);
+    }
+  });
+});
+</script>
+
+
             <div class="row g-0 mt-5">
                 <div class="col-md-6 abtsect">
                     <img src="{{asset($about->img_left)}}" class="img-fluid" alt="">

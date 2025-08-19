@@ -246,7 +246,7 @@ class CountryController extends Controller
                 }
                 $lg = Image::make($img_banner->getRealPath());
                 $ext = explode("/", $lg->mime());
-                $lg->resize(397, 561)->stream();
+                $lg->resize(1200, 900)->stream();
                 $new = 'upload/country/image_banner' . date('dmY-Hism') . '.' . $ext[1];
                 if (in_array($ext[1], $allow)) {
                     $store = Storage::disk('public')->put($new, $lg);

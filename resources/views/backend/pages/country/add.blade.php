@@ -71,8 +71,9 @@
 
                                 <div class="grid grid-cols-12 gap-6 mt-3 mb-3">
                                     <div class="col-span-12 lg:col-span-6">
-                                        <h6 class="mb-3"><span class="text-danger">*</span>รูปภาพปก (ประเทศยอดนิยม) <span class="text-danger"> ขนาด 397*561</span></h6>
-                                        <img src="@if(@$row->img_banner == null) {{url("noimage.jpg")}} @else {{asset($row->img_banner)}} @endif" class="img-thumbnail" id="preview_banner" style="width:397px; height:561px;">
+                                                            {{-- <h6 class="mb-3"><span class="text-danger">*</span>รูปภาพปก (ประเทศยอดนิยม) <span class="text-danger"> ขนาด 397*561</span></h6> --}}
+                                        <h6 class="mb-3"><span class="text-danger">*</span>รูปภาพปก (ประเทศยอดนิยม) <span class="text-danger">ขนาด 1200 x 900 PX</span></h6>
+                                        <img src="@if(@$row->img_banner == null) {{url("noimage.jpg")}} @else {{asset($row->img_banner)}} @endif" class="img-thumbnail" id="preview_banner">
                                     </div>
                                     <div class="col-span-12 lg:col-span-12">
                                         <small class="help-block">* รองรับไฟล์ <strong class="text-danger">(jpg, jpeg, png)</strong> เท่านั้น</small>
