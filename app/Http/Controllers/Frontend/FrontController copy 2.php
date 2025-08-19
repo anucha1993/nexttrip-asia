@@ -570,12 +570,9 @@ class FrontController extends Controller
         $code_id = null;
 
         if($request->search_data){
-          $search = $request->search_data;
-          // ลองตัดคำว่า 'ทัวร์' ออก
-         $search_country = str_replace('ทัวร์', '', $search);
+            // ค้นหาประเทศแบบเร็ว
             $country = CountryModel::where('country_name_th', 'like', "%{$request->search_data}%")
                 ->orWhere('country_name_en', 'like', "%{$request->search_data}%")
-                ->orWhere('country_name_th', 'like', "%{$search_country}%")
                 ->first();
             if($country){
                 $country->count_search = $country->count_search+1;
@@ -589,7 +586,6 @@ class FrontController extends Controller
             // ค้นหาเมืองแบบเร็ว
             $city = CityModel::where('city_name_th', 'like', "%{$request->search_data}%")
                 ->orWhere('city_name_en', 'like', "%{$request->search_data}%")
-                ->orWhere('city_name_th', 'like', "%{$request->search_data}%")
                 ->first();
             if($city){
                 $city->count_search = $city->count_search+1;
@@ -620,7 +616,6 @@ class FrontController extends Controller
         if($request->code_tour){
             $code_id = $request->code_tour;
             $tour = TourModel::where('code', 'like', "%{$request->code_tour}%")
-                ->orWhere('code1', 'like', "%{$request->code_tour}%")
                 ->orWhere('code1', 'like', "%{$request->code_tour}%")
                 ->get();
             foreach($tour as $row){

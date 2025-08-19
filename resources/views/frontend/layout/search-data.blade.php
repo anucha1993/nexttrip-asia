@@ -223,4 +223,24 @@ function SearchData1(){
             
         }
 
+// สร้าง countrySlugMap อัตโนมัติจาก country array (ต้องมี field slug ในแต่ละ country)
+var countrySlugMap = {};
+if (typeof country !== 'undefined' && Array.isArray(country)) {
+    country.forEach(function(c) {
+        if (c.country_name_th && c.slug) {
+            countrySlugMap[c.country_name_th.trim()] = c.slug.trim();
+        }
+    });
+}
+
+// ตัวอย่างการใช้งาน: แปลงชื่อไทยเป็น slug ก่อนใช้งาน (เช่น redirect)
+function getCountrySlugByThaiName(thaiName) {
+    return countrySlugMap[thaiName.trim()] || thaiName;
+}
+
+// ตัวอย่าง: ใน event submit form หรือ redirect
+// let search = document.getElementById('search_data').value.trim();
+// let slug = getCountrySlugByThaiName(search);
+// window.location.href = '/oversea/' + encodeURIComponent(slug);
+
 </script>

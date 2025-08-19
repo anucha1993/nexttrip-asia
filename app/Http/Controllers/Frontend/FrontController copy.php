@@ -2423,6 +2423,7 @@ class FrontController extends Controller
     }
 
     public function search_total(Request $request){
+      
         $country_id = null;
         $city_id = null;
         $travel_id = array();
