@@ -291,7 +291,7 @@ class TourController extends Controller
                 if($row->data_type == 2) {
                     $data .= '<span title="ข้อมูลจาก API" style="color:#21f39c;font-size:16px;"> API -</span> ';
                 } else {
-                    $data .= '<span title="ข้อมูลกรอกเอง" style="color:#43a047;font-size:16px;"> Manual-</span> ';
+                    $data .= '<span title="ข้อมูลกรอกเอง" style="color:#b967fc;font-size:16px;"> Manual-</span> ';
                 }
             }
             $data .= "<a href='$this->segment/$this->folder/edit/$row->id' style='text-decoration: underline; color:#0283df;'>".$row->name."</a><br><br>";
