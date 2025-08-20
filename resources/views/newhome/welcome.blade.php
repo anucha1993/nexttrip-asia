@@ -720,12 +720,6 @@
 
 
 
-{{-- ซ่อนสกอลบาร์แบบเบา ๆ --}}
-{{-- <style>
-  .no-scrollbar::-webkit-scrollbar{ display:none; }
-  .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
-</style> --}}
-
 <script>
 (() => {
   const box   = document.querySelector('#promo-loop .loop-wrapper');
@@ -758,20 +752,7 @@
     requestAnimationFrame(tick);
   }
 
-  // เริ่มจับกด — ยังไม่ลากจนกว่าจะครบ holdDelay
-  box.addEventListener('pointerdown', e => {
-    startX  = e.clientX;
-    startSL = box.scrollLeft;
-    armed   = false;
-    dragging= false;
-    suppressClick = false;
-
-    pressTimer = setTimeout(() => {
-      armed = true; // ผ่านเวลา hold แล้ว ถึงจะ “อนุญาต” ให้ลาก
-    }, holdDelay);
-
-    box.setPointerCapture(e.pointerId);
-  });
+  
 
   // ขณะขยับ
   box.addEventListener('pointermove', e => {

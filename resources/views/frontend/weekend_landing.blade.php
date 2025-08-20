@@ -128,7 +128,7 @@
                                         <li class="readMoreItem text-center">ดูเพิ่มเติม</li>
                                     </ul>
                                 </div>
-                                <div class="readMoreGradient"></div>
+         
                             </div><a class="readMoreBtn2" id="togglePopular"><i class="fi fi-rr-angle-small-down"></i></a><span
                                 class="readLessBtnText" style="display: none;">Read Less</span><span
                                 class="readMoreBtnText" style="display: none;">Read More </span>
