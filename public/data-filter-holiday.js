@@ -416,7 +416,7 @@ for (const it of country_slide) {
           <img src="https://nexttrip.b-cdn.net/${it.img}" alt="${it.name}" loading="lazy" decoding="async">
         </div>
         <div class="tripcard-body">
-          <div class="tripcard-title">ทัวร์${it.name}</div>
+          <div class="tripcard-title">ทัวร์${it.name}-${holiday_name}</div>
           <div class="tripcard-sub">${Number(it.num).toLocaleString('th-TH')} รายการ</div>
         </div>
         <div class="tripcard-cta" aria-hidden="true">›</div>

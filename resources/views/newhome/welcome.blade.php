@@ -976,7 +976,7 @@
                                                 <path fill="currentColor"
                                                     d="M17 3H7a2 2 0 00-2 2v14l7-3 7 3V5a2 2 0 00-2-2z" />
                                             </svg>
-                                            รหัสทัวร์ {{ $code }}
+                                          รหัสทัวร์ {{ substr($code, -6) }}
                                         </li>
                                     </ul>
 

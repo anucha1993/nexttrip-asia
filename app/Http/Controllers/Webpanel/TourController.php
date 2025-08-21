@@ -82,57 +82,7 @@ class TourController extends Controller
         $night = isset($matches[0][1]) ? $matches[0][1] : 0;
         dd($day,$night);
 
-        // $tour = TourModel::where('price',null)->get();
-        // foreach($tour as $t){
-        //     // $code_tour = IdGenerator::generate([
-        //     //     'table' => 'tb_tour', 
-        //     //     'field' => 'code', 
-        //     //     'length' => 10, 
-        //     //     'prefix' =>'NT'.date('ym'),
-        //     //     'reset_on_prefix_change' => true 
-        //     // ]);
-        //     $t->price = 0.00;
-        //     $t->save();
-        // }
-
-        // $tour = TourPeriodModel::where('price3',null)->get();
-        // foreach($tour as $t){
-        //     // $code_tour = IdGenerator::generate([
-        //     //     'table' => 'tb_tour', 
-        //     //     'field' => 'code', 
-        //     //     'length' => 10, 
-        //     //     'prefix' =>'NT'.date('ym'),
-        //     //     'reset_on_prefix_change' => true 
-        //     // ]);
-        //     $t->price3 = 0.00;
-        //     $t->save();
-        // }
-
-        // $tour = TourPeriodModel::where('special_price3',null)->get();
-        // foreach($tour as $t){
-        //     // $code_tour = IdGenerator::generate([
-        //     //     'table' => 'tb_tour', 
-        //     //     'field' => 'code', 
-        //     //     'length' => 10, 
-        //     //     'prefix' =>'NT'.date('ym'),
-        //     //     'reset_on_prefix_change' => true 
-        //     // ]);
-        //     $t->special_price3 = 0.00;
-        //     $t->save();
-        // }
-
-        // $tour = TourPeriodModel::where('old_price3',null)->get();
-        // foreach($tour as $t){
-        //     // $code_tour = IdGenerator::generate([
-        //     //     'table' => 'tb_tour', 
-        //     //     'field' => 'code', 
-        //     //     'length' => 10, 
-        //     //     'prefix' =>'NT'.date('ym'),
-        //     //     'reset_on_prefix_change' => true 
-        //     // ]);
-        //     $t->old_price3 = 0.00;
-        //     $t->save();
-        // }
+       
     }
 
     public function index(Request $request)
@@ -242,19 +192,7 @@ class TourController extends Controller
                 if (@$like['search_tag_promotion'] != "") {
                     $query->where('tb_tour_period.promotion_id', $like['search_tag_promotion'] );
                 }
-                // if (@$like['search_city'] != "") {
-                //     if (@$like['search_city'] != "") {
-                //         $arr = array();
-                //         $ca = explode('.',$like['search_city']);
-                //         $arr[$ca[0]][] = $ca[1];
-                //     }
-                //     if(isset($arr['CI'])){
-                //         $query->where('city_id', 'like', '%"' . $arr['CI'][0] . '"%');
-                //     }
-                //     if(isset($arr['PRO'])){
-                //         $query->where('province_id', 'like', '%"' . $arr['PRO'][0] . '"%');
-                //     }
-                // }
+                
                 if (@$like['search_type'] != "") {
                     $query->where('tb_tour.type_id', $like['search_type'] );
                 }
@@ -1218,63 +1156,10 @@ class TourController extends Controller
             return response()->json(false);
         }
     }
-
-    // public function destroy(Request $request)
-    // {
-    //     $datas = TourModel::find($request->id);
-
-    //     if (!$datas) {
-    //         return response()->json(false);
-    //     }
-        
-    //     foreach ($datas as $data) {
-    //         // Delete files
-    //         Storage::disk('public')->delete([$data->image, $data->video_cover, $data->pdf_file, $data->word_file]);
-
-    //         // Delete files In tour_detail column
-    //         $jsonData = $data->tour_detail;
-
-    //         $tourDetails = json_decode($jsonData, true);
-
-    //         foreach ($tourDetails as $tourDetail) {
-
-    //             if(isset($tourDetail['sub'])){
-
-    //                 foreach ($tourDetail['sub'] as $detail) {
-    //                     $imagePath = $detail['image'];
     
-    //                     if($imagePath){
-    //                         // Storage::disk('public')->delete($imagePath);
-    //                     }
-    //                 }
-
-    //             }
-                
-    //         }
-        
-    //         // Soft delete
-    //         $data->deleted_at = now();
-        
-    //         if ($data->save()) {
-    //             // Delete associated gallery items and their images
-    //             $gallery = TourGalleryModel::where('tour_id', $data->id)->get();
-    //             foreach ($gallery as $gal) {
-    //                 Storage::disk('public')->delete($gal->img);
-    //             }
-    //             TourGalleryModel::where('tour_id', $data->id)->delete();
-        
-    //             // Soft delete associated tour periods
-    //             TourPeriodModel::where('tour_id', $data->id)->update(['deleted_at' => now()]);
-    //         } else {
-    //             return response()->json(false);
-    //         }
-    //     }
-        
-    //     return response()->json(true);
-    // }
-
    public function destroy(Request $request)
 {
+    //dd($request->all());
     $ids = is_array($request->id) ? $request->id : [$request->id];
 
     foreach ($ids as $id) {
@@ -1284,7 +1169,7 @@ class TourController extends Controller
             continue;
         }
 
-        // Delete files
+        // Delete files 
         Storage::disk('public')->delete([$data->image, $data->video_cover, $data->pdf_file, $data->word_file]);
 
         // Delete files In tour_detail column

@@ -154,8 +154,90 @@
 </style>
 
 
+    <!-- Clients / Trusted by -->
+<section class="py-5 py-md-6 bg-light">
+  <div class="container">
+    <!-- Heading -->
+    <div class="text-center mb-4 mb-md-5">
+      {{-- <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis px-3 py-2 mb-2">Our Clients</span> --}}
+      <h2 class="h3 h1-md fw-bold text-dark mb-2">ขอบคุณทุกองค์กร <span class="text-orange">ที่ร่วมเดินทางไปกับเรา</span></h2>
+      <p class="text-muted mb-0">Next Trip Holiday</p>
+    </div>
+
+    <!-- Logo Grid -->
+    <div class="row g-3 g-md-4 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6">
+      @foreach($customer as $cus)
+      <div class="col">
+        <a href="{{ url('clients-detail/'.$cus->id) }}" class="text-decoration-none d-block client-card" aria-label="ดูรายละเอียดลูกค้า">
+          <div class="logo-box d-flex align-items-center justify-content-center rounded-4 border bg-white">
+            <img
+              src="{{ asset($cus->logo) }}"
+              alt="{{ $cus->name ?? 'ลูกค้า' }}"
+              class="img-fluid client-logo"
+              loading="lazy"
+            >
+          </div>
+        </a>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+<style>
+  /* สีส้มหลัก (ปรับได้ตามแบรนด์) */
+  .text-orange { color: #f97316; }
+
+  /* กล่องโลโก้: อัตราส่วน 3:2 ให้ดูสมดุลบนทุกหน้าจอ */
+  .logo-box { 
+    aspect-ratio: 3 / 2;
+    padding: .75rem;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    border-color: rgba(0,0,0,.06) !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,.04);
+  }
+
+  /* โลโก้: เทาเล็กน้อย + โปร่งนิดนึง เพื่อความเรียบ */
+  /* .client-logo {
+    max-height: 64px;          /* กันโลโก้สูงเกิน (ปรับได้) */
+    object-fit: contain;
+    filter: grayscale(100%) contrast(1) brightness(1.05);
+    opacity: .8;
+    transition: filter .25s ease, opacity .25s ease, transform .25s ease;
+  } */
+
+  /* Hover/Focus: ยกนิด ๆ เปลี่ยนเป็นสี */
+  .client-card:hover .logo-box,
+  .client-card:focus .logo-box {
+    transform: translateY(-3px);
+    border-color: rgba(249,115,22,.35) !important; /* ส้ม */
+    box-shadow: 0 10px 22px rgba(249,115,22,.12);
+  }
+  .client-card:hover .client-logo,
+  .client-card:focus .client-logo {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.02);
+  }
+
+  /* ปรับขนาดโลโก้ตามจอให้บาลานซ์ */
+  @media (min-width: 768px) {
+    .client-logo { max-height: 72px; }
+  }
+  @media (min-width: 1200px) {
+    .client-logo { max-height: 76px; }
+  }
+</style>
+
+
+
+
+
                 </div>
             </div>
+
+
+            
 
             <script>
 $(function () {
@@ -187,6 +269,8 @@ $(function () {
                 </div>
             </div>
         </div>
+
+    
         
 
         <div class="container">

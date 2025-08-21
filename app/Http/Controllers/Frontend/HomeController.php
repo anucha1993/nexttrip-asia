@@ -706,6 +706,7 @@ class HomeController extends Controller
         $award = AwardModel::orderBy('id','desc')->get();
         $business = BusinessModel::orderBy('id','asc')->get();
         $group = CustomerGroupsModel::orderBy('id','asc')->get();
+        $customer = CustomerInfoModel::where('type_id',2)->where('status','on')->get();
         
         $data = array(
           'banner' => $banner,
@@ -714,6 +715,7 @@ class HomeController extends Controller
           'award' => $award,
           'business' => $business,
           'group' => $group,
+          'customer' => $customer,
         );
         return view('frontend.about',$data);
     }
