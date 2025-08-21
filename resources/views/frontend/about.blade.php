@@ -252,7 +252,7 @@ $(function () {
   });
 });
 </script>
-
+{{-- 
 
             <div class="row g-0 mt-5">
                 <div class="col-md-6 abtsect">
@@ -267,7 +267,7 @@ $(function () {
                         {!! $about->text_right  !!}
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
     
