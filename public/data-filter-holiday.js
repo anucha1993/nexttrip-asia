@@ -1206,14 +1206,15 @@ applyRowCollapse();
                                                             }
                 text +=                                 "</a></i>";
                                                         }
-                text +=                                "<li>รหัสทัวร์ : <span class='bluetext'>";
-                                                            if(tour_show[y].tour.code1_check){ 
-                text +=                                         tour_show[y].tour.code1;
-                                                            }else{ 
-                text +=                                         tour_show[y].tour.code;
-                                                            }
-                text +=                                     "</span>";
-                text +=                                "</li>";
+                  text += "<li>รหัสทัวร์ : <span class='bluetext'>";
+                  let code = tour_show[y].tour.code1_check ? tour_show[y].tour.code1 : tour_show[y].tour.code;
+                  if (code && typeof code === 'string') {
+                      text += code.slice(-6);
+                  } else {
+                      text += code;
+                  }
+                  text += "</span>";
+                  text += "</li>";
                 text +=                                "<li class='rating'>โรงแรม"; 
                                                          if(tour_show[y].tour.rating > 0){
                 text +=                                         "<a href='javascript:void(0);' onclick='document.getElementById(`rating"+tour_show[y].tour.rating+"`).click()'>";
@@ -1508,14 +1509,14 @@ applyRowCollapse();
                         text_recomand  +=                                "</figure>";
                         text_recomand  +=                                "<div class='contenttourshw'>";
                         text_recomand  +=                                    "<div class='codeandhotel'>";
-                        text_recomand  +=                                       "<li>รหัสทัวร์ : <span class='bluetext'>";
-                                                                                if(tour_show[y].tour.code1_check){ 
-                        text_recomand +=                                                 tour_show[y].tour.code1;
-                                                                                }else{ 
-                        text_recomand +=                                                 tour_show[y].tour.code;
-                                                                                }
-                        text_recomand +=                                        "</span> </li>";
-                        text_recomand +=                                        "<li class='rating'>โรงแรม";
+                        text_recomand  += "<li>รหัสทัวร์ : <span class='bluetext'>";
+                        let code = tour_show[y].tour.code1_check ? tour_show[y].tour.code1 : tour_show[y].tour.code;
+                        if (code && typeof code === 'string') {
+                            text_recomand += code.slice(-6);
+                        } else {
+                            text_recomand += code;
+                        }
+                        text_recomand += "</span> </li>";                     text_recomand +=                                        "<li class='rating'>โรงแรม";
                                                                                     if(tour_show[y].tour.rating > 0){
                         text_recomand +=                                                "<a href='javascript:void(0);' onclick='document.getElementById(`rating"+tour_show[y].tour.rating+"`).click()'>";
                                                                                         for($i=1; $i <= tour_show[y].tour.rating; $i++){

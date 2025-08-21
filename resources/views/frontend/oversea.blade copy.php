@@ -17,7 +17,6 @@
     $ogImage = "https://nexttripholiday.b-cdn.net/og/country/{$countrySlug}.jpg";
 @endphp
 
-
 {{-- ======= SEO: ทัวร์ต่างประเทศ/ประเทศ ======= --}}
 @section('title', "Next Trip Holiday ทัวร์ต่างประเทศ | {$countryName}".($page>1?" (หน้า {$page})":""))
 @section('meta_description', "แพ็กเกจทัวร์{$countryName} ราคาคุ้ม อัปเดตรายสัปดาห์ เดินทางสบาย โรงแรมดี ไกด์ดูแลตลอดทริป จองกับ Next Trip Holiday มั่นใจได้")
@@ -62,7 +61,7 @@
 
     
 </head>
- <script src="https://cdn.tailwindcss.com"></script>
+
 <body>
     @include("frontend.layout.inc_topmenu")
     <section id="protourpage" class="wrapperPages">
@@ -121,124 +120,135 @@
                                 {{--<div class="bannercaption">
                                     {!! @$banner_detail !!} 
                                     --}}
-                                    <div class="bannercaption bg-white/80 rounded-xl shadow p-4 mb-3 mt-2 relative" id="bannercaption-box">
-                                        <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700" aria-label="ปิด" onclick="document.getElementById('bannercaption-box').style.display='none'">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                        <div class="flex items-center gap-3">
-                                            <div class="flex-shrink-0">
-                                                <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <div class="text-lg font-semibold mb-1" style="color: #f15a22;">เกี่ยวกับทัวร์นี้</div>
-                                                <div class="text-gray-600 text-sm leading-relaxed">
-                                                    {!! @$banner_detail !!}
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="bannercaption">
+                                        {!! @$banner_detail !!}
+                                        
                                     </div>
                             </ol>
                         </nav>
                     </div>
                 </div>
             </div>
-            
-
-            
             <div class="row mt-3">
                 <div class="col-lg-4 col-xl-3">
                     <div class="row">
                         <div class="col-5 col-lg-12">
                             {{-- @include("frontend.layout.inc_sidefilter_tour") --}}
                             <section id="sortfilter">
-                                <div class="hidden lg:block xl:block">
-                                    <aside class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 max-w-xs mx-auto">
-                                        <div class="mb-6 pb-4 border-b border-gray-200">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <h2 class="text-xl font-bold text-gray-800"  style="color: #f15a22;">ตัวกรองที่เลือก</h2>
-                                                <a href="javascript:void(0)" onClick="clear_filter()" class="text-sm text-blue-600 hover:underline font-medium">ล้างค่า</a>
+                                <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
+                                    <div class="boxfilter">
+                                        <div class="row">
+                                            <div class="col-8 col-lg-9">
+                                                <div class="titletopic">
+                                                    <h2>ตัวกรองที่เลือก</h2>
+                                                </div>
+                                                <div class="filtermenu">
+                                                    <ul id="show_select_date"></ul>
+                                                    <ul id="show_keyword"></ul>
+                                                    <ul id="show_code"></ul>
+                                                    <ul id="show_select"></ul>
+                                                </div>
                                             </div>
-                                            <div class="space-y-1">
-                                                <ul id="show_select_date" class="flex flex-wrap gap-2"></ul>
-                                                <ul id="show_keyword" class="flex flex-wrap gap-2"></ul>
-                                                <ul id="show_code" class="flex flex-wrap gap-2"></ul>
-                                                <ul id="show_select" class="flex flex-wrap gap-2"></ul>
+                                            <div class="col-4 col-lg-3 text-end">
+                                                <a href="javascript:void(0)" onClick="clear_filter()" class="refreshde" >ล้างค่า</a>
                                             </div>
                                         </div>
-                                        <div class="space-y-6">
+                                    </div>
+                                    <div class="boxfilter mt-3">
                                             <div id="hide_date">
-                                                <h3 class="text-base font-semibold text-gray-700 mb-2">ช่วงวันเดินทาง</h3>
-                                                <div class="flex items-center gap-2 mb-2">
-                                                    <span class="inline-flex items-center px-2 py-1 bg-gray-100 rounded text-gray-500"><i class="bi bi-calendar"></i></span>
-                                                    <input type="text" class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200" name="daterange" id="hide_date_select" />
-                                                    <input type="hidden" name="start_date" id="s_date" />
-                                                    <input type="hidden" name="end_date" id="e_date" />
-                                                    <div class="flex-1 border border-gray-200 rounded-lg px-3 py-2 cursor-pointer bg-gray-50" id="show_date_calen" onClick="show_datepicker()"></div>
-                                                    <div class="flex-1 border border-gray-200 rounded-lg px-3 py-2 cursor-pointer bg-gray-50" id="show_end_calen" onClick="show_datepicker()"></div>
+                                                <div class="titletopic">
+                                                    <h2>ช่วงวันเดินทาง</h2>
+                                                </div>
+                                                <div class="col-lg-12"  style="margin-top:20px;">
+                                                    <div class="row">
+                                                        <div class="col-12 col-lg-12">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar"></i></span>
+                                                                <input type="text" class="form-control" name="daterange" id="hide_date_select" />
+                                                                <input type="hidden" name="start_date" id="s_date" />
+                                                                <input type="hidden" name="end_date" id="e_date" />
+                                                                <div class="form-control"   id="show_date_calen" onClick="show_datepicker()" ></div>
+                                                                <div class="form-control"  id="show_end_calen" onClick="show_datepicker()" ></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div id="hide_month">
-                                                <h3 class="text-base font-semibold text-gray-700 mb-2">ช่วงเดือน</h3>
-                                                <ul id="show_month" class="flex flex-col gap-y-2"></ul>
+                                                <div class="titletopic" id="month-topic">
+                                                    <h2>ช่วงเดือน</h2>
+                                                </div>
+                                                <div class="filtermenu">
+                                                    <ul id="show_month"></ul>
+                                                </div> 
                                             </div>
-                                            <div id="hide_holiday">
-                                                <h3 class="text-base font-semibold text-gray-700 mb-2">วันหยุด</h3>
-                                                <ul id="show_holiday" class="flex flex-col gap-y-2"></ul>
+                                            <div id="hide_holiday">  
+                                                <div class="titletopic" id="holiday-topic" >
+                                                    <h2>วันหยุด</h2>
+                                                </div>
+                                                <div class="filtermenu">
+                                                    <ul id="show_holiday"></ul>
+                                                </div>   
                                             </div>
-                                            <div id="country-topic" class="mb-2" hidden>
-                                                <h3 class="text-base font-semibold text-gray-700">ประเทศ</h3>
+                                            <div class="titletopic" id="country-topic" hidden>
+                                                <h2>ประเทศ</h2>
                                             </div>
-                                            <div class="mb-2" hidden>
-                                                <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-blue-200" placeholder="ค้นหาชื่อประเทศ" id="find_country" aria-label="air" onKeyUp="find_country()">
-                                                <ul id="show_country" class="grid grid-cols-2 gap-x-2 gap-y-2"></ul>
+                                            <div class="filtermenu" hidden>
+                                                <div class="input-group mb-3" id="country_input">
+                                                    <input type="text" class="form-control" placeholder="ค้นหาชื่อประเทศ"  id="find_country"  aria-label="air"
+                                                        aria-describedby="button-addon2" onKeyUp="find_country()">
+                                                </div>
+                                                <ul id="show_country"></ul>
+                                            </div>   
+                                            <div class="titletopic" id="city-topic">
+                                                <h2>เมือง</h2>
                                             </div>
-                                            <div id="city-topic" class="mb-2">
-                                                <h3 class="text-base font-semibold text-gray-700">เมือง</h3>
-                                            </div>
-
-                                            <div class="mb-2">
+                                            <div class="filtermenu">
                                                 @if($isWin || $isMac)
-                                                <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-blue-200" placeholder="ค้นหาชื่อเมือง" id="find_city" aria-label="air" onKeyUp="find_city()">
+                                                <div class="input-group mb-3" id="city_input">
+                                                    <input type="text" class="form-control" placeholder="ค้นหาชื่อเมือง"  id="find_city"  aria-label="air"
+                                                        aria-describedby="button-addon2" onKeyUp="find_city()">
+                                                </div>
                                                 @endif
-                                                <ul id="show_city" class="flex flex-col gap-y-2"></ul>
+                                                <ul id="show_city"></ul>
+                                            </div>   
+                                            <div class="titletopic" id="amupur-topic" hidden>
+                                                <h2>อำเภอ</h2>
                                             </div>
-
-                                            <div id="amupur-topic" class="mb-2" hidden>
-
-                                                <h3 class="text-base font-semibold text-gray-700">อำเภอ</h3>
-
+                                            <div class="filtermenu" hidden>
+                                                <ul id="show_amupur"></ul>
+                                            </div>   
+                                            <div class="titletopic" id="price-topic">
+                                                <h2>ช่วงราคา</h2>
                                             </div>
-
-                                            <div class="mb-2" hidden>
-                                                <ul id="show_amupur" class="grid grid-cols-2 gap-x-2 gap-y-2"></ul>
+                                            <div class="filtermenu">
+                                                <ul id="show_price"></ul>
+                                            </div>   
+                                            <div class="titletopic" id="day-topic">
+                                                <h2>เลือกจำนวนวัน</h2>
                                             </div>
-
-                                            <div id="price-topic" class="mb-2">
-                                                <h3 class="text-base font-semibold text-gray-700">ช่วงราคา</h3>
-                                                <ul id="show_price" class="flex flex-col gap-y-2"></ul>
+                                            <div class="filtermenu">
+                                                <ul id="show_day"></ul>
+                                            </div>   
+                                            <div class="titletopic" id="airline-topic">
+                                                <h2>สายการบิน</h2>
                                             </div>
-
-                                            <div id="day-topic" class="mb-2">
-                                                <h3 class="text-base font-semibold text-gray-700">เลือกจำนวนวัน</h3>
-                                                <ul id="show_day" class="flex flex-col gap-y-2"></ul>
-                                            </div>
-                                            <div id="airline-topic" class="mb-2">
-                                                <h3 class="text-base font-semibold text-gray-700">สายการบิน</h3>
+                                            <div class="filtermenu">
                                                 @if($isWin || $isMac)
-                                                <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-blue-200" placeholder="ค้นหาสายการบิน" id="find_airline" aria-label="air" onKeyUp="find_airline()">
+                                                <div class="input-group mb-3" id="airline_input">
+                                                    <input type="text" class="form-control" placeholder="ค้นหาสายการบิน"  id="find_airline"  aria-label="air"
+                                                        aria-describedby="button-addon2" onKeyUp="find_airline()">
+                                                </div>
                                                 @endif
-                                                <ul id="show_airline" class="flex flex-col gap-y-2"></ul>
+                                                <ul id="show_airline"></ul>
+                                            </div>   
+                                            <div class="titletopic" id="rating-topic">
+                                                <h2>ระดับดาวที่พัก</h2>
                                             </div>
-                                            <div id="rating-topic" class="mb-2">
-                                                <h3 class="text-base font-semibold text-gray-700">ระดับดาวที่พัก</h3>
-                                                <ul id="show_rating" class="flex flex-col gap-y-2"></ul>
-                                            </div>
-                                        </div>
-                                    </aside>
+                                            <div class="filtermenu">
+                                                <ul id="show_rating"></ul>
+                                            </div>  
+                                    </div> 
                                 </div>
                                 
                                 <div class="d-block d-sm-block d-md-block d-lg-none d-xl-none">

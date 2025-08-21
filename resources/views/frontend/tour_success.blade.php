@@ -57,7 +57,7 @@
                                 @endif
                                 <h1>{{$tour->name}} <br>
                                     {{$tour->num_day}} </h1>
-                                    <p>รหัสทัวร์ : <span class="bluetext">@if(@$tour->code1_check) {{@$tour->code1}} @else {{@$tour->code}} @endif</span> </p>
+                                    <p>รหัสทัวร์ : <span class="bluetext">@if(@$tour->code1_check) {{ substr(@$tour->code1, -6) }} @else {{ substr(@$tour->code, -6) }} @endif</span> </p>
                                 <p>วันที่ : <span class="bluetext">{{date('d',strtotime($book->start_date))}} {{$month[date('n',strtotime($book->start_date))]}} {{  date('y', strtotime('+543 Years', strtotime($book->start_date))) }} - {{date('d',strtotime($book->end_date))}} {{$month[date('n',strtotime($book->end_date))]}} {{  date('y', strtotime('+543 Years', strtotime($book->end_date))) }}</span> </p>
                             </div>
                         </div>

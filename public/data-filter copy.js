@@ -1,6 +1,7 @@
                
     // holiday_date = Array.from([holiday_date], (x) => x );
-        var menu_country = new Array();
+    window.ASSET_URL = "{{ env('ASSET_URL') }}";
+    var menu_country = new Array();
         var menu_price = new Array();
         var menu_airline = new Array();
         var menu_rating = new Array();
@@ -11,7 +12,7 @@
         var menu_amupur = new Array();
         var data_tour = new Array();
         var city_slide = new Array();
-        var inthai_id = inthai_id?inthai_id:0;
+        var oversea_id = oversea_id?oversea_id:0;
         var price_search = price_search?price_search:0;
         var country_search = country_search?country_search:0;
         var city_search = city_search?city_search:0;
@@ -47,7 +48,10 @@
             end_date:new Array(),
             travel_search:new Array(),
             tour_code:new Array(),
+            tag_search:new Array(),
         }
+        var tag_search = tag_search?tag_search:0;
+        var tag_name = tag_name?tag_name:0;
         var paginat_act = 1;
         var main_tour = new Array();
         var total_page = 0;
@@ -57,32 +61,90 @@
         var min_date = (new Date().getMonth()+1)+'/'+new Date().getDate()+'/'+new Date().getFullYear()*1;
         starter();
         $('#hide_date_select').hide();
-        $('#hide_date_select_mb').hide();
+        $('#hide_date_select_mb').hide(); 
+       
         async function starter(){
-            if(inthai_id){
-                tour = await tour.filter(x => x.province_id.includes('"'+inthai_id+'"'));
+            var tour_tag = tour;
+            if(oversea_id){
+                tour = await tour.filter(x => x.country_id.includes('"'+oversea_id+'"'));
                 var tour_fill = new Array();
                 for(let t in tour){
                     tour_fill.push(tour[t].id);
                 }
                 period = await period.filter(x=> tour_fill.includes(x.tour_id));
+            }
+            
+            if(city_search){
+                type_data.city.push(city_search);
+            }
+            if(travel_search.length){
+                type_data.travel_search = await travel_search;
+                if(isWin || isMac){
+                    document.getElementById('show_keyword').innerHTML = "<li onclick='DeletedKeyword()'><label class='check-container'>"+keyword_search+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }else if(isIPhone || isAndroid || isIPad){
+                    //mobile
+                    document.getElementById('show_keyword_mb').innerHTML = "<li onclick='DeletedKeyword()'><label class='check-container'>"+keyword_search+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                    document.getElementById('show_keyword_all').innerHTML = "<li onclick='DeletedKeyword()'><label class='check-container'>"+keyword_search+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }
+            }else if(tour_code.length){
+                type_data.tour_code = await tour_code;
+                if(isWin || isMac){
+                    document.getElementById('show_code').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }else if(isIPhone || isAndroid || isIPad){
+                    //mobile
+                    document.getElementById('show_code_mb').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                    document.getElementById('show_code_all').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }
+            }else if(code_id){
+                type_data.tour_code.push(code_id);
+                if(isWin || isMac){
+                    document.getElementById('show_code').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }else if(isIPhone || isAndroid || isIPad){
+                    //mobile
+                    document.getElementById('show_code_mb').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                    document.getElementById('show_code_all').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }
+            }
+            else if(keyword_search){
+                type_data.travel_search.push(keyword_search);
+                if(isWin || isMac){
+                    document.getElementById('show_keyword').innerHTML = "<li onclick='DeletedKeyword()'><label class='check-container'>"+keyword_search+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }else if(isIPhone || isAndroid || isIPad){
+                    //mobile
+                    document.getElementById('show_keyword_mb').innerHTML = "<li onclick='DeletedKeyword()'><label class='check-container'>"+keyword_search+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                    document.getElementById('show_keyword_all').innerHTML = "<li onclick='DeletedKeyword()'><label class='check-container'>"+keyword_search+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }
+            }else if(tag_search){
+                // tour_tag = await tour_tag.filter(x => x.tag_id.includes('"'+tag_search+'"'));
+                // var tour_fill = new Array();
+                // for(let t in tour_tag){
+                //     tour_fill.push(tour[t].id);
+                // }
+                // period = await period.filter(x=> tour_fill.includes(x.tour_id));
+                type_data.tag_search.push(tag_search);
+                if(isWin || isMac){
+                    document.getElementById('show_tag').innerHTML = "<li onclick='DeletedTag()'><label class='check-container'>"+tag_name+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }else if(isIPhone || isAndroid || isIPad){
+                    //mobile
+                    document.getElementById('show_tag_mb').innerHTML = "<li onclick='DeletedTag()'><label class='check-container'>"+tag_name+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                    document.getElementById('show_tag_all').innerHTML = "<li onclick='DeletedTag()'><label class='check-container'>"+tag_name+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                }
             }else{
-                data_tour = tour;
+                data_tour = await tour;
             }
             await show_tour(0);
             // await readMore();
             await SelectFilter();
             await menu_filter();
 
-            if(!inthai_id){
+            if(!oversea_id){
                 await show_country();
                 $('#city-topic').hide();
                 $('#amupur-topic').hide();
             }
-            if(inthai_id){
-                await show_amupur(true);
+            if(oversea_id){
+                await show_city(true);
                 $('#country-topic').hide();
-                $('#city-topic').hide();
             }
             await show_price();
             await show_airline();
@@ -93,8 +155,7 @@
             await date_picker();
             await filter_tour();
             
-            
-         }
+        }
          async function date_picker(){
                 if(start_search && end_search){
                     var check_after = new Date(start_search);
@@ -103,15 +164,16 @@
                     var searchE_show = check_befor.getDate()+'/'+month_number[check_befor.getMonth()]+'/'+(check_befor.getFullYear()*1+543);
                     if(isWin || isMac){
                         document.getElementById('show_select_date').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+searchS_show+" ถึง "+searchE_show+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
-                    }else if(isIPhone || isAndroid || isIPad){   
-                        //mobile
+                    }else if(isIPhone || isAndroid || isIPad){
+                         //mobile
                         document.getElementById('show_select_date_mb').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+searchS_show+" ถึง "+searchE_show+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";  
                         document.getElementById('show_select_date_all').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+searchS_show+" ถึง "+searchE_show+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";  
                     }
-                    type_data.start_date.push(start_search)
-                    type_data.end_date.push(end_search)
+                
+                    type_data.start_date.push(start_search);
+                    type_data.end_date.push(end_search);
                     count_pagin = 1;
-                    
+             
                 }else{
                     var check_after = new Date();
                     var check_befor = new Date(check_after.valueOf()+86400000);
@@ -127,6 +189,7 @@
                 var text_e_show = '';
                     text_e_show += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+end_show+"</span>";
                     text_e_show += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+end_day_show+"</span>";
+            
             if(isWin || isMac){
                 document.getElementById('show_date_calen').innerHTML = text_s_show;
                 document.getElementById('show_end_calen').innerHTML = text_e_show;
@@ -202,6 +265,7 @@
                     if(menu_city[count_city].length >= 10 && count_city == 0){
                         count_city++;
                     }
+                    city_slide.push(info);
                 }
             }
             //เมนูเมือง
@@ -222,13 +286,12 @@
                     if(menu_amupur[count_amupur].length >= 10 && count_amupur == 0){
                         count_amupur++;
                     }
-                    city_slide.push(info);
                 }
             }
             //เมนูอำเภอ
             //เมนูราคา
             for(let p in price){
-                var num = await tour.filter(x => x.price_group == p ).length;
+                var num = await tour.filter(x => x.price_group == p && x.price_group != 0).length;
                 if(num){
                     let info = {
                         id:p,
@@ -298,9 +361,9 @@
                     for(let m in month[year]){
                         var num = await period.filter(x => x.group_date ==  month[year][m]+year && x.count > 0 && x.status_period != 3);
                         var check = new Array();
+                        //console.log(num,'num menu_month ')
                         for(let n in num){
                             check.push(num[n].tour_id);
-                            
                         }
                         check = await check.filter((value, index, self) => {
                             return self.indexOf(value) === index;
@@ -343,8 +406,358 @@
                 
             //เมนูวันหยุด
         }
+       
         var country_act = 0;
         async function show_country(){
+            var data = menu_country[0];
+            var text = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container">'+data[y].name;
+                if(country_search == data[y].id*1){
+                    text = text+'<input type="checkbox" checked id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                    put_filter(data[y].id*1,`country`);
+                }else{
+                    text = text+'<input type="checkbox" id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                }
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+            }
+            var data = menu_country[1];
+            if(data){
+                text = text+"<div id='moreprd' class='collapse'>";
+                for(let y in data){
+                    text = text+'<li><label class="check-container">'+data[y].name;
+                    if(country_search == data[y].id*1){
+                        text = text+'<input type="checkbox" checked  id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                        put_filter(data[y].id*1,`country`);
+                    }else{
+                        text = text+'<input type="checkbox"  id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                    }
+                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                }
+                text = text+"</div>";
+                    if(data.length >= 1){
+                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreprd" class="seemore"> ดูเพิ่มเติม</a>';
+                    }
+            }
+            if(isWin || isMac){
+                document.getElementById('show_country').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_country_mb').innerHTML = await text;
+            }
+           
+            if(text == ''){
+                $('#country-topic').hide();
+                $('#country_input').hide();
+            }
+        }
+        async function show_city(x){
+            var data = menu_city[0];
+            var text = '';
+            var text_slide = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container">'+data[y].name;
+                if(city_search == data[y].id*1){
+                    text = text+'<input type="checkbox" checked id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                    put_filter(data[y].id*1,`city`);
+                }else{
+                    text = text+'<input type="checkbox" id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                }
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+            }
+            var data = menu_city[1];
+            if(data){
+                text = text+"<div id='morecity' class='collapse'>";
+                for(let y in data){
+                    text = text+'<li><label class="check-container">'+data[y].name;
+                    if(city_search == data[y].id*1){
+                        text = text+'<input type="checkbox" checked id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                        put_filter(data[y].id*1,`city`);
+                    }else{
+                        text = text+'<input type="checkbox"  id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                    }
+                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                }
+                text = text+"</div>";
+                    if(data.length >= 1){
+                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#morecity" class="seemore"> ดูเพิ่มเติม</a>';
+                    }
+            }
+            if(isWin || isMac){
+                document.getElementById('show_city').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_city_mb').innerHTML = await text;
+            }
+            if(text == ''){
+                $('#city-topic').hide();
+                $('#city_input').hide();
+            }
+            //ชื่อเมืองแสดงบนแบนเนอร์
+            for(let c in city_slide){
+                text_slide = text_slide+ '<div class="item" ><a href="javascript:void(0);" onclick="document.getElementById(`city'+city_slide[c].id+'`).click()" >';
+                text_slide = text_slide+ '<div class="catss">';
+                text_slide = text_slide+ 'ทัวร์'+city_slide[c].name;
+                text_slide = text_slide+ '</div></a></div>';
+            }
+            if(city_slide.length == 0){
+                $('#hide_slide').hide();
+            }
+            if(x){
+                document.getElementById('slide_country').innerHTML = await text_slide;
+            }
+         
+        }
+        async function show_amupur(){
+            var data = menu_amupur[0];
+            var text = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container">'+data[y].name;
+                text = text+'<input type="checkbox" id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+            }
+            var data = menu_amupur[1];
+            if(data){
+                text = text+"<div id='moreamupur' class='collapse'>";
+                for(let y in data){
+                    text = text+'<li><label class="check-container">'+data[y].name;
+                    text = text+'<input type="checkbox"  id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
+                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                }
+                text = text+"</div>";
+            
+                    if(data.length >= 1){
+                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreamupur" class="seemore"> ดูเพิ่มเติม</a>';
+                    }
+            }
+            if(isWin || isMac){
+                document.getElementById('show_amupur').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_amupur_mb').innerHTML = await text;
+            }
+            
+            if(text == ''){
+                $('#amupur-topic').hide();
+            }
+        }
+        async function show_price(){
+            var data = menu_price;
+            var text = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container">'+data[y].name;
+                if(price_search == data[y].id*1){
+                    text = text+'<input type="checkbox" checked id="price'+data[y].id+'" onclick="put_filter('+data[y].id+',`price`)" value="'+data[y].id+'">';
+                    put_filter(data[y].id*1,`price`);
+                }else{
+                    text = text+'<input type="checkbox" id="price'+data[y].id+'" onclick="put_filter('+data[y].id+',`price`)" value="'+data[y].id+'">';
+                }
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+               
+            }
+            if(isWin || isMac){
+                document.getElementById('show_price').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_price_mb').innerHTML = await text;
+            }
+            
+           
+            if(text == ''){
+                $('#price-topic').hide();
+            }
+           
+        }
+        async function show_airline(){
+            var data = menu_airline[0];
+            var text = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container">'
+                if(data[y].img){
+                    text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                }
+                text = text+' '+data[y].name;
+                text = text+'<input type="checkbox" id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+            }
+            var data = menu_airline[1];
+            if(data){
+                text = text+"<div id='moreairline' class='collapse'>";
+                for(let y in data){
+                    text = text+'<li><label class="check-container">';
+                    if(data[y].img){
+                        text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                    }
+                    text = text+' '+data[y].name;
+                    text = text+'<input type="checkbox"  id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
+                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                }
+                text = text+"</div>";
+                    if(data.length >= 1){
+                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreairline" class="seemore"> ดูเพิ่มเติม</a>';
+                    }   
+            }
+            if(isWin || isMac){
+                document.getElementById('show_airline').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_airline_mb').innerHTML = await text;
+            }
+           
+           
+            if(text == ''){
+                $('#airline-topic').hide();
+                $('#airline_input').hide();
+            }
+        }
+        async function show_rating(){
+            var data = menu_rating.sort((a, b) => a.name - b.name);
+            var text = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container"><div class="rating">';
+                if(data[y].name != 0){
+                    for(n=1;n<=data[y].name;n++){
+                        text = text+'<i class="bi bi-star-fill"></i>';
+                    }     
+                }else{
+                    text = text+'ไม่มีระดับดาวที่พัก';
+                }
+                text = text+'</div><input type="checkbox" id="rating'+data[y].name+'" onclick="put_filter('+data[y].name+',`rating`)" value="'+data[y].name+'">';
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+            }
+            if(isWin || isMac){
+                document.getElementById('show_rating').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_rating_mb').innerHTML = await text;
+            }
+            
+            if(text == ''){
+                $('#rating-topic').hide();
+            }
+        }
+        async function show_day(){
+            var data = menu_day;
+            var text = '';
+            for(let y in data){
+                text = text+'<li><label class="check-container">'+data[y].name+' วัน';
+                text = text+'<input type="checkbox" id="day'+data[y].name+'" onclick="put_filter('+data[y].name+',`day`)" value="'+data[y].name+'">';
+                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+            }
+
+            if(isWin || isMac){
+                document.getElementById('show_day').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_day_mb').innerHTML = await text;
+            }
+
+            if(text == ''){
+                $('#day-topic').hide();
+            }
+        }
+        async function show_month(){
+            var text = '';
+            var month = menu_month;
+            for(let year in month){
+                text = text+'<li>'+year+'</li>';
+                for(let m in month[year]){
+                    text = text+'<li><label class="check-container">'+month[year][m].name;
+                    text = text+'<input type="checkbox" id="month'+month[year][m].id+'" onclick="put_filter(`'+month[year][m].id+'`,`month`)" value="'+month[year][m].id+'">';
+                    text = text+'<span class="checkmark"></span><div class="count">('+month[year][m].num+')</div></label></li>';
+                }
+            }
+
+            if(isWin || isMac){
+                document.getElementById('show_month').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_month_mb').innerHTML = await text;
+            }
+           
+            
+            if(text == ''){
+                $('#month-topic').hide();
+            }
+        }
+        async function show_holiday(){
+            var text = '';
+            var data = menu_holiday;
+            for(let y in data){
+                    text = text+'<li><label class="check-container">'+data[y].name;
+                    text = text+'<input type="checkbox" id="holiday'+data[y].id+'" onclick="put_filter(`'+data[y].id+'`,`holiday`)" value="'+data[y].id+'">';
+                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                
+            }
+            if(isWin || isMac){
+                document.getElementById('show_holiday').innerHTML = await text;
+            }else if(isIPhone || isAndroid || isIPad){
+                document.getElementById('show_holiday_mb').innerHTML = await text;
+            }
+            if(text == ''){
+                $('#holiday-topic').hide();
+            }
+        }
+        //ค้นหาประเทศ
+        async function find_country(){
+            var keyword = document.getElementById('find_country').value;
+            var find_data = new Array();
+            var count_find = 0;
+            if(keyword){
+                var find_keyword = await country.filter(x=> x.country_name_th.indexOf(keyword) >= 0);
+                if(find_keyword.length){
+                    for(let f in find_keyword){
+                        var num = await tour.filter(x => x.country_id.includes('"'+find_keyword[f].id+'"')).length;
+                        if(num){
+                            let info = {
+                                id:find_keyword[f].id,
+                                name:find_keyword[f].country_name_th != ''?find_keyword[f].country_name_th:find_keyword[f].country_name_en,
+                                num:num,
+                            }
+                            if(!find_data[count_find]){
+                                find_data[count_find] = new Array();
+                            }
+                            find_data[count_find].push(info);
+                            if(find_data[count_find].length >= 10 && count_find == 0){
+                                count_find++;
+                            }
+                        }
+                    }
+                    var data = find_data[0];
+                    var text = '';
+                    for(let y in data){
+                        text = text+'<li><label class="check-container">'+data[y].name;
+                        if(country_search == data[y].id*1){
+                            text = text+'<input type="checkbox" checked id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                            put_filter(data[y].id*1,`country`);
+                        }else{
+                            text = text+'<input type="checkbox" id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                        }
+                        text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                    }
+                    var data = find_data[1];
+                    if(data){
+                        text = text+"<div id='moreprd' class='collapse'>";
+                        for(let y in data){
+                            text = text+'<li><label class="check-container">'+data[y].name;
+                            if(country_search == data[y].id*1){
+                                text = text+'<input type="checkbox" checked  id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                                put_filter(data[y].id*1,`country`);
+                            }else{
+                                text = text+'<input type="checkbox"  id="country'+data[y].id+'" onclick="put_filter('+data[y].id+',`country`)" value="'+data[y].id+'">';
+                            }
+                            text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
+                        }
+                        text = text+"</div>";
+                            if(data.length >= 1){
+                                text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreprd" class="seemore"> ดูเพิ่มเติม</a>';
+                            }
+                    }
+                    if(isWin || isMac){ 
+                        document.getElementById('show_country').innerHTML = await text;
+                    }else if(isIPhone || isAndroid || isIPad){
+                        document.getElementById('show_country_mb').innerHTML = await text;
+                    }
+                }else{
+                    if(isWin || isMac){ 
+                        document.getElementById('show_country').innerHTML = '<center><strong class="text-danger" >ไม่พบผลการค้นหา</strong></center>';
+                    }else if(isIPhone || isAndroid || isIPad){ 
+                        document.getElementById('show_country_mb').innerHTML = '<center><strong class="text-danger">ไม่พบผลการค้นหา</strong></center>';
+                    }
+                }
+            }else{
                 var data = menu_country[0];
                 var text = '';
                 for(let y in data){
@@ -371,261 +784,31 @@
                         text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
                     }
                     text = text+"</div>";
-                    
-                    if(data.length >= 1){
-                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreprd" class="seemore"> ดูเพิ่มเติม</a>';
-                    }
+                        if(data.length >= 1){
+                            text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreprd" class="seemore"> ดูเพิ่มเติม</a>';
+                        }
                 }
-
-                if(isWin || isMac){    
+                if(isWin || isMac){ 
                     document.getElementById('show_country').innerHTML = await text;
-                }else if(isIPhone || isAndroid || isIPad){
+                }else if(isIPhone || isAndroid || isIPad){  
                     document.getElementById('show_country_mb').innerHTML = await text;
                 }
-                if(text == ''){
-                    $('#country-topic').hide();
-                }
-        }
-        async function show_city(){
-            var data = menu_city[0];
-            var text = '';
-           
-            for(let y in data){
-                text = text+'<li><label class="check-container">'+data[y].name;
-                if(city_search == data[y].id*1){
-                    text = text+'<input type="checkbox" checked id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
-                    put_filter(data[y].id*1,`city`);
-                }else{
-                    text = text+'<input type="checkbox" id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
-                }
-                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-            }
-            var data = menu_city[1];
-            if(data){
-                text = text+"<div id='morecity' class='collapse'>";
-                for(let y in data){
-                    text = text+'<li><label class="check-container">'+data[y].name;
-                    if(city_search == data[y].id*1){
-                        text = text+'<input type="checkbox" checked id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
-                        put_filter(data[y].id*1,`city`);
-                    }else{
-                        text = text+'<input type="checkbox"  id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
-                    }
-                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-                }
-                text = text+"</div>";
-                if(data.length >= 1){
-                    text = text+'<a data-bs-toggle="collapse" data-bs-target="#morecity" class="seemore"> ดูเพิ่มเติม</a>';
-                }
-            }
-            if(isWin || isMac){  
-                document.getElementById('show_city').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_city_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#city-topic').hide();
             }
         }
-        async function show_amupur(x){
-           
-                var data = menu_amupur[0];
-                var text = '';
-                var text_slide = '';
-                for(let y in data){
-                    text = text+'<li><label class="check-container">'+data[y].name;
-                    text = text+'<input type="checkbox" id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
-                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-                }
-                var data = menu_amupur[1];
-                if(data){
-                    text = text+"<div id='moreamupur' class='collapse'>";
-                    for(let y in data){
-                        text = text+'<li><label class="check-container">'+data[y].name;
-                        text = text+'<input type="checkbox"  id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
-                        text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-                    }
-                    text = text+"</div>";
-                    if(data.length >= 1){
-                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreamupur" class="seemore"> ดูเพิ่มเติม</a>';
-                    }
-                }
-                if(isWin || isMac){  
-                    document.getElementById('show_amupur').innerHTML = await text;
-                }else if(isIPhone || isAndroid || isIPad){
-                    document.getElementById('show_amupur_mb').innerHTML = await text;
-                }
-                if(text == ''){
-                    $('#amupur-topic').hide();
-                    $('#amupur_input').hide();
-                }
-                 //ชื่อเมืองแสดงบนแบนเนอร์
-                for(let c in city_slide){
-                    text_slide = text_slide+ '<div class="item" ><a href="javascript:void(0);" onclick="document.getElementById(`amupur'+city_slide[c].id+'`).click()">';
-                    text_slide = text_slide+ '<div class="catss">';
-                    text_slide = text_slide+ 'ทัวร์'+city_slide[c].name;
-                    text_slide = text_slide+ '</div></a></div>';
-                }
-                if(city_slide.length == 0){
-                    $('#hide_slide').hide();
-                }
-                if(x){
-                    document.getElementById('slide_province').innerHTML = await text_slide;
-                }
-               
-              
-        }
-        async function show_price(){
-            var data = menu_price;
-            var text = '';
-            for(let y in data){
-                text = text+'<li><label class="check-container">'+data[y].name;
-                if(price_search == data[y].id*1){
-                    text = text+'<input type="checkbox" checked id="price'+data[y].id+'" onclick="put_filter('+data[y].id+',`price`)" value="'+data[y].id+'">';
-                    put_filter(data[y].id*1,`price`);
-                }else{
-                    text = text+'<input type="checkbox" id="price'+data[y].id+'" onclick="put_filter('+data[y].id+',`price`)" value="'+data[y].id+'">';
-                }
-                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-               
-            }
-            if(isWin || isMac){  
-                document.getElementById('show_price').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_price_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#price-topic').hide();
-            }
-        }
-        async function show_airline(){
-            var data = menu_airline[0];
-            var text = '';
-            for(let y in data){
-                text = text+'<li><label class="check-container">'+data[y].name;
-                text = text+'<input type="checkbox" id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
-                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-            }
-            var data = menu_airline[1];
-            if(data){
-                text = text+"<div id='moreairline' class='collapse'>";
-                for(let y in data){
-                    text = text+'<li><label class="check-container">';
-                    if(data[y].img){
-                        text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
-                    }
-                    text = text+' '+data[y].name;
-                    text = text+'<input type="checkbox"  id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
-                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-                }
-                text = text+"</div>";
-                    if(data.length >= 1){
-                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreairline" class="seemore"> ดูเพิ่มเติม</a>';
-                    }   
-            }
-            if(isWin || isMac){  
-                document.getElementById('show_airline').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_airline_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#airline-topic').hide();
-                $('#airline_input').hide();
-            }
-        }
-        async function show_rating(){
-            var data = menu_rating.sort((a, b) => a.name - b.name);
-            var text = '';
-            for(let y in data){
-                text = text+'<li><label class="check-container"><div class="rating">';
-                if(data[y].name != 0){
-                    for(n=1;n<=data[y].name;n++){
-                        text = text+'<i class="bi bi-star-fill"></i>';
-                    }     
-                }else{
-                    text = text+'ไม่มีระดับดาวที่พัก';
-                }
-                text = text+'</div><input type="checkbox" id="rating'+data[y].name+'" onclick="put_filter('+data[y].name+',`rating`)" value="'+data[y].name+'">';
-                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-            }
-            if(isWin || isMac){  
-                document.getElementById('show_rating').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_rating_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#rating-topic').hide();
-            }
-        }
-        async function show_day(){
-            var data = menu_day;
-            var text = '';
-            for(let y in data){
-                text = text+'<li><label class="check-container">'+data[y].name+' วัน';
-                text = text+'<input type="checkbox" id="day'+data[y].name+'" onclick="put_filter('+data[y].name+',`day`)" value="'+data[y].name+'">';
-                text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-            }
-            if(isWin || isMac){ 
-                document.getElementById('show_day').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_day_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#day-topic').hide();
-            }
-        }
-        async function show_month(){
-            var text = '';
-            var month = menu_month;
-            for(let year in month){
-                text = text+'<li>'+year+'</li>';
-                for(let m in month[year]){
-                    text = text+'<li><label class="check-container">'+month[year][m].name;
-                    text = text+'<input type="checkbox" id="month'+month[year][m].id+'" onclick="put_filter(`'+month[year][m].id+'`,`month`)" value="'+month[year][m].id+'">';
-                    text = text+'<span class="checkmark"></span><div class="count">('+month[year][m].num+')</div></label></li>';
-                }
-            }
-            if(isWin || isMac){ 
-                document.getElementById('show_month').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_month_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#month-topic').hide();
-            }
-        }
-        async function show_holiday(){
-            var text = '';
-            var data = menu_holiday;
-            for(let y in data){
-                    text = text+'<li><label class="check-container">'+data[y].name;
-                    text = text+'<input type="checkbox" id="holiday'+data[y].id+'" onclick="put_filter(`'+data[y].id+'`,`holiday`)" value="'+data[y].id+'">';
-                    text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
-                
-            }
-            if(isWin || isMac){ 
-                document.getElementById('show_holiday').innerHTML = await text;
-            }else if(isIPhone || isAndroid || isIPad){
-                document.getElementById('show_holiday_mb').innerHTML = await text;
-            }
-            if(text == ''){
-                $('#holiday-topic').hide();
-            }
-        }
-        //ค้นหาอำเภอ
-        async function find_amupur(){
-            var keyword = document.getElementById('find_amupur').value;
+         //ค้นหาเมือง
+        async function find_city(){
+            var keyword = document.getElementById('find_city').value;
             var find_data = new Array();
             var count_find = 0;
             if(keyword){
-                var find_keyword = await amupur.filter(x=> x.name_th.indexOf(keyword) >= 0);
+                var find_keyword = await city.filter(x=> x.city_name_th.indexOf(keyword) >= 0);
                 if(find_keyword.length){
                     for(let f in find_keyword){
-                        var num = await tour.filter(x => x.district_id.includes('"'+find_keyword[f].id+'"')).length;
+                        var num = await tour.filter(x => x.city_id.includes('"'+find_keyword[f].id+'"')).length;
                         if(num){
                             let info = {
                                 id:find_keyword[f].id,
-                                name:find_keyword[f].name_th != ''?find_keyword[f].name_th:find_keyword[f].name_en,
+                                name:find_keyword[f].city_name_th != ''?find_keyword[f].city_name_th:find_keyword[f].city_name_en,
                                 num:num,
                             }
                             if(!find_data[count_find]){
@@ -637,63 +820,84 @@
                             }
                         }
                     }
-                    var data = menu_amupur[0];
+                    var data = find_data[0];
                     var text = '';
                     for(let y in data){
                         text = text+'<li><label class="check-container">'+data[y].name;
-                        text = text+'<input type="checkbox" id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
+                        if(city_search == data[y].id*1){
+                            text = text+'<input type="checkbox" checked id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                            put_filter(data[y].id*1,`city`);
+                        }else{
+                            text = text+'<input type="checkbox" id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                        }
                         text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
                     }
-                    var data = menu_amupur[1];
+                    var data = find_data[1];
                     if(data){
-                        text = text+"<div id='moreamupur' class='collapse'>";
+                        text = text+"<div id='moreprd' class='collapse'>";
                         for(let y in data){
                             text = text+'<li><label class="check-container">'+data[y].name;
-                            text = text+'<input type="checkbox"  id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
+                            if(city_search == data[y].id*1){
+                                text = text+'<input type="checkbox" checked  id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                                put_filter(data[y].id*1,`city`);
+                            }else{
+                                text = text+'<input type="checkbox"  id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                            }
                             text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
                         }
                         text = text+"</div>";
-                        if(data.length >= 1){
-                            text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreamupur" class="seemore"> ดูเพิ่มเติม</a>';
-                        }
+                            if(data.length >= 1){
+                                text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreprd" class="seemore"> ดูเพิ่มเติม</a>';
+                            }
                     }
                     if(isWin || isMac){
-                        document.getElementById('show_amupur').innerHTML = await text;
+                        document.getElementById('show_city').innerHTML = await text;
                     }else if(isIPhone || isAndroid || isIPad){
-                        document.getElementById('show_amupur_mb').innerHTML = await text;
+                        document.getElementById('show_city_mb').innerHTML = await text;
                     }
                 }else{
                     if(isWin || isMac){
-                        document.getElementById('show_amupur').innerHTML = '<center><strong class="text-danger" >ไม่พบผลการค้นหา</strong></center>';
+                        document.getElementById('show_city').innerHTML = '<center><strong class="text-danger" >ไม่พบผลการค้นหา</strong></center>';
                     }else if(isIPhone || isAndroid || isIPad){
-                        document.getElementById('show_amupur').innerHTML = '<center><strong class="text-danger">ไม่พบผลการค้นหา</strong></center>';
+                        document.getElementById('show_city_mb').innerHTML = '<center><strong class="text-danger">ไม่พบผลการค้นหา</strong></center>';
+                
                     }
                 }
             }else{
-                var data = menu_amupur[0];
+                var data = menu_city[0];
                 var text = '';
                 for(let y in data){
                     text = text+'<li><label class="check-container">'+data[y].name;
-                    text = text+'<input type="checkbox" id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
+                    if(city_search == data[y].id*1){
+                        text = text+'<input type="checkbox" checked id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                        put_filter(data[y].id*1,`city`);
+                    }else{
+                        text = text+'<input type="checkbox" id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                    }
                     text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
                 }
-                var data = menu_amupur[1];
+                var data = menu_city[1];
                 if(data){
-                    text = text+"<div id='moreamupur' class='collapse'>";
+                    text = text+"<div id='moreprd' class='collapse'>";
                     for(let y in data){
                         text = text+'<li><label class="check-container">'+data[y].name;
-                        text = text+'<input type="checkbox"  id="amupur'+data[y].id+'" onclick="put_filter('+data[y].id+',`amupur`)" value="'+data[y].id+'">';
+                        if(city_search == data[y].id*1){
+                            text = text+'<input type="checkbox" checked  id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                            put_filter(data[y].id*1,`city`);
+                        }else{
+                            text = text+'<input type="checkbox"  id="city'+data[y].id+'" onclick="put_filter('+data[y].id+',`city`)" value="'+data[y].id+'">';
+                        }
                         text = text+'<span class="checkmark"></span><div class="count">('+data[y].num+')</div></label></li>';
                     }
                     text = text+"</div>";
-                    if(data.length >= 1){
-                        text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreamupur" class="seemore"> ดูเพิ่มเติม</a>';
-                    }
+                        if(data.length >= 1){
+                            text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreprd" class="seemore"> ดูเพิ่มเติม</a>';
+                        }
                 }
                 if(isWin || isMac){
-                    document.getElementById('show_amupur').innerHTML = await text;
+                    document.getElementById('show_city').innerHTML = await text;
                 }else if(isIPhone || isAndroid || isIPad){
-                    document.getElementById('show_amupur_mb').innerHTML = await text;
+                    document.getElementById('show_city_mb').innerHTML = await text;
                 }
             }
         }
@@ -751,17 +955,17 @@
                             text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreairline" class="seemore"> ดูเพิ่มเติม</a>';
                         }   
                     }
-                    if(isWin || isMac){
+                    if(isWin || isMac){ 
                         document.getElementById('show_airline').innerHTML = await text;
                     }else if(isIPhone || isAndroid || isIPad){
                         document.getElementById('show_airline_mb').innerHTML = await text;
                     }
                 }else{
-                    if(isWin || isMac){
+                    if(isWin || isMac){ 
                         document.getElementById('show_airline').innerHTML = '<center><strong class="text-danger" >ไม่พบผลการค้นหา</strong></center>';
                     }else if(isIPhone || isAndroid || isIPad){
                         document.getElementById('show_airline_mb').innerHTML = '<center><strong class="text-danger">ไม่พบผลการค้นหา</strong></center>';
-                    }
+                    }    
                 }
             }else{
                 var data = menu_airline[0];
@@ -792,7 +996,7 @@
                             text = text+'<a data-bs-toggle="collapse" data-bs-target="#moreairline" class="seemore"> ดูเพิ่มเติม</a>';
                         }   
                 }
-                if(isWin || isMac){
+                if(isWin || isMac){ 
                     document.getElementById('show_airline').innerHTML = await text;
                 }else if(isIPhone || isAndroid || isIPad){
                     document.getElementById('show_airline_mb').innerHTML = await text;
@@ -800,22 +1004,23 @@
             }
         }
         async function put_filter (id,type){
-         await check_date();
+          await check_date();
           if(type_data[type].includes(id)){
             var index = type_data[type].indexOf(id);
             type_data[type].splice(index,1);
             count_pagin = 1;
-          await  check_month(index);
-          await check_holiday(index);
+           await check_month(index);
+           await check_holiday(index);
           }else{
             type_data[type].push(id);
             count_pagin = 1;
           }  
-         
+        //   console.log(type_data,'type_data-check')
           await filter_tour();
         }
-       
+     
         async function filter_tour (){
+            // data_tour = new Array();
             data_tour = await tour;
             var count_tour = 0;
             var check_fill = true;
@@ -878,9 +1083,11 @@
             }
             // console.log(data_tour.length,'data_tour-check6')
             if(type_data.month.length){
+                // console.log(menu_month,'check menu_month',)
                 for(let i in type_data.month){
                     for(let m in menu_month){
                         let check = menu_month[m].find(x => x.id  ==  type_data.month[i]);
+                        // console.log(check,'check month')
                         if(check){
                             // let data = await tour.filter(x => check.tour.includes(x.id));
                             // data_tour = await data_tour.concat(data);
@@ -891,7 +1098,7 @@
                 } 
                 check_fill = false;
             }
-            // console.log(data_tour.length,'data_tour-check7')
+            // console.log(data_tour,'data_tour-check7')
             if(type_data.city.length){
                 for(let i in type_data.city){
                     //  let data = await tour.filter(x => x.city_id.includes('"'+type_data.city[i]+'"'));
@@ -915,9 +1122,9 @@
             if(type_data.start_date.length){
                 var check_tour = new Array();
                 if(start_search && end_search){
-                  var  pe = await period.filter(x=> x.check_start >= str_start && x.check_start <= str_end);
+                   var pe = await period.filter(x=> x.check_start >= str_start && x.check_start <= str_end);
                 }else{
-                  var  pe = await period.filter(x => new Date(x.start_date).valueOf() >= new Date(type_data.start_date).valueOf()  && new Date(x.start_date).valueOf() <=   new Date(type_data.end_date).valueOf());
+                   var pe = await period.filter(x => new Date(x.start_date).valueOf() >= new Date(type_data.start_date).valueOf()  && new Date(x.start_date).valueOf() <=   new Date(type_data.end_date).valueOf());
                 }
                 for(let p in pe){
                     check_tour.push(pe[p].tour_id);
@@ -947,6 +1154,12 @@
                     data_tour = await data_tour.filter(x => type_data.tour_code.includes(x.id));
                     check_fill = false;
                 }
+                console.log(type_data,'type_data11111',tour_code)
+                if(type_data.tag_search.length){
+                    data_tour = await data_tour.filter(x => x.tag_id.includes('"'+type_data.tag_search+'"'));
+                    // console.log(type_data.tag_search,'tag_search.length',data_tour)
+                    check_fill = false;
+                }
                 // else if(start_search && end_search){
                 //     var search_check = new Array();
                 //     var date_search = await period.filter(x=> x.check_start >= str_start && x.check_end <= str_end);
@@ -962,6 +1175,7 @@
                     data_tour = await tour;
                 }
             // }
+            // console.log(data_tour.length,'data_tour-check11')
             // หา Unique
             // data_tour = await data_tour.filter((value, index, self) => {
             //     return self.indexOf(value) === index;
@@ -995,7 +1209,7 @@
                         var period_data = await period.filter(x=> x.tour_id == data_tour[d].id  && x.count > 0 && x.status_period != 3);
                         var period_soldout = await period.filter(x=> x.tour_id == data_tour[d].id && x.count == 0 && x.status_period == 3);
                     }
-                    // let period_data = await period.filter(x=> x.tour_id == data_tour[d].id && x.count > 0 && x.status_period != 3);
+                    // let group_period = Object.groupBy(period_data, group => { return group.group_date; });
                     let group_period = new Array();
                     for(let p in period_data){
                         if(!group_period[period_data[p].group_date]){
@@ -1003,10 +1217,10 @@
                         }
                         group_period[period_data[p].group_date].push(period_data[p])
                     }
-                    let country_data = JSON.parse(data_tour[d].province_id);
+                    let country_data = JSON.parse(data_tour[d].country_id);
                     var country_fil = new Array();
                     for(let t in country_data){
-                        country_fil =  await province.filter(x => x.id == country_data[t]);
+                        country_fil =  await country.filter(x => x.id == country_data[t]);
                     }
                     let info = {
                         tour:data_tour[d],
@@ -1023,6 +1237,7 @@
                     }
                     
                 }
+                // console.log(main_tour,'show_tour')
                 document.getElementById('show_total').innerHTML = 'พบ '+data_tour.length+' รายการ';
                 total_page = count_tour;
                 await show_tour(0);
@@ -1032,15 +1247,13 @@
             
           }
           var count_pagin = 1;
+
           async function show_tour(x){
+           
             if(x == undefined){
                 count_pagin++;
             }
-
-            // $('#page'+paginat_act).removeClass('pagination-active');
-            // $('#page'+(x+1)).addClass('pagination-active');
-            // paginat_act = x;
-            // await count_paginate(paginat_act);
+           
             var tour_show = main_tour[count_pagin-1];
             if(tour_show && (typeof tour_show === 'string' || (typeof tour_show === 'object' && tour_show.length >= 15)) && main_tour.length > 1){
                 $('#btn-showmore').removeClass('d-none');
@@ -1048,21 +1261,28 @@
                 $('#btn-showmore').addClass('d-none');
             }
             var text = '';
+            
             var text_grid = '';
+            
+            // console.log(tour_show,'show',count_pagin,'count_pagin')
             for(let y in tour_show){
                 var order_period = Object.keys(tour_show[y].period).sort((a, b) => a - b);
+                // console.log(tour_show[y].period) 
+                // if(y == 0){
+                    //console.log(tour_show[y].tour,'data-pe')
+                // }
                 text +=            "<div class='boxwhiteshd'>";
                 text +=                "<div class='toursmainshowGroup  hoverstyle'>";
                 text +=                    "<div class='row'>";
                 text +=                        "<div class='col-lg-12 col-xl-3 pe-xl-0'>";
                 text +=                            "<div class='covertourimg'>";
                 text +=                                "<figure>";
-                text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'><img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour.image+"' alt=''></a>";
+                text +=                                    "<a href='https://nexttripholiday.com/tour/"+tour_show[y].tour.slug+"' target='_blank'><img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour.image+"' alt=''></a>";
                 text +=                                "</figure>";
                 text +=                                "<div class='d-block d-sm-block d-md-block d-lg-none d-xl-none'>";
-                text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' class='tagicbest'>";
+                text +=                                    "<a href='https://nexttripholiday.com//tour/"+tour_show[y].tour.slug+"' target='_blank' class='tagicbest'>";
                                                             if(tour_show[y].tour_type){
-                text +=                                          "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
+                text +=                                          "<img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
                                                             }
                 text +=                                     "</a>";
                 text +=                                "</div>";
@@ -1077,7 +1297,7 @@
                 text +=                                     "<div class='soldop'>";
                 text +=                                         "<span class='bigSold'>SOLD OUT </span> <br>";
                 text +=                                         "<span class='textsold'> ว้า! หมดแล้ว คุณตัดสินใจช้าไป</span> <br>";
-                text +=                                         "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' class='btn btn-second mt-3'><i class='fi fi-rr-search'></i> หาโปรแกรมทัวร์ใกล้เคียง</a>";
+                text +=                                         "<a href='https://nexttripholiday.com//tour/"+tour_show[y].tour.slug+"' target='_blank' class='btn btn-second mt-3'><i class='fi fi-rr-search'></i> หาโปรแกรมทัวร์ใกล้เคียง</a>";
                 text +=                                     "</div>";
                 text +=                                 "</div>";
                                                     }
@@ -1097,19 +1317,25 @@
                 text +=                         "</div>";
                 text +=                        "<div class='col-lg-12 col-xl-9'>";
                 text +=                            "<div class='codeandhotel Cropscroll mt-1'>";
-                                                       if(tour_show[y].country){
+                                                       if(tour_show[y].country.length){
                 text +=                                "<li class='bgwhite'><a href='/oversea/"+tour_show[y].country[0].slug+"'><i class='fi fi-rr-marker' style='color:#f15a22;'>";
                                                             for(let c in tour_show[y].country){
-                text +=                                         tour_show[y].country[c].name_th?tour_show[y].country[c].name_th:tour_show[y].country[c].name_en;
+                text +=                                         tour_show[y].country[c].country_name_th?tour_show[y].country[c].country_name_th:tour_show[y].country[c].country_name_en;
                                                             }
                 text +=                                 "</a></i>";
                                                         }
                   text += "<li>รหัสทัวร์ : <span class='bluetext'>";
-                    if (tour_show[y].tour.code1_check) {
-                        text += tour_show[y].tour.code1 ? tour_show[y].tour.code1.slice(-6) : '';
-                    } else {
-                        text += tour_show[y].tour.code ? tour_show[y].tour.code.slice(-6) : '';
-                    }
+                  let codeToShow = '';
+                  if (tour_show[y].tour.code1_check) {
+                      codeToShow = tour_show[y].tour.code1;
+                  } else {
+                      codeToShow = tour_show[y].tour.code;
+                  }
+                  // แสดง 6 ตัวสุดท้าย
+                  if (codeToShow && codeToShow.length > 6) {
+                      codeToShow = codeToShow.slice(-6);
+                  }
+                  text += codeToShow;
                   text += "</span>";
                   text += "</li>";
                 text +=                                "<li class='rating'>โรงแรม"; 
@@ -1318,10 +1544,10 @@
                         text_grid +=                                "</div>";
                         text_grid +=                            "</div>";
                         text_grid +=                        "</td>";
-                                                            if(tour_show[y].country){
+                                                            if(tour_show[y].country.length){
                         text_grid +=                        "<td><a href='/oversea/"+tour_show[y].country[0].slug+"' target='_blank'>";
                                                                 for(let c in tour_show[y].country){
-                        text_grid +=                                   tour_show[y].country[c].name_th?tour_show[y].country[c].name_th:tour_show[y].country[c].name_en;
+                        text_grid +=                                   tour_show[y].country[c].country_name_th?tour_show[y].country[c].country_name_th:tour_show[y].country[c].country_name_en;
                                                                 }
                         text_grid +=                        "</a> </td>";
                                                             }
@@ -1379,8 +1605,7 @@
                     }
                 // grid view   
             }
-            // document.getElementById('show_tour').innerHTML = text;
-            // document.getElementById('show_grid').innerHTML = text_grid;
+
             if(x != undefined){
                 document.getElementById('show_tour').innerHTML = text;
                 document.getElementById('show_grid').innerHTML = text_grid;
@@ -1388,9 +1613,9 @@
                 $('#show_tour').append(text);
                 $('#show_grid').append(text_grid);
             }
-          
             await readMore();
-      
+            // document.getElementById('show_tour').innerHTML = text;
+            // document.getElementById('show_grid').innerHTML = text_grid;
         }
         // ฟิลเตอร์ที่เลือก
         async function SelectFilter(){
@@ -1416,7 +1641,7 @@
                         let day = holiday.find(z=>z.id == type_data[x][y]*1);
                         text += "<li onclick='document.getElementById(`"+x+type_data[x][y]+"`).click()'><label class='check-container'>"+day.name+"  <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";      
                     }
-                   await check_holiday(type_data[x]);
+                  await check_holiday(type_data[x]);
                 }
                 if(x == 'country'){
                     for(let y in type_data[x]){
@@ -1451,7 +1676,11 @@
                     for(let y in type_data[x]){
                         let city_data = city.find(z=>z.id == type_data[x][y]);
                         let name = city_data.city_name_th != ''?city_data.city_name_th:city_data.city_name_en;;
-                        text += "<li onclick='document.getElementById(`"+x+type_data[x][y]+"`).click()'><label class='check-container'>"+name+"  <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";      
+                        if(city_search){
+                            text += "<li onclick='DeletedCity()'><label class='check-container'>"+name+"  <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";      
+                        }else{
+                            text += "<li onclick='document.getElementById(`"+x+type_data[x][y]+"`).click()'><label class='check-container'>"+name+"  <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";      
+                        }
                     }
                 }
                 if(x == 'amupur'){
@@ -1576,7 +1805,7 @@
                  if(!main_tour[count_tour]){
                      main_tour[count_tour] = new Array();
                  }
-                 if(type_data.start_date.length){
+                if(type_data.start_date.length){
                     var period_data = await period.filter(x=> x.tour_id == data_tour[d].id  && x.count > 0 && x.status_period != 3 && new Date(x.start_date).valueOf() >= new Date(type_data.start_date).valueOf()  && new Date(x.start_date).valueOf() <=   new Date(type_data.end_date).valueOf());
                     var period_soldout = await period.filter(x=> x.tour_id == data_tour[d].id && x.count == 0 && x.status_period == 3 && new Date(x.start_date).valueOf() >= new Date(type_data.start_date).valueOf()  && new Date(x.start_date).valueOf() <=   new Date(type_data.end_date).valueOf());
                 }else{
@@ -1822,190 +2051,230 @@
             await SelectFilter();
        
     }
+   async function DeletedKeyword(){
+        document.getElementById('show_keyword').innerHTML = '';
+        document.getElementById('show_keyword_mb').innerHTML = '';
+        document.getElementById('show_keyword_all').innerHTML = '';
+        type_data.travel_search = new Array();
+        travel_search = 0;
+        keyword_search = 0;
+        count_pagin = 1;
+        await filter_tour();
+    }
+   async function DeletedCode(){
+        document.getElementById('show_code').innerHTML = '';
+        //mobile
+        document.getElementById('show_code_mb').innerHTML = '';
+        document.getElementById('show_code_all').innerHTML = '';
+        type_data.tour_code = new Array();
+        tour_code = 0;
+        code_id = 0;
+        count_pagin = 1;
+        await filter_tour();
+    }
+    async function DeletedCity(){
+        type_data.city = new Array();
+        city_search = 0;
+        count_pagin = 1;
+        await filter_tour();
+    }
+    async function DeletedTag(){
+        document.getElementById('show_tag').innerHTML = '';
+        document.getElementById('show_tag_mb').innerHTML = '';
+        document.getElementById('show_tag_all').innerHTML = '';
+        type_data.tag_search = new Array();
+        tag_search = 0;
+        tag_name = 0;
+        count_pagin = 1;
+        // console.log(type_data.tag_search,'DeletedTag')
+        await filter_tour();
+        //window.location.replace(('search-tour'));
+    }
     // Datepicker
-
-    $(function() {
-        $('input[name="daterange"]').daterangepicker({
-            opens: 'left',
-            minDate: min_date,
-        }, function(start, end, label) {
-            document.getElementById('s_date').value = start.format('YYYY-MM-DD');
-            document.getElementById('e_date').value = end.format('YYYY-MM-DD');
-            document.getElementById('s_date_mb').value = start.format('YYYY-MM-DD');
-            document.getElementById('e_date_mb').value = end.format('YYYY-MM-DD');
-            
-             var start_value = start.format('YYYY-MM-DD');
-             var end_value = end.format('YYYY-MM-DD');
-             if(start && end){
+    
+   $(function() {
+       $('input[name="daterange"]').daterangepicker({
+           opens: 'left',
+           minDate: min_date,
+       }, function(start, end, label) {
+           document.getElementById('s_date').value = start.format('YYYY-MM-DD');
+           document.getElementById('e_date').value = end.format('YYYY-MM-DD');
+           document.getElementById('s_date_mb').value = start.format('YYYY-MM-DD');
+           document.getElementById('e_date_mb').value = end.format('YYYY-MM-DD');
+           
+            var start_value = start.format('YYYY-MM-DD');
+            var end_value = end.format('YYYY-MM-DD');
+            if(start && end){
                 type_data.start_date = new Array();
                 type_data.end_date = new Array();
-                 type_data.start_date.push(start_value)
-                 type_data.end_date.push(end_value)
-                 count_pagin = 1;
-                 filter_tour();
-                 check_date();
+                type_data.start_date.push(start_value)
+                type_data.end_date.push(end_value)
+                count_pagin = 1;
+                filter_tour();
+                check_date();
+           }
+           let y = new Date(start);
+           let x = new Date(end);
+           let s_show = y.getDate()+'  '+months[y.getMonth()]+'  '+(y.getFullYear()*1+543);
+           let e_show = x.getDate()+'  '+months[x.getMonth()]+'  '+(x.getFullYear()*1+543);
+           var s_select = y.getDate()+'/'+month_number[y.getMonth()]+'/'+(y.getFullYear()*1+543);
+           let e_select = x.getDate()+'/'+month_number[x.getMonth()]+'/'+(x.getFullYear()*1+543);
+           let s_day = days[y.getDay()];
+           let e_day = days[x.getDay()];
+
+           var text_start = '';
+               text_start += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+s_show+"</span>";
+               text_start += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+s_day+"</span>";
+           var text_end = '';
+               text_end += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+e_show+"</span>";
+               text_end += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+e_day+"</span>";
+
+            if(isWin || isMac){
+                document.getElementById('show_select_date').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+s_select+" ถึง "+e_select+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
+                document.getElementById('show_date_calen').innerHTML = text_start;
+                document.getElementById('show_end_calen').innerHTML = text_end;
+            }else if(isAndroid || isIPhone || isIPad){
+                //mobile
+                document.getElementById('show_select_date_mb').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+s_select+" ถึง "+e_select+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";  
+                document.getElementById('show_select_date_all').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+s_select+" ถึง "+e_select+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";  
+                document.getElementById('show_date_calen_mb').innerHTML = text_start;
+                document.getElementById('show_end_calen_mb').innerHTML = text_end;
             }
-            let y = new Date(start);
-            let x = new Date(end);
-            let s_show = y.getDate()+'  '+months[y.getMonth()]+'  '+(y.getFullYear()*1+543);
-            let e_show = x.getDate()+'  '+months[x.getMonth()]+'  '+(x.getFullYear()*1+543);
-            var s_select = y.getDate()+'/'+month_number[y.getMonth()]+'/'+(y.getFullYear()*1+543);
-            let e_select = x.getDate()+'/'+month_number[x.getMonth()]+'/'+(x.getFullYear()*1+543);
-            let s_day = days[y.getDay()];
-            let e_day = days[x.getDay()];
- 
-            var text_start = '';
-                text_start += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+s_show+"</span>";
-                text_start += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+s_day+"</span>";
-            var text_end = '';
-                text_end += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+e_show+"</span>";
-                text_end += "<span style='font-size:0.8rem;padding:3px 2px;display:block;'>"+e_day+"</span>";
- 
-             if(isWin || isMac){
-                 document.getElementById('show_select_date').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+s_select+" ถึง "+e_select+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
-                 document.getElementById('show_date_calen').innerHTML = text_start;
-                 document.getElementById('show_end_calen').innerHTML = text_end;
-             }else if(isAndroid || isIPhone || isIPad){
-                 //mobile
-                 document.getElementById('show_select_date_mb').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+s_select+" ถึง "+e_select+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";  
-                 document.getElementById('show_select_date_all').innerHTML = "<li onclick='DeletedDate()'><label class='check-container'>"+s_select+" ถึง "+e_select+"<i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";  
-                 document.getElementById('show_date_calen_mb').innerHTML = text_start;
-                 document.getElementById('show_end_calen_mb').innerHTML = text_end;
-             }
-            $('#show_date_calen').show();
-            $('#show_end_calen').show();
-            $('#hide_date_select').hide();
-            //mobile
-            $('#show_date_calen_mb').show();
-            $('#show_end_calen_mb').show();
-            $('#hide_date_select_mb').hide();
-        });
-        $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
-            document.getElementById('s_date').value = null;
-            document.getElementById('e_date').value = null;
-            document.getElementById('show_select_date').innerHTML = '';
-            //mobile
-            document.getElementById('s_date_mb').value = null;
-            document.getElementById('e_date_mb').value = null;
-            document.getElementById('show_select_date_mb').innerHTML = '';
-            document.getElementById('show_select_date_all').innerHTML = '';
+           $('#show_date_calen').show();
+           $('#show_end_calen').show();
+           $('#hide_date_select').hide();
+           //mobile
+           $('#show_date_calen_mb').show();
+           $('#show_end_calen_mb').show();
+           $('#hide_date_select_mb').hide();
+       });
+       $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+           document.getElementById('s_date').value = null;
+           document.getElementById('e_date').value = null;
+           document.getElementById('show_select_date').innerHTML = '';
+           //mobile
+           document.getElementById('s_date_mb').value = null;
+           document.getElementById('e_date_mb').value = null;
+           document.getElementById('show_select_date_mb').innerHTML = '';
+           document.getElementById('show_select_date_all').innerHTML = '';
+          
+           let y = new Date();
+           let x = new Date(y.valueOf()+86400000);
            
-            let y = new Date();
-            let x = new Date(y.valueOf()+86400000);
-            
-            let s_show = y.getDate()+'  '+months[y.getMonth()]+'  '+(y.getFullYear()*1+543);
-            let e_show = x.getDate()+'  '+months[x.getMonth()]+'  '+(x.getFullYear()*1+543);
-            let s_day = days[y.getDay()];
-            let e_day = days[x.getDay()];
-            var dateS_now = (month_number[y.getMonth()])+'/'+y.getDate()+'/'+y.getFullYear()*1;
-            var dateE_now = (month_number[x.getMonth()])+'/'+x.getDate()+'/'+x.getFullYear()*1;
-            
-            var text_start1 = '';
-                text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_show+"</span>";
-                text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_day+"</span>";
-            var text_end2 = '';
-                text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_show+"</span>";
-                text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_day+"</span>";
- 
-                if(isWin || isMac){
-                     document.getElementById('show_date_calen').innerHTML = text_start1;
-                     document.getElementById('show_end_calen').innerHTML = text_end2;
-                     document.getElementById('hide_date_select').value = dateS_now+" - "+dateE_now;
-                }else if(isAndroid || isIPhone || isIPad){
-                     document.getElementById('show_date_calen_mb').innerHTML = text_start1;
-                     document.getElementById('show_end_calen_mb').innerHTML = text_end2;
-                     document.getElementById('hide_date_select_mb').value = dateS_now+" - "+dateE_now;
-                }
- 
-            $('#show_date_calen').show();
-            $('#show_end_calen').show();
-            $('#hide_date_select').hide();
-             //mobile
-            $('#show_date_calen_mb').show();
-            $('#show_end_calen_mb').show();
-            $('#hide_date_select_mb').hide();
- 
-            //ลบค่า tour
-            var index_start = type_data['start_date'].indexOf(0);
-            type_data['start_date'].splice(index_start,1);
-            var index_end = type_data['end_date'].indexOf(0);
-            type_data['end_date'].splice(index_end,1);
-            count_pagin = 1;
-            filter_tour();
- 
-        });
-        $('input[name="daterange"]').on('hide.daterangepicker', function(ev, picker) {
-            $('#show_date_calen').show();
-            $('#show_end_calen').show();
-            $('#hide_date_select').hide();
-             //mobile
-            $('#show_date_calen_mb').show();
-            $('#show_end_calen_mb').show();
-            $('#hide_date_select_mb').hide();
- 
-        });
-    });
-    async  function show_datepicker() {
+           let s_show = y.getDate()+'  '+months[y.getMonth()]+'  '+(y.getFullYear()*1+543);
+           let e_show = x.getDate()+'  '+months[x.getMonth()]+'  '+(x.getFullYear()*1+543);
+           let s_day = days[y.getDay()];
+           let e_day = days[x.getDay()];
+           var dateS_now = (month_number[y.getMonth()])+'/'+y.getDate()+'/'+y.getFullYear()*1;
+           var dateE_now = (month_number[x.getMonth()])+'/'+x.getDate()+'/'+x.getFullYear()*1;
+           
+           var text_start1 = '';
+               text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_show+"</span>";
+               text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_day+"</span>";
+           var text_end2 = '';
+               text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_show+"</span>";
+               text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_day+"</span>";
+
+               if(isWin || isMac){
+                    document.getElementById('show_date_calen').innerHTML = text_start1;
+                    document.getElementById('show_end_calen').innerHTML = text_end2;
+                    document.getElementById('hide_date_select').value = dateS_now+" - "+dateE_now;
+               }else if(isAndroid || isIPhone || isIPad){
+                    document.getElementById('show_date_calen_mb').innerHTML = text_start1;
+                    document.getElementById('show_end_calen_mb').innerHTML = text_end2;
+                    document.getElementById('hide_date_select_mb').value = dateS_now+" - "+dateE_now;
+               }
+
+           $('#show_date_calen').show();
+           $('#show_end_calen').show();
+           $('#hide_date_select').hide();
+            //mobile
+           $('#show_date_calen_mb').show();
+           $('#show_end_calen_mb').show();
+           $('#hide_date_select_mb').hide();
+
+           //ลบค่า tour
+           var index_start = type_data['start_date'].indexOf(0);
+           type_data['start_date'].splice(index_start,1);
+           var index_end = type_data['end_date'].indexOf(0);
+           type_data['end_date'].splice(index_end,1);
+           count_pagin = 1;
+           filter_tour();
+
+       });
+       $('input[name="daterange"]').on('hide.daterangepicker', function(ev, picker) {
+           $('#show_date_calen').show();
+           $('#show_end_calen').show();
+           $('#hide_date_select').hide();
+            //mobile
+           $('#show_date_calen_mb').show();
+           $('#show_end_calen_mb').show();
+           $('#hide_date_select_mb').hide();
+
+       });
+   });
+   async function show_datepicker() {
        $('#show_date_calen').hide();
        $('#show_end_calen').hide();
        $('#hide_date_select').show();
        document.getElementById("hide_date_select").click();
    }
-    async function show_datepicker_mb() {
+   async function show_datepicker_mb() {
         $('#show_date_calen_mb').hide();
         $('#show_end_calen_mb').hide();
         $('#hide_date_select_mb').show();
         document.getElementById("hide_date_select_mb").click();
     }
-    async function DeletedDate(){
-        document.getElementById('show_select_date').innerHTML = '';
-        //mobile
-        document.getElementById('show_select_date_mb').innerHTML = '';
-        document.getElementById('show_select_date_all').innerHTML = '';
-        document.getElementById('s_date').value = null;
-        document.getElementById('e_date').value = null;
-        document.getElementById('s_date_mb').value = null;
-        document.getElementById('e_date_mb').value = null;
-       let y = new Date();
-       let x = new Date(y.valueOf()+86400000);
-       var dateS_now = (month_number[y.getMonth()])+'/'+y.getDate()+'/'+y.getFullYear()*1;
-       var dateE_now = (month_number[x.getMonth()])+'/'+x.getDate()+'/'+x.getFullYear()*1;
-       let s_show = y.getDate()+'  '+months[y.getMonth()]+'  '+(y.getFullYear()*1+543);
-       let e_show = x.getDate()+'  '+months[x.getMonth()]+'  '+(x.getFullYear()*1+543);
-       let s_day = days[y.getDay()];
-       let e_day = days[x.getDay()];
-       
-       var text_start1 = '';
-           text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_show+"</span>";
-           text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_day+"</span>";
-       var text_end2 = '';
-           text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_show+"</span>";
-           text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_day+"</span>";
-       
+  async function DeletedDate(){
+            document.getElementById('show_select_date').innerHTML = '';
+            //mobile
+            document.getElementById('show_select_date_mb').innerHTML = '';
+            document.getElementById('show_select_date_all').innerHTML = '';
+            document.getElementById('s_date').value = null;
+            document.getElementById('e_date').value = null;
+            document.getElementById('s_date_mb').value = null;
+            document.getElementById('e_date_mb').value = null;
+           let y = new Date();
+           let x = new Date(y.valueOf()+86400000);
+           var dateS_now = (month_number[y.getMonth()])+'/'+y.getDate()+'/'+y.getFullYear()*1;
+           var dateE_now = (month_number[x.getMonth()])+'/'+x.getDate()+'/'+x.getFullYear()*1;
+           let s_show = y.getDate()+'  '+months[y.getMonth()]+'  '+(y.getFullYear()*1+543);
+           let e_show = x.getDate()+'  '+months[x.getMonth()]+'  '+(x.getFullYear()*1+543);
+           let s_day = days[y.getDay()];
+           let e_day = days[x.getDay()];
+           
+           var text_start1 = '';
+               text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_show+"</span>";
+               text_start1 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+s_day+"</span>";
+           var text_end2 = '';
+               text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_show+"</span>";
+               text_end2 += "<span style='font-size:0.8rem;padding:3px 2px;display:block;color:gray;'>"+e_day+"</span>";
+           
 
-        if(isWin || isMac){
-            document.getElementById('hide_date_select').value = dateS_now+' - '+dateE_now;
-            document.getElementById('show_date_calen').innerHTML = text_start1;
-            document.getElementById('show_end_calen').innerHTML = text_end2;
-        }else if(isAndroid || isIPhone || isIPad){
-            document.getElementById('hide_date_select_mb').value = dateS_now+' - '+dateE_now;
-            document.getElementById('show_date_calen_mb').innerHTML = text_start1;
-            document.getElementById('show_end_calen_mb').innerHTML = text_end2;
-        }
+            if(isWin || isMac){
+                document.getElementById('hide_date_select').value = dateS_now+' - '+dateE_now;
+                document.getElementById('show_date_calen').innerHTML = text_start1;
+                document.getElementById('show_end_calen').innerHTML = text_end2;
+            }else if(isAndroid || isIPhone || isIPad){
+                document.getElementById('hide_date_select_mb').value = dateS_now+' - '+dateE_now;
+                document.getElementById('show_date_calen_mb').innerHTML = text_start1;
+                document.getElementById('show_end_calen_mb').innerHTML = text_end2;
+            }
 
-        // ลบค่าtour
-        var index_start = type_data['start_date'].indexOf(0);
-        type_data['start_date'].splice(index_start,1);
-        var index_end = type_data['end_date'].indexOf(0);
-        type_data['end_date'].splice(index_end,1);
+            // ลบค่าtour
+            var index_start = type_data['start_date'].indexOf(0);
+            type_data['start_date'].splice(index_start,1);
+            var index_end = type_data['end_date'].indexOf(0);
+            type_data['end_date'].splice(index_end,1);
 
-        //ลบค่าวันที่ค้นหา
-        start_search = 0;
-        end_search = 0;
-        count_pagin = 1;
-        await filter_tour();
-        await check_date();
-    }
+            //ลบค่าวันที่ค้นหา
+            start_search = 0;
+            end_search = 0;
+            count_pagin = 1;
+
+            await filter_tour();
+            await check_date();
+   }
     async function check_date(){
         // console.log(type_data['start_date'],'check_date')
         if(type_data['start_date'].length){
@@ -2048,7 +2317,7 @@
             $('#hide_month_mb').show();
         }
     }
-check_date();
+
 async function clear_filter(){
     type_data = {
         country: new Array(),
@@ -2064,6 +2333,7 @@ async function clear_filter(){
         end_date:new Array(),
         travel_search:new Array(),
         tour_code:new Array(),
+        tag_search:new Array(),
     }
     travel_search = 0;
     keyword_search = 0;
@@ -2075,6 +2345,8 @@ async function clear_filter(){
     country_search = 0;
     city_search = 0;
     count_pagin = 1;
+    tag_search = 0;
+    tag_name = 0;
     //keyword
     document.getElementById('show_keyword').innerHTML = '';
     document.getElementById('show_keyword_mb').innerHTML = '';
@@ -2100,18 +2372,18 @@ async function clear_filter(){
     }else if(isAndroid || isIPhone || isIPad){
         document.getElementById('hide_date_select_mb').value = dateS_now+' - '+dateE_now;
     }
+
     await check_date();
     await check_month(type_data.month);
     await check_holiday(type_data.holiday);
-    if(!inthai_id){
+    if(!oversea_id){
         await show_country();
         $('#city-topic').hide();
         $('#amupur-topic').hide();
     }
-    if(inthai_id){
-        await show_amupur(false);
+    if(oversea_id){
+        await show_city(false);
         $('#country-topic').hide();
-        $('#city-topic').hide();
     }
     await show_price();
     await show_airline();
@@ -2122,6 +2394,7 @@ async function clear_filter(){
     await date_picker();
     await filter_tour();
 }
+check_date();   
 async function readMore(){
     var $readMore = "ดูช่วงเวลาเพิ่มเติม ";
     var $readLess = "ย่อข้อความ";

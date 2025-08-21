@@ -175,7 +175,7 @@
                                             </div> --}}
                                             <div class="contenttourshw">
                                                 <div class="codeandhotel">
-                                                    <li>รหัสทัวร์ : <span class="bluetext">@if(@$tn->code1_check) {{@$tn->code1}} @else {{@$tn->code}} @endif</span> </li>
+                                                    <li>รหัสทัวร์ : <span class="bluetext">@if(@$tn->code1_check)  {{ substr(@$tn->code1, -6) }} @else {{ substr(@$tn->code, -6) }}  @endif</span> </li>
                                                     <li class="rating">โรงแรม 
                                                         @for($i=1; $i <= @$tn->rating; $i++)
                                                             <i class="bi bi-star-fill"></i>
@@ -254,7 +254,7 @@
                         @endphp
                         <div class="listinlinedetails">
                             <li><span class="textonssd">ราคาเริ่มต้น </span> <br> {{ number_format($price,0) }}</li>
-                            <li><span class="textonssd">รหัสทัวร์ </span> <br> @if(@$data->code1_check) {{@$data->code1}} @else {{@$data->code}} @endif</li>
+                            <li><span class="textonssd">รหัสทัวร์ </span> <br> @if(@$data->code1_check) {{ substr(@$data->code1, -6) }} @else {{ substr(@$data->code, -6) }} @endif</li>
                             <li><span class="textonssd">ระยะเวลา </span> <br> {{ @$data->num_day }}</li>
                             {{-- <li> <a href="#"><img src="{{asset('frontend/images/logo_air.svg')}}" class="img-fluid" alt=""></a></li> --}}
                             <li><span class="textonssd">สายการบิน </span> <br> <a href="javascript:void(0);"><img src="{{asset(@$airline->image)}}" class="img-fluid" alt=""></a></li>
@@ -313,7 +313,7 @@
                                         รหัสทัวร์
                                     </div>
                                     <div class="col-lg-5">
-                                        @if(@$data->code1_check) {{@$data->code1}} @else {{@$data->code}} @endif
+                                        @if(@$data->code1_check) {{ substr(@$data->code1, -6) }} @else {{ substr(@$data->code, -6) }} @endif
                                     </div>
                                     <div class="w-100"></div>
                                     <div class="col-lg-7">
@@ -1049,7 +1049,7 @@
                                     </div> --}}
                                     <div class="contenttourshw">
                                         <div class="codeandhotel">
-                                            <li>รหัสทัวร์ : <span class="bluetext">@if(@$tn->code1_check) {{@$tn->code1}} @else {{@$tn->code}} @endif</span> </li>
+                                            <li>รหัสทัวร์ : <span class="bluetext">@if(@$tn->code1_check) {{ substr(@$tn->code1, -6) }} @else {{ substr(@$tn->code, -6) }} @endif</span> </li>
                                             <li class="rating">โรงแรม 
                                                 @for($i=1; $i <= @$tn->rating; $i++)
                                                     <i class="bi bi-star-fill"></i>
@@ -1130,7 +1130,7 @@
                                     <div class="col-7 ps-2">
                                         <div class="contenttourshw">
                                             <div class="codeandhotel">
-                                                <li>รหัสทัวร์ : <span class="bluetext">@if(@$tn->code1_check) {{@$tn->code1}} @else {{@$tn->code}} @endif</span>
+                                                <li>รหัสทัวร์ : <span class="bluetext">@if(@$tn->code1_check) {{ substr(@$tn->code1, -6) }} @else {{ substr(@$tn->code, -6) }} @endif</span>
                                                 </li>
                                             </div>
                                             <hr>
@@ -1215,7 +1215,7 @@
                                     </div> --}}
                                     <div class="contenttourshw">
                                         <div class="codeandhotel">
-                                            <li>รหัสทัวร์ : <span class="bluetext">@if(@$tr->code1_check) {{@$tr->code1}} @else {{@$tr->code}} @endif</span> </li>
+                                            <li>รหัสทัวร์ : <span class="bluetext">@if(@$tr->code1_check) {{ substr(@$tr->code1, -6) }} @else {{ substr(@$tr->code, -6) }} @endif</span> </li>
                                             <li class="rating">โรงแรม 
                                                 @for($i=1; $i <= @$tr->rating; $i++)
                                                     <i class="bi bi-star-fill"></i>
@@ -1298,7 +1298,7 @@
                                     <div class="col-7 ps-2">
                                         <div class="contenttourshw">
                                             <div class="codeandhotel">
-                                                <li>รหัสทัวร์ : <span class="bluetext">@if(@$tr->code1_check) {{@$tr->code1}} @else {{@$tr->code}} @endif</span>
+                                                <li>รหัสทัวร์ : <span class="bluetext">@if(@$tr->code1_check) {{ substr(@$tr->code1, -6) }} @else {{ substr(@$tr->code, -6) }} @endif</span>
                                                 </li>
                                             </div>
                                             <hr>

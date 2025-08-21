@@ -44,7 +44,7 @@
                                 @endif
                                 <h1>{{ @$data->name }} <br>
                                     {{ @$data->num_day }} </h1>
-                                <p>รหัสทัวร์ : <span class="bluetext">@if(@$data->code1_check) {{@$data->code1}} @else {{@$data->code}} @endif</span> </p>
+                                <p>รหัสทัวร์ : <span class="bluetext">@if(@$data->code1_check){{ substr(@$data->code1, -6) }} @else {{ substr(@$data->code, -6) }} @endif</span> </p>
                             </div>
                         </div>
                     </div>
