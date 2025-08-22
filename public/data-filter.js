@@ -1264,208 +1264,273 @@
             
             var text_grid = '';
             
-           // console.log(tour_show,'show',count_pagin,'count_pagin')
-for(let y in tour_show){
-    var order_period = Object.keys(tour_show[y].period).sort((a, b) => a - b);
-    
-    // Begin Card Container
-    text += `<div class='tour-card-container'>`;
-
-
-    // Tour Image Section
-    text += `<div class='tour-card-image-section'>`;
-    text += `<a href='https://nexttripholiday.com/tour/${tour_show[y].tour.slug}' target='_blank' class='tour-image-link'>`;
-    text += `<img src='https://nexttrip.b-cdn.net/${tour_show[y].tour.image}' alt='${tour_show[y].tour.name}' class='tour-image'>`;
-    text += `</a>`;
-
-    // Tags and Special Price
-    if(tour_show[y].tour_type){
-        text += `<a href='javascript:void(0);' onclick='OrderByType(${tour_show[y].tour_type.id})' class='tour-type-tag d-none d-lg-block'>`;
-        text += `<img src='https://nexttrip.b-cdn.net/${tour_show[y].tour_type.image}' alt='${tour_show[y].tour_type.name}' class='img-fluid'>`;
-        text += `</a>`;
-    }
-    // if(tour_show[y].tour.special_price > 0){
-    //     var total_price = tour_show[y].tour.price - tour_show[y].tour.special_price;
-    //     text += `<div class='tour-special-price-tag'>`;
-    //     text += `<span>ลดราคาพิเศษ</span><br>`;
-    //     text += `<b>${Intl.NumberFormat('th-TH',{currency:'THB'}).format(total_price)} บาท</b> `;
-    //     text += `</div>`;
-    // } else {
-    //     text += `<div class='tour-price-tag'>`;
-    //     text += `<b>${Intl.NumberFormat('th-TH',{currency:'THB'}).format(tour_show[y].tour.price)} บาท</b>`;
-    //     text += `</div>`;
-    // }
-
-    // Wishlist Button
-    text += `<button class='wishlist-btn' data-tour-id='${tour_show[y].tour.id}' onclick='likedTour(${tour_show[y].tour.id})'><i class='bi bi-heart-fill'></i></button>`;
-
-    // Sold Out Overlay
-    if(Object.keys(tour_show[y].period).length === 0){
-        text += `<div class='tour-sold-out-overlay'>`;
-        text += `<span class='big-text'>SOLD OUT</span>`;
-        text += `<a href='https://nexttripholiday.com/tour/${tour_show[y].tour.slug}' target='_blank' class='btn-search-nearby'>หาโปรแกรมทัวร์ใกล้เคียง</a>`;
-        text += `</div>`;
-    }
-    text += `</div>`; // end tour-card-image-section
-
-
-
-    // Tour Details Section
-text += `<div class='tour-card-details-section'>`;
-text += `<h3 class='tour-title'><a href='/tour/${tour_show[y].tour.slug}' target='_blank'>${tour_show[y].tour.name}</a></h3>`;
-text += `<ul class='tour-info-list'>`;
-
-// ประเทศ
-if(tour_show[y].country.length){
-  text += `<li><i class='fi fi-rr-marker tour-icon'></i> `;
-  for(let c in tour_show[y].country){
-    text += (tour_show[y].country[c].country_name_th || tour_show[y].country[c].country_name_en);
-  }
-  text += `</li>`;
-}
-
-// รหัสทัวร์ (6 ตัวท้าย)
-let codeToShow = tour_show[y].tour.code1_check ? tour_show[y].tour.code1 : tour_show[y].tour.code;
-if (codeToShow && codeToShow.length > 6) codeToShow = codeToShow.slice(-6);
-text += `<li><i class='bi bi-code-square tour-icon'></i> รหัสทัวร์ : <b>${codeToShow}</b></li>`;
-
-// ── เพิ่มรายการคงที่: แพ็กเกจต่างประเทศ ญี่ปุ่น เกาหลี ไต้หวัน
-text += `<li><i class='fi fi-rr-globe tour-icon'></i> แพ็กเกจทัวร์ต่างประเทศ • ญี่ปุ่น • เกาหลี • ไต้หวัน</li>`;
-
-// โรงแรม (ดาว)
-text += `<li class='detail-inline'>`;
-text += `<span><i class='fi fi-rr-hotel tour-icon'></i> โรงแรม: `;
-
-if(tour_show[y].tour.rating > 0){
-  text += `<span class="hotel-stars">`;
-  for(let i=1; i<=tour_show[y].tour.rating; i++){
-    text += `<i class="bi bi-star-fill text-warning"></i>`;
-  }
-  text += `</span>`;
-}else{
-  text += `-`; // ไม่มี rating
-}
-
-text += `</span>`;
-text += `<span class='dot-sep'></span>`;
-
-// สายการบิน (โลโก้ถ้ามี)
-let airlineLogo = '-';
-if(tour_show[y].airline && tour_show[y].airline.image){
-  airlineLogo = `<img src="https://nexttrip.b-cdn.net/${tour_show[y].airline.image}" 
-                  alt="airline" class="airline-logo">`;
-}
-text += `<span><i class='fi fi-rr-plane tour-icon'></i> สายการบิน: ${airlineLogo}</span>`;
-text += `</li>`;
-
-
-
-// ระยะเวลา (ถ้าไม่มีในข้อมูลจะ fallback เป็น 6 วัน 5 คืน)
-const durationTxt = tour_show[y].tour.num_day ? tour_show[y].tour.num_day : (tour_show[y].tour.duration || '6 วัน 5 คืน');
-text += `<li><i class='fi fi-rr-time-forward tour-icon'></i> ระยะเวลา: <b>${durationTxt}</b></li>`;
-
-// ไฮไลต์ชิป: เที่ยว • ช้อป • กิน • พิเศษ • พัก (แสดงก็ต่อเมื่อมีข้อความ)
-text += `<div class='feature-chips'>`;
-if(tour_show[y].tour.travel){  
-  text += `<span class='chip mb-4' title="${tour_show[y].tour.travel}"><i class='bi bi-camera-fill'></i> เที่ยว</span>`; 
-}
-if(tour_show[y].tour.shop){    
-  text += `<span class='chip mb-4' title="${tour_show[y].tour.shop}"><i class='bi bi-bag-fill'></i> ช้อป</span>`; 
-}
-if(tour_show[y].tour.eat){     
-  text += `<span class='chip mb-4' title="${tour_show[y].tour.eat}"><i class='bi bi-cup-hot-fill'></i> กิน</span>`; 
-}
-if(tour_show[y].tour.special){ 
-  text += `<span class='chip mb-4' title="${tour_show[y].tour.special}"><i class='bi bi-bookmark-heart-fill'></i> พิเศษ</span>`; 
-}
-if(tour_show[y].tour.stay){    
-  text += `<span class='chip mb-4' title="${tour_show[y].tour.stay}"><i class='bi bi-buildings-fill'></i> พัก</span>`; 
-}
-text += `</div>`;
-
-
-
-// คำอธิบายสั้น (เดิม)
-if(tour_show[y].tour.description){
-  text += `<div class='tour-description-block'><span><i class='fi fi-rr-tags tour-icon'></i></span> ${tour_show[y].tour.description}</div>`;
-}
-
-
-text += `</ul>`;
-
-
-
-text += `</div>`; // end details
-// ===== Period Section (FULL WIDTH under image+details) =====
-
-// ===== Period Section (FULL WIDTH under image+details) =====
-if (Object.keys(tour_show[y].period).length > 0) {
-
-  const monthsCount = order_period.length;         // = จำนวน "แถว" เดือน
-  const showRows = 2;                              // ต้องการแสดงเริ่มต้น 2 แถว
-
-  text += `<div class='tour-period-section'>`;
-  text += `<h4 class='period-header'>ช่วงเวลาเดินทาง</h4>`;
-
-  const boxId = `period-${tour_show[y].tour.id}`;
-  text += `<div class="period-collapsible" id="${boxId}" data-collapsed-rows="${showRows}">`;
-
-  // เนื้อหาช่วงเวลา (ทั้งหมด)
-  text += `<div class='period-rows'>`;
-  for (let gp in order_period) {
-    const month_datas = order_period[gp].split('202');
-    const monthLabel = month_period[Number(month_datas[0])];
-
-    text += `<div class='period-row'>`;
-    text +=   `<div class='month-badge'>${monthLabel}</div>`;
-    text +=   `<div class='date-list'>`;
-
-    for (let pd in tour_show[y].period[order_period[gp]]) {
-      const it = tour_show[y].period[order_period[gp]][pd];
-      const d1 = new Date(it.start_date);
-      const d2 = new Date(it.end_date);
-      const price = it.special_price1 > 0 ? (it.price1 - it.special_price1) : it.price1;
-
-      text += `<div class='date-chip'>
-                 <div class='chip-price'>${Intl.NumberFormat('th-TH',{currency:'THB'}).format(price)}฿</div>
-                 <div class='chip-date'>${d1.getDate()} - ${d2.getDate()}</div>
-               </div>`;
-    }
-
-    text +=   `</div>`; // .date-list
-    text += `</div>`;   // .period-row
-  }
-  text += `</div>`;     // .period-rows
-  text += `</div>`;     // .period-collapsible
-
-  // ปุ่มจะแสดงเมื่อมีมากกว่า 2 แถว
-  if (monthsCount > showRows) {
-    text += `<div class="period-toggle-row">
-      <button type="button" class="period-toggle-btn" data-target="${boxId}">
-        <span class="label">ดูช่วงเวลาทั้งหมด</span> <i class="bi bi-chevron-down"></i>
-      </button>
-    </div>`;
-  }
-
-  text += `</div>`; // .tour-period-section
-}
-
-
-
-
-
-text += `<div class="tour-card-footer">`;
-text +=   `<div class="footer-price">เริ่ม <b>${Intl.NumberFormat('th-TH',{currency:'THB'}).format(tour_show[y].tour.price)}</b> บาท</div>`;
-text +=   `<a href='/tour/${tour_show[y].tour.slug}' target='_blank' class='btn-details'>ดูรายละเอียด</a>`;
-text += `</div>`;
-text += `</div>`;
-
-
-
-
-
-    
-
+            // console.log(tour_show,'show',count_pagin,'count_pagin')
+            for(let y in tour_show){
+                var order_period = Object.keys(tour_show[y].period).sort((a, b) => a - b);
+                // console.log(tour_show[y].period) 
+                // if(y == 0){
+                    //console.log(tour_show[y].tour,'data-pe')
+                // }
+                text +=            "<div class='boxwhiteshd '>";
+                text +=                "<div class='toursmainshowGroup  hoverstyle'>";
+                text +=                    "<div class='row'>";
+                text +=                        "<div class='col-lg-12 col-xl-3 pe-xl-0'>";
+                text +=                            "<div class='covertourimg'>";
+                text +=                                "<figure>";
+                text +=                                    "<a href='https://nexttripholiday.com/tour/"+tour_show[y].tour.slug+"' target='_blank'><img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour.image+"' alt=''></a>";
+                text +=                                "</figure>";
+                text +=                                "<div class='d-block d-sm-block d-md-block d-lg-none d-xl-none'>";
+                text +=                                    "<a href='https://nexttripholiday.com//tour/"+tour_show[y].tour.slug+"' target='_blank' class='tagicbest'>";
+                                                            if(tour_show[y].tour_type){
+                text +=                                          "<img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
+                                                            }
+                text +=                                     "</a>";
+                text +=                                "</div>";
+                                                    if(tour_show[y].tour.special_price > 0){
+                text +=                                 "<div class='saleonpicbox'>";
+                text +=                                    "<span> ลดราคาพิเศษ</span> <br>";
+                text +=                                    Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.special_price)+" บาท";  
+                text +=                                 "</div>";
+                                                    }
+                                                    if(Object.keys(tour_show[y].period).length === 0){
+                text +=                                 "<div class='soldfilter'>";
+                text +=                                     "<div class='soldop'>";
+                text +=                                         "<span class='bigSold'>SOLD OUT </span> <br>";
+                text +=                                         "<span class='textsold'> ว้า! หมดแล้ว คุณตัดสินใจช้าไป</span> <br>";
+                text +=                                         "<a href='https://nexttripholiday.com//tour/"+tour_show[y].tour.slug+"' target='_blank' class='btn btn-second mt-3'><i class='fi fi-rr-search'></i> หาโปรแกรมทัวร์ใกล้เคียง</a>";
+                text +=                                     "</div>";
+                text +=                                 "</div>";
+                                                    }
+                text +=                             "<div class='priceonpic'>";
+                                                    if(tour_show[y].tour.special_price > 0){
+                                                        var total_price = tour_show[y].tour.price - tour_show[y].tour.special_price ;
+                text +=                                    "<span class='originalprice'>ปกติ "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" </span><br>";
+                text +=                                    "เริ่ม<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(total_price)+" บาท</span>";
+                                                    }else{
+                text +=                                    "<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" บาท</span>";
+                                                    }
+                text +=                             "</div>";
+                text +=                             "<div class='addwishlist'>";
+                text +=                                  "<a href='javascript:void(0);' class='wishlist' data-tour-id='"+tour_show[y].tour.id+"'><i class='bi bi-heart-fill' id='likeButton' onclick='likedTour("+tour_show[y].tour.id+")'></i></a>";
+                text +=                             "</div>";
+                text +=                           "</div>";
+                text +=                         "</div>";
+                text +=                        "<div class='col-lg-12 col-xl-9'>";
+                text +=                            "<div class='codeandhotel Cropscroll mt-1'>";
+                                                       if(tour_show[y].country.length){
+                text +=                                "<li class='bgwhite'><a href='/oversea/"+tour_show[y].country[0].slug+"'><i class='fi fi-rr-marker' style='color:#f15a22;'>";
+                                                            for(let c in tour_show[y].country){
+                text +=                                         tour_show[y].country[c].country_name_th?tour_show[y].country[c].country_name_th:tour_show[y].country[c].country_name_en;
+                                                            }
+                text +=                                 "</a></i>";
+                                                        }
+                  text += "<li class='code'> &nbsp;รหัสทัวร์ : <span class='bluetext py-2'> &nbsp;";
+                  let codeToShow = '';
+                  if (tour_show[y].tour.code1_check) {
+                      codeToShow = tour_show[y].tour.code1;
+                  } else {
+                      codeToShow = tour_show[y].tour.code;
+                  }
+                  // แสดง 6 ตัวสุดท้าย
+                  if (codeToShow && codeToShow.length > 6) {
+                      codeToShow = codeToShow.slice(-6);
+                  }
+                  text += codeToShow;
+                  text += "</span>";
+                  text += "</li>";
+                text +=                                "<li class='rating py-2'>  &nbsp;&nbsp;โรงแรม &nbsp;"; 
+                                                         if(tour_show[y].tour.rating > 0){
+                text +=                                         "<a href='javascript:void(0);' onclick='document.getElementById(`rating"+tour_show[y].tour.rating+"`).click()'>";
+                                                                for($i=1; $i <= tour_show[y].tour.rating; $i++){
+                text +=                                             "<i class='bi bi-star-fill'></i>";
+                                                                }
+                text +=                                         "</a>";
+                                                        }else{
+                text +=                                         "<a href='javascript:void(0);' onclick='document.getElementById(`rating0`).click()'></a>";
+                                                        }  
+                text +=                                "</li>";
+                                                        if(tour_show[y].airline){
+                text +=                                  "<li>  &nbsp;&nbsp;สายการบิน &nbsp; <a href='javascript:void(0);' onclick='document.getElementById(`airline"+tour_show[y].airline.id+"`).click()' >";
+                                                            if(tour_show[y].airline.image){
+                text +=                                        "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].airline.image+"' alt=''></a></li>";
+                                                            }                                      
+                text +=                                  "</li>";
+                                                        }
+                text +=                                "<li>";
+                text +=                                    "<div  class='d-none d-sm-none d-md-none d-lg-block d-xl-block'>";
+                                                            if(tour_show[y].tour_type){
+                text +=                                         "<a href='javascript:void(0);' class='tagicbest' onclick='OrderByType("+tour_show[y].tour_type.id+")'><img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''></a>";
+                                                            }
+                text +=                                    " &nbsp;</div>";
+                text +=                                "</li>";
+                                                        if(Object.keys(tour_show[y].period).length > 0){
+                                                                for(let dp in tour_show[y].period){
+                                                                    var day_num = tour_show[y].period[dp][0].day;
+                                                                }
+                text +=                                 "<li class='bgor'> &nbsp;ระยะเวลา <a href='javascript:void(0);' onclick='document.getElementById(`day"+day_num+"`).click()'>"+tour_show[y].tour.num_day+"</a></li>";
+                                                        }
+                text +=                           "  &nbsp;</div>";
+                text +=                            "<div class='nameTop'>";
+                text +=                                "<h3> <a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' >"+tour_show[y].tour.name+"</a></h3>";
+                text +=                            "</div>";
+                text +=                            "<div class='pricegroup text-end'>";
+                                                    if(tour_show[y].tour.special_price > 0){
+                                                        var total_price = tour_show[y].tour.price - tour_show[y].tour.special_price; 
+                text +=                                     "<span class='originalprice'>ปกติ "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" </span><br>";
+                text +=                                     "เริ่ม<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(total_price)+" บาท</span>";
+                                                    }else{
+                text +=                                     "<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" บาท</span>";
+                                                    }   
+                text +=                            "</div>";
+                                                    if(tour_show[y].tour.description){
+                text +=                                 "<div class='highlighttag'>";
+                text +=                                     "<span><i class='fi fi-rr-tags'></i> </span>"+tour_show[y].tour.description;
+                text +=                                 "</div>";
+                                                    }
+                                    var count_hilight = 0;
+                                    if(tour_show[y].tour.travel){ count_hilight++; }
+                                    if(tour_show[y].tour.shop){ count_hilight++; }
+                                    if(tour_show[y].tour.eat){  count_hilight++; }
+                                    if(tour_show[y].tour.special){ count_hilight++; }
+                                    if(tour_show[y].tour.stay){  count_hilight++; }
+                                    
+                text +=                         "<div class='hilight mt-2'>";
+                text +=                              "<div class='readMore'>";
+                text +=                                   "<div class='readMoreWrapper'>";
+                text +=                                       "<div class='readMoreText2'>";
+                                                                if(tour_show[y].tour.travel){
+                text +=                                             "<li>";
+                text +=                                                 "<div class='iconle'><span><i class='bi bi-camera-fill'></i></span></div>";
+                text +=                                                 "<div class='topiccenter'><b>เที่ยว</b></div>";
+                text +=                                                 "<div class='details'>"+tour_show[y].tour.travel+"</div>";
+                text +=                                             "</li>";
+                                                                }
+                                                                if(tour_show[y].tour.shop){
+                text +=                                            "<li>";
+                text +=                                                "<div class='iconle'><span><i  class='bi bi-bag-fill'></i></span></div>";
+                text +=                                                "<div class='topiccenter'><b>ช้อป </b></div>";
+                text +=                                                "<div class='details'> "+tour_show[y].tour.shop+"</div>";
+                text +=                                            "</li>";
+                                                                }
+                                                                if(tour_show[y].tour.eat){
+                text +=                                            "<li>";
+                text +=                                                "<div class='iconle'><span><svg  xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='currentColor' class='bi bi-cup-hot-fill' viewBox='0 0 16 16'>";
+                text +=                                                            "<path fill-rule='evenodd' d='M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6H.5ZM13 12.5a2.01 2.01 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5Z' />";
+                text +=                                                            "<path  d='m4.4.8-.003.004-.014.019a4.167 4.167 0 0 0-.204.31 2.327 2.327 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.593.593 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3.31 3.31 0 0 1-.202.388 5.444 5.444 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4.149 4.149 0 0 0 .204-.31 2.06 2.06 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.593.593 0 0 0-.09-.252A4.334 4.334 0 0 0 3.6 2.8l-.01-.012a5.099 5.099 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a5.446 5.446 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8Zm3 0-.003.004-.014.019a4.167 4.167 0 0 0-.204.31 2.327 2.327 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.593.593 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3.31 3.31 0 0 1-.202.388 5.444 5.444 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4.149 4.149 0 0 0 .204-.31 2.06 2.06 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.593.593 0 0 0-.09-.252A4.334 4.334 0 0 0 6.6 2.8l-.01-.012a5.099 5.099 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a5.446 5.446 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8Zm3 0-.003.004-.014.019a4.077 4.077 0 0 0-.204.31 2.337 2.337 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.593.593 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3.198 3.198 0 0 1-.202.388 5.385 5.385 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4.149 4.149 0 0 0 .204-.31 2.06 2.06 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.593.593 0 0 0-.09-.252A4.334 4.334 0 0 0 9.6 2.8l-.01-.012a5.099 5.099 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a5.446 5.446 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8Z' />";
+                text +=                                                        "</svg></span> </div>";
+                text +=                                                "<div class='topiccenter'><b>กิน </b></div>";
+                text +=                                                 "<div class='details'>"+tour_show[y].tour.eat+"</div>";
+                text +=                                            "</li>";
+                                                                }
+                                                                if(tour_show[y].tour.special){
+                text +=                                            "<li>";
+                text +=                                                "<div class='iconle'><span><i  class='bi bi-bookmark-heart-fill'></i></span> </div>";
+                text +=                                                "<div class='topiccenter'><b>พิเศษ </b></div>";
+                text +=                                                "<div class='details'> "+tour_show[y].tour.special+"</div>";
+                text +=                                            "</li>";
+                                                                }
+                                                                if(tour_show[y].tour.stay){
+                text +=                                            "<li>";
+                text +=                                                "<div class='iconle'><span><svg  xmlns='http://www.w3.org/2000/svg'  width='22' height='22'   fill='currentColor' class='bi bi-buildings-fill' viewBox='0 0 16 16'>";
+                text +=                                                            "<path d='M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z' />";
+                text +=                                                        "</svg></span> </div>";
+                text +=                                                "<div class='topiccenter'><b>พัก </b></div>";
+                text +=                                                "<div class='details'>"+tour_show[y].tour.stay+"</div>";
+                text +=                                            "</li>";
+                                                                }
+                text +=                                        "</div>";
+                text +=                                        "<div class='readMoreGradient'></div>";
+                text +=                                    "</div>";
+                                                            if(count_hilight > 0){
+                text +=                                    "<a class='readMoreBtn2'></a>";
+                text +=                                    "<span class='readLessBtnText' style='display: none;'>Read Less</span>";
+                text +=                                    "<span class='readMoreBtnText'  style='display: none;'>Read More </span>";
+                                                            }
+                text +=                                "</div>";
+                text +=                            "</div>";
+                text +=                        "</div>";
+                text +=                    "</div>";
+                                 
+                                    if(Object.keys(tour_show[y].period).length > 0){
+                text +=                    "<div class='periodtime'>";
+                text +=                        "<div class='readMore'>";
+                text +=                            "<div class='readMoreWrapper'>";
+                text +=                                "<div class='readMoreText'>";
+                text +=                                    "<div class='listperiod_moredetails'>";
+                                                            for(let gp in order_period){
+                                                                var month_datas = order_period[gp].split('202');
+                text +=                                        "<div class='tagmonth'>";
+                text +=                                            "<span class='month'>"+month_period[Number(month_datas[0])]+"</span>";
+                text +=                                       "</div>";
+                text +=                                       "<div class='splgroup'>";
+                                                                    for(pd in tour_show[y].period[order_period[gp]]){
+                                                                        var date_start = new Date(tour_show[y].period[order_period[gp]][pd].start_date);
+                                                                        var date_end = new Date(tour_show[y].period[order_period[gp]][pd].end_date);
+                text +=                                                 "<li>";
+                                                                            if(tour_show[y].period[order_period[gp]][pd].period_date > 0 && tour_show[y].period[order_period[gp]][pd].count > 10){
+                text +=                                                         "<a  data-tooltip='"+tour_show[y].period[order_period[gp]][pd].period_date+" วัน' class='staydate'>"+tour_show[y].period[order_period[gp]][pd].count_holiday+"</a>";
+                                                                            } 
+                                                                            if(tour_show[y].period[order_period[gp]][pd].count <= 10){
+                text +=                                                          "<span class='fulltext'>*</span>";
+                                                                            }
+                                                                            if(tour_show[y].period[order_period[gp]][pd].period_date == 0 && tour_show[y].period[order_period[gp]][pd].count > 10){
+                                                                                if(tour_show[y].period[order_period[gp]][pd].special_price1 > 0){
+                                                                                    var check_price = tour_show[y].period[order_period[gp]][pd].price1 - tour_show[y].period[order_period[gp]][pd].special_price1;
+                                                                                }else{
+                                                                                    var check_price = tour_show[y].period[order_period[gp]][pd].price1;
+                                                                                }
+                text +=                                                          "<span class='saleperiod'>"+Intl.NumberFormat('th-TH', {currency:'THB',}).format(check_price)+"฿ </span>";
+                                                                            } 
+                text +=                                                     "<br>";
+                text +=                                                     date_start.getDate()+" - "+date_end.getDate(); 
+                text +=                                                 "</li>";
+                                                                    }    
+                                                                                                       
+                                                            
+                text +=                                        "</div>";
+                text +=                                        "<hr>";
+                                                            }
+                text +=                                    "</div>";
+                text +=                                "</div>";
+                text +=                                "<div class='readMoreGradient'></div>";
+                text +=                            "</div>";
+                                            if(Object.keys(tour_show[y].period).length > 1){
+                text +=                            "<a class='readMoreBtn'></a>";
+                text +=                            "<span class='readLessBtnText' style='display: none;'>Read Less</span>";
+                text +=                            "<span class='readMoreBtnText' style='display: none;'>Read More</span>";
+                                            }
+                text +=                        "</div>";
+                text +=                    "</div>";
+                                        
+                text +=                    "<div class='remainsFull'>";
+                text +=                        "<li>* ใกล้เต็ม</li>";
+                text +=                        "<li><span class='noshowpad'>-</span>";
+                text +=                            "<span class='showpad'>-</span> จำนวนวันหยุด</li>";
+                text +=                    "</div>";
+                text +=                    "<div class='row'>";
+                text +=                        "<div class='col-md-9'>";
+                                                if(tour_show[y].sold_out.length){
+                text +=                            "<div class='fullperiod'>";
+                text +=                                "<h6>พีเรียดที่เต็มแล้ว ("+tour_show[y].sold_out.length+")</h6>";
+                                                        for(let s in tour_show[y].sold_out){
+                                                            var dateS_soldout = new Date(tour_show[y].sold_out[s].start_date);
+                                                            var dateE_soldout = new Date(tour_show[y].sold_out[s].end_date);
+                text +=                                         "<span class='monthsold'>"+month_period[dateS_soldout.getMonth()+1]+"</span>";
+                text +=                                         "<li>"+dateS_soldout.getDate()+" - "+dateE_soldout.getDate()+"</li>";
+                                                        }
+                text +=                            "</div>";
+                                                }
+                
+                text +=                        "</div>";
+                text +=                        "<div class='col-md-3 text-md-end'>";
+                text +=                            "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' class='btn-main-og  morebtnog'>รายละเอียด</a>";
+                text +=                        "</div>";
+                text +=                         "<br><br>";
+                text +=                    "</div>";
+                                        }
+                text +=                "</div>";
+                text +=            "</div>";
+                
                 // grid view 
                     if(Object.keys(tour_show[y].period).length > 0){
                         text_grid +=            "<tr>";
