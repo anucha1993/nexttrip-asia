@@ -528,6 +528,43 @@ class FrontController extends Controller
     }
 
 
+     public function overseaNew(Request $request,$main_slug)
+    {
+        try {
+            if(!$request->_token){
+                Session::put($main_slug,null);
+            }
+            if(Session::get($main_slug)){
+                // dd(Session::get($main_slug));
+                return view('frontend.oversea',Session::get($main_slug));
+            }else{
+                // Platform check 
+                $isWin = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "windows"))?is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "windows")):0; 
+                $isMac = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "macintosh"))?is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "macintosh")):0; 
+                $isAndroid = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "android"))?is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "android")):0; 
+                $isIPhone = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "iphone"))?is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "iphone")):0; 
+                $isIPad = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "ipad"))?is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "ipad")):0; 
+                $country = CountryModel::where('slug',$main_slug)->whereNull('deleted_at')->first();
+                $data = array(
+                    'country_search' => $country->id,
+                    'banner'        => $country->banner,
+                    'banner_detail' => $country->banner_detail,
+                    'isWin' => $isWin,
+                    'isMac' => $isMac,
+                    'isAndroid' => $isAndroid,
+                    'isIPhone' => $isIPhone,
+                    'isIPad' => $isIPad,
+                );
+                return view('newhome.oversea-new',$data);
+            }
+           
+           
+        } catch (\Throwable $th) {
+            // dd($th);
+        }
+        
+    }
+
     public function inthai(Request $request,$main_slug)
     {
         try {

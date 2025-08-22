@@ -66,214 +66,352 @@
     @include("frontend.layout.inc_topmenu")
 
     <style>
-        /* Card Container */
-.tour-card-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 25px;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
+/* ===== Card Layout ===== */
+.tour-card-container{
+  display:grid;
+  grid-template-areas:
+    "img info"
+    "period period"
+    "btn btn";
+  grid-template-columns: 340px 1fr;
+  gap:20px;
+  padding:16px;
+  border:1px solid #eef1f4;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+  margin-bottom:18px;
 }
-
-.tour-card-container:hover {
-    transform: translateY(-5px);
-}
+.tour-card-image-section{ grid-area: img; }
+.tour-card-details-section{ grid-area: info; }
+.tour-period-section{ grid-area: period; }
+.btn-details{ grid-area: btn; }
 
 /* Image Section */
-.tour-card-image-section {
-    position: relative;
-    width: 100%;
-    padding-top: 60%; /* Aspect Ratio 16:9 */
-    overflow: hidden;
+.tour-card-image-section{
+  position:relative; border-radius:12px; overflow:hidden;
+background:#f6f7f9;
+}
+.tour-image{ width:100%; height:100%; object-fit:cover; transition:.3s; }
+.tour-card-image-section:hover .tour-image{ transform:scale(1.05); }
+
+/* Price Tags */
+.tour-price-tag, .tour-special-price-tag{
+  position:absolute; right:10px; bottom:10px;
+  background:#fff; border-radius:10px; padding:8px 10px;
+  border:1px solid #eef1f4; box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.tour-price-tag b{ color:#ef6c00; }
+.tour-special-price-tag span{ color:#ef4444; font-size:12px; }
+.tour-special-price-tag b{ color:#ef4444; }
+
+/* Wishlist Button */
+.wishlist-btn{
+  position:absolute; right:10px; top:10px;
+  width:36px; height:36px; border-radius:50%;
+  background:#fff; border:1px solid #eef1f4;
+  color:#ff5171; display:grid; place-items:center;
 }
 
-.tour-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* SOLD OUT Overlay */
+.tour-sold-out-overlay{
+  position:absolute; inset:0; background:rgba(0,0,0,.45);
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  color:#fff; gap:10px;
 }
 
-.tour-special-price-tag, .tour-price-tag {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background-color: #f15a22; /* Orange */
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: right;
-    line-height: 1.2;
+/* หัวข้อทัวร์ – สวย เรียบ อ่านง่าย */
+.tour-title{
+  margin: 2px 0 10px;
+  line-height: 1.35;
+  font-size: 20px;          /* ปรับตามใจ 18–22 ก็สวย */
+  font-weight: 700;
+  color: #111827;           /* เทาเกือบดำ */
+  display: -webkit-box;     /* ตัดบรรทัดไม่เกิน 2 บรรทัด */
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;   /* ช่วยตัดคำไทย/อังกฤษ */
+  overflow-wrap: anywhere;
 }
 
-.wishlist-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.tour-title a{
+  color: inherit;           /* ใช้สีเดียวกับหัวข้อ */
+  text-decoration: none;    /* เอาเส้นใต้เริ่มต้นออก */
 }
 
-.wishlist-btn:hover {
-    background-color: #fff;
+/* Hover/Focus ให้รู้สึกเป็นลิงก์ แต่ยังดูเรียบ */
+.tour-title a:hover{
+  color: #f15a22;           /* ส้มตามธีม */
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.wishlist-btn .bi-heart-fill {
-    color: #f15a22;
-    font-size: 1.2rem;
+.tour-title a:focus-visible{
+  outline: 2px solid #f59e0b;   /* วงโฟกัสเพื่อการเข้าถึง */
+  outline-offset: 2px;
 }
 
-.tour-sold-out-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    z-index: 10;
+/* ป้องกันสีลิงก์ visited เป็นม่วง */
+.tour-title a:visited{
+  color: inherit;
 }
 
-/* Details Section */
-.tour-card-details-section {
-    padding: 15px;
+.tour-info-list{ list-style:none; padding:0; margin:0; }
+.tour-info-list li{ font-size:14px; margin-bottom:6px; color:#4b5563; }
+.tour-description{ font-size:14px; color:#6b7280; }
+
+/* หัวข้อ */
+.period-header{
+  font-size:15px; font-weight:700; margin:0 0 8px; color:#111;
 }
 
-.tour-title a {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-    text-decoration: none;
-    display: block;
-    margin-bottom: 10px;
+/* คอนเทนเนอร์รวมทุกเดือน */
+.period-rows{
+  display:flex; flex-direction:column; gap:10px;
 }
 
-.tour-info-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 15px 0;
+/* 1 แถวของเดือน */
+.period-row{
+  display:grid;
+  grid-template-columns: auto 1fr;
+  align-items:start;
+  gap:14px;
+  padding:2px 0 2px;
+  border-bottom:1px solid #eef1f4;
 }
 
-.tour-info-list li {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 5px;
+/* ป้ายเดือน */
+.month-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:6px 10px; min-width:60px;
+  background:#ffedd5; color:#ef4422; /* โทนแดงอ่อน */
+  font-weight:700; border-radius:6px;
 }
 
-.tour-icon {
-    margin-right: 5px;
-    color: #f15a22;
+/* กล่องช่วงวันที่ */
+.date-list{
+  display:flex; flex-wrap:wrap; gap:8px 12px;
 }
 
-/* Period Section */
-.tour-period-section {
-    border-top: 1px solid #eee;
-    padding-top: 15px;
+/* date-chip = บล็อกราคา/วันที่ */
+.date-chip{
+  min-width:70px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:6px 8px;
+  border-radius:6px;
+  background:#fff; border:1px solid #f3f4f6;
+  text-align:center;
 }
 
-.period-header {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+/* ราคาอยู่ด้านบน */
+.chip-price{
+  font-size:11px; color:#ef4422; font-weight:700; line-height:1.2;
 }
 
-.period-list-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+/* วันที่อยู่ด้านล่าง */
+.chip-date{
+  font-size:12px; color:#6b7280; line-height:1.2;
 }
 
-.period-month-group {
-    display: flex;
-    flex-direction: column;
+/* Responsive */
+@media(max-width:640px){
+  .date-chip{ min-width:60px; padding:5px; }
+  .chip-price{ font-size:11px; }
+  .chip-date{ font-size:11px; }
 }
 
-.month-label {
-    font-weight: bold;
-    color: #f15a22;
-    margin-bottom: 5px;
+
+.tour-card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between; 
+  margin-top:12px;
+  padding-top:12px;     /* มีแค่ด้านบน */
+  border-top:1px solid #f3f4f6;
 }
 
-.period-item {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    padding: 8px 12px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
+/* ราคาอยู่ซ้าย */
+.footer-price{
+  font-size:16px;
+  color:#ef6c00;
+  font-weight:700;
 }
 
-.period-item:hover {
-    background-color: #e2e6ea;
+/* ปุ่มอยู่ขวาสุด */
+.btn-details{
+  margin-left:auto;      /* ดันไปขวาสุด */
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 20px;
+  background:#ef6c00;
+  color:#fff;
+  font-weight:700;
+  border-radius:10px;
+  text-decoration:none;
+  transition:.2s;
+}
+.btn-details:hover{ filter:brightness(.95); }
+
+.tour-card-container{
+  display:grid;
+  grid-template-areas:
+    "img info"
+    "period period"
+    "footer footer";
+  grid-template-columns: 340px 1fr;
+  padding:16px 0 16px 16px;   /* ← ตัด padding ขวาออก */
 }
 
-.period-item.near-full {
-    background-color: #fff3cd; /* Light Yellow */
-    border-color: #ffeeba;
+.tour-card-footer{
+  grid-area:footer;
+  padding-right:16px;  /* ให้ footer handle เอง */
 }
 
-.near-full-label {
-    color: #856404;
-    font-weight: bold;
-    margin-left: 5px;
+/* รายการข้อมูลสั้น ๆ */
+.tour-info-list{
+  list-style:none; padding:0; margin:0 0 8px;
+  display:grid; grid-template-columns:1fr; gap:6px;
+}
+.tour-info-list li{ display:flex; align-items:center; gap:8px; font-size:14px; color:#4b5563; }
+.tour-icon{ color:#ef6c00; }
+
+/* โรงแรม + สายการบิน */
+.detail-inline{ flex-wrap:wrap; }
+.detail-inline .dot-sep{ width:4px; height:4px; border-radius:50%; background:#d1d5db; margin:0 6px; }
+
+/* ชิปกิจกรรม */
+.feature-chips{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
+.chip{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:12px; color:#ef6c00; background:#fff7ed;
+  border:1px solid #ffedd5; border-radius:10px; padding:6px 10px; font-weight:700;
 }
 
-.btn-details {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background-color: #f15a22;
-    color: #fff;
-    padding: 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: background-color 0.3s;
+/* คำอธิบายใต้รายละเอียด */
+.tour-description-block{ color:#6b7280; font-size:14px; }
+
+/* footer ปุ่มชิดขวาสุด (คุณมีอยู่แล้ว — เผื่อย้ำ) */
+.tour-card-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:12px; padding-top:12px; border-top:1px solid #f3f4f6; }
+.btn-details{ margin-left:auto; }
+
+/* ===== Collapsible Box ===== */
+.period-collapsible{
+  max-height: 180px;           /* ความสูงโหมด "ย่อ" */
+  overflow: hidden;
+  position: relative;
+}
+.period-collapsible::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:0;
+  height:40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), #fff);
+}
+.period-collapsible.expanded{ max-height: none; }
+.period-collapsible.expanded::after{ display:none; }
+.period-collapsible.no-overflow::after{ display:none; }
+
+/* Toggle button row (align right) */
+.period-toggle-row{
+  display:flex; justify-content:flex-end;
+  margin-top:8px;
+}
+.period-toggle-btn{
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  color:#ef6c0073;
+  font-weight:500;      /* ลดความหนา */
+  font-size:13px;       /* ลดขนาดตัวอักษร */
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:2px 6px;      /* เพิ่ม padding เล็กน้อย */
+}
+.period-toggle-btn:hover{ text-decoration: underline; }
+
+/* ===== Existing period layout (keep / adjust as needed) ===== */
+.period-rows{ display:flex; flex-direction:column; gap:10px; }
+.period-row{
+  display:grid; grid-template-columns:auto 1fr; gap:14px;
+  align-items:start; padding:4px 0 10px; border-bottom:1px solid #eef1f4;
+}
+.month-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:6px 10px; min-width:60px;
+  background:#fee2e2; color:#dc2626; font-weight:700; border-radius:6px;
+}
+.date-list{ display:flex; flex-wrap:wrap; gap:8px 12px; }
+.date-chip{
+  min-width:70px; display:flex; flex-direction:column; align-items:center;
+  padding:6px 8px; border-radius:6px; background:#fff; border:1px solid #f3f4f6; text-align:center;
 }
 
-.btn-details:hover {
-    background-color: #d84a1e;
+.chip-date{ font-size:12px; color:#6b7280; line-height:1.2; }
+
+@media (max-width:640px){
+  .period-collapsible{ max-height: 160px; }
 }
 
-/* Responsive adjustments */
-@media (min-width: 768px) {
-    .tour-card-container {
-        flex-direction: row;
-    }
-    .tour-card-image-section {
-        width: 40%;
-        padding-top: 30%;
-    }
-    .tour-card-details-section {
-        width: 60%;
-    }
-}
+
+
+
+
     </style>
+
+<script>
+// คำนวณความสูงของ N แถวแรก แล้วตั้งเป็น max-height (collapsed)
+function setCollapsedHeights(){
+  document.querySelectorAll('.period-collapsible').forEach(box=>{
+    const rows = box.querySelectorAll('.period-row');
+    const n = parseInt(box.dataset.collapsedRows || '2', 10);
+    if (rows.length <= n){            // ไม่เกิน 2 แถว → ไม่ต้องมีปุ่ม/ไม่ต้องย่อ
+      const toggleRow = box.nextElementSibling;
+      if (toggleRow && toggleRow.classList.contains('period-toggle-row')) toggleRow.style.display = 'none';
+      box.classList.add('no-overflow');
+      return;
+    }
+    let h = 0;
+    for (let i=0; i<n && i<rows.length; i++){ h += rows[i].offsetHeight; }
+    const gap = parseFloat(getComputedStyle(box.querySelector('.period-rows')).rowGap || '10');
+    h += gap;                  // เผื่อช่องว่างระหว่างแถว
+    box.style.maxHeight = h + 'px';
+    box.dataset.collapsedHeight = String(h);   // เก็บไว้ใช้ตอนย่อกลับ
+  });
+}
+
+// สลับ expand/collapse
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.period-toggle-btn');
+  if(!btn) return;
+  const id = btn.dataset.target;
+  const box = document.getElementById(id);
+  if(!box) return;
+
+  const expanded = box.classList.toggle('expanded');
+  const label = btn.querySelector('.label');
+  const icon  = btn.querySelector('i');
+
+  if (expanded){
+    box.style.maxHeight = 'none';
+    if(label) label.textContent = 'ย่อช่วงเวลา';
+    if(icon){ icon.classList.remove('bi-chevron-down'); icon.classList.add('bi-chevron-up'); }
+  }else{
+    const h = box.dataset.collapsedHeight ? parseFloat(box.dataset.collapsedHeight) : 0;
+    if (h>0) box.style.maxHeight = h + 'px';
+    if(label) label.textContent = 'ดูช่วงเวลาทั้งหมด';
+    if(icon){ icon.classList.add('bi-chevron-down'); icon.classList.remove('bi-chevron-up'); }
+  }
+});
+
+document.addEventListener('DOMContentLoaded', setCollapsedHeights);
+// ถ้าโหลดการ์ดเพิ่มแบบ AJAX ให้เรียก setCollapsedHeights() หลัง append เสมอ
+</script>
+
+
+
+
     <section id="protourpage" class="wrapperPages">
         <div class="container-fluid g-0 overflow-hidden">
             <div class="row">
@@ -330,10 +468,52 @@
                                 {{--<div class="bannercaption">
                                     {!! @$banner_detail !!} 
                                     --}}
-                                    <div class="bannercaption">
-                                        {!! @$banner_detail !!}
-                                        
-                                    </div>
+                                  <div class="bannercaption alert-banner" id="alertBanner">
+  <div class="alert-content">
+    {!! @$banner_detail !!}
+  </div>
+  <button class="alert-close" onclick="document.getElementById('alertBanner').style.display='none'">
+    &times;
+  </button>
+</div>
+<style>
+    .alert-banner {
+  position: relative;
+  background: #ef6c001a;   /* พื้นหลังโทนเหลืองอ่อน */
+  border: 1px solid #ffcc80;
+  border-radius: 6px;
+  padding: 12px 40px 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5d4037;
+  margin: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.alert-banner a {
+  color: #ef6c00;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.alert-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ef6c00;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+}
+.alert-close:hover {
+  color: #d84315;
+}
+
+</style>
+
                             </ol>
                         </nav>
                     </div>
@@ -346,7 +526,7 @@
                             {{-- @include("frontend.layout.inc_sidefilter_tour") --}}
                             <section id="sortfilter">
                                 <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
-                                    <div class="boxfilter">
+                                    <div class="boxfilter shadow-lg" style="border: 1px solid #ef6c0049; border-radius: 5px;">
                                         <div class="row">
                                             <div class="col-8 col-lg-9">
                                                 <div class="titletopic">
@@ -364,7 +544,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="boxfilter mt-3">
+                                    <div class="boxfilter mt-3 shadow-lg " style="border: 1px solid #ef6c0049; border-radius: 5px;">
                                             <div id="hide_date">
                                                 <div class="titletopic">
                                                     <h2>ช่วงวันเดินทาง</h2>

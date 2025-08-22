@@ -31,4 +31,6 @@ Route::post('/clear-search', [Frontend\FrontController::class, 'clear_search']);
 Route::post('/filter-oversea', [Frontend\FrontController::class, 'filter_oversea']);
 Route::post('/filter-inthai', [Frontend\FrontController::class, 'filter_inthai']);
 Route::post('/filter-search', [Frontend\FrontController::class, 'filter_search']);
+
+Route::get('/oversea/new/{main_slug}', [Frontend\FrontController::class, 'overseaNew'])->name('oversea_route_new');
 ?>

@@ -1606,6 +1606,8 @@
                 // grid view   
             }
 
+            
+
             if(x != undefined){
                 document.getElementById('show_tour').innerHTML = text;
                 document.getElementById('show_grid').innerHTML = text_grid;
