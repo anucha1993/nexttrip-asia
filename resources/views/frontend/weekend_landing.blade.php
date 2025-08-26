@@ -42,6 +42,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="container">
                 <div class="socialshare">
                     <span>แชร์</span>
@@ -70,7 +71,8 @@
                     </div>
                 </div>
             </div>
-            <div class="calendarDate mt-5 mb-5">
+
+            <div class="mt-5">
                 <div class="container">
                     <div class="row">
                         <div class="col">
@@ -108,6 +110,10 @@
                     </div>
                 </div>
             </div>
+            <br>
+
+
+
             <div class="hotcountry_weekend">
                 <div class="container">
                     <div class="row">

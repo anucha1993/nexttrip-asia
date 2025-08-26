@@ -120,10 +120,107 @@
                                 {{--<div class="bannercaption">
                                     {!! @$banner_detail !!} 
                                     --}}
-                                    <div class="bannercaption">
-                                        {!! @$banner_detail !!}
-                                        
-                                    </div>
+                                   <div class="bannercaption alert-banner" id="alertBanner">
+  <div class="alert-content">
+    {!! @$banner_detail !!}
+  </div>
+  <button class="alert-close" onclick="document.getElementById('alertBanner').style.display='none'">
+    &times;
+  </button>
+</div>
+
+<style>
+    .alert-banner {
+  position: relative;
+  background: #fff8e1;   /* พื้นหลังโทนเหลืองอ่อน */
+  border: 1px solid #ffcc80;
+  border-radius: 6px;
+  padding: 12px 40px 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5d4037;
+  margin: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.alert-banner a {
+  color: #ef6c00;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.alert-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ef6c00;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+}
+.alert-close:hover {
+  color: #d84315;
+}
+.pricegroup {
+  text-align: right; /* อยู่ขวาสุดในการ์ด */
+  margin-top: 10px;
+   margin-bottom: 16px;
+}
+
+.price-hero {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: linear-gradient(180deg,#fff8f2 0%, #ffe7d2 100%);
+  border: 1px solid #ffc08a;
+  box-shadow: 0 4px 12px rgba(239,108,0,.18), inset 0 1px 0 #fff;
+  max-width: 100%;       /* ไม่ให้ล้นการ์ด */
+  box-sizing: border-box;
+}
+
+/* ถ้ามีข้อความประหยัด */
+.price-save{
+  display:inline-block;
+  margin-bottom:4px;
+  background:#ef6c00;
+  color:#fff;
+  font-weight:700;
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  box-shadow:0 3px 8px rgba(239,108,0,.25);
+}
+
+.price-origin{
+  font-size:13px;
+  color:#888;
+  text-decoration:line-through;
+  margin-bottom:4px;
+}
+
+.price-main{ 
+  display:flex;
+  align-items:baseline;
+  gap:6px;
+}
+
+.price-prefix{ font-size:14px; font-weight:600; color:#ef6c00; }
+.price-number{ font-size:22px; font-weight:900; color:#ef6c00; }
+.price-unit{ font-size:14px; font-weight:600; color:#ef6c00; }
+
+</style>
+
+
+<style>
+
+    
+</style>
+
+
+
                             </ol>
                         </nav>
                     </div>
@@ -135,8 +232,8 @@
                         <div class="col-5 col-lg-12">
                             {{-- @include("frontend.layout.inc_sidefilter_tour") --}}
                             <section id="sortfilter">
-                                <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
-                                    <div class="boxfilter">
+                                <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block ">
+                                    <div class="boxfilter shadow-lg" style="border: 1px solid #e29939;">
                                         <div class="row">
                                             <div class="col-8 col-lg-9">
                                                 <div class="titletopic">
@@ -154,7 +251,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="boxfilter mt-3">
+                                    <div class="boxfilter mt-3 shadow-lg" style="border: 1px solid #e29939;">
                                             <div id="hide_date">
                                                 <div class="titletopic">
                                                     <h2>ช่วงวันเดินทาง</h2>
@@ -382,7 +479,7 @@
                                         <i class="bi bi-view-list list_img  imgnonactive" style="color:#f15a22;"></i>
                                     </button>
                                     <button class="btn" onClick="listView()">
-                                        <i class="bi bi-list-task grid_img imgnonactive" style="color:#f15a22;"></i>
+                                        <i class="bi bi-list-task grid_img imgnonactive" style='color:#f15a22;'></i>
                                         <i class="bi bi-list-task grid_img imgactive"></i>
                                     </button>
                                 </div>

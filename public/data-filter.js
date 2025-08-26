@@ -1301,15 +1301,19 @@
                 text +=                                     "</div>";
                 text +=                                 "</div>";
                                                     }
-                text +=                             "<div class='priceonpic'>";
-                                                    if(tour_show[y].tour.special_price > 0){
-                                                        var total_price = tour_show[y].tour.price - tour_show[y].tour.special_price ;
-                text +=                                    "<span class='originalprice'>ปกติ "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" </span><br>";
-                text +=                                    "เริ่ม<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(total_price)+" บาท</span>";
-                                                    }else{
-                text +=                                    "<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" บาท</span>";
-                                                    }
-                text +=                             "</div>";
+
+
+                  text += "<div class='priceonpic' style='background: #fffbe7; border-radius: 10px; padding: 10px; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.15); text-align: center;'>";
+                    if (tour_show[y].tour.special_price > 0) {
+                        var total_price = tour_show[y].tour.price - tour_show[y].tour.special_price;
+                        text += "<span class='originalprice' style='color: #b0b0b0; text-decoration: line-through; font-size: 1rem;'>ปกติ " + Intl.NumberFormat('th-TH', { currency: 'THB' }).format(tour_show[y].tour.price) + " </span><br>";
+                        text += "เริ่ม<span class='saleprice' style='color: #e53935; font-weight: bold; font-size: 1.5rem; margin-left: 5px;'> " + Intl.NumberFormat('th-TH', { currency: 'THB' }).format(total_price) + " บาท</span>";
+                    } else {
+                        text += "<span class='saleprice' style='color: #f57c00; font-weight: bold; font-size: 1.5rem;'>" + Intl.NumberFormat('th-TH', { currency: 'THB' }).format(tour_show[y].tour.price) + " บาท</span>";
+                    }
+                  text += "</div>";
+
+
                 text +=                             "<div class='addwishlist'>";
                 text +=                                  "<a href='javascript:void(0);' class='wishlist' data-tour-id='"+tour_show[y].tour.id+"'><i class='bi bi-heart-fill' id='likeButton' onclick='likedTour("+tour_show[y].tour.id+")'></i></a>";
                 text +=                             "</div>";
@@ -1323,6 +1327,9 @@
                 text +=                                         tour_show[y].country[c].country_name_th?tour_show[y].country[c].country_name_th:tour_show[y].country[c].country_name_en;
                                                             }
                 text +=                                 "</a></i>";
+
+
+                
                                                         }
                   text += "<li class='code'> &nbsp;รหัสทัวร์ : <span class='bluetext py-2'> &nbsp;";
                   let codeToShow = '';
@@ -1367,21 +1374,44 @@
                                                                 for(let dp in tour_show[y].period){
                                                                     var day_num = tour_show[y].period[dp][0].day;
                                                                 }
-                text +=                                 "<li class='bgor'> &nbsp;ระยะเวลา <a href='javascript:void(0);' onclick='document.getElementById(`day"+day_num+"`).click()'>"+tour_show[y].tour.num_day+"</a></li>";
+                text +=                                 "<li class='bgor'> &nbsp;ระยะเวลา &nbsp;<a href='javascript:void(0);' style='color:#f15a22;' onclick='document.getElementById(`day"+day_num+"`).click()'>"+tour_show[y].tour.num_day+"</a></li>";
                                                         }
                 text +=                           "  &nbsp;</div>";
-                text +=                            "<div class='nameTop'>";
-                text +=                                "<h3> <a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' >"+tour_show[y].tour.name+"</a></h3>";
+                text +=                            "<div class='nameTop mt-2'>";
+                text +=                                "<h3> <a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'  style='color:#f15a22;'>&nbsp"+tour_show[y].tour.name+"</a></h3>";
                 text +=                            "</div>";
-                text +=                            "<div class='pricegroup text-end'>";
-                                                    if(tour_show[y].tour.special_price > 0){
-                                                        var total_price = tour_show[y].tour.price - tour_show[y].tour.special_price; 
-                text +=                                     "<span class='originalprice'>ปกติ "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" </span><br>";
-                text +=                                     "เริ่ม<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(total_price)+" บาท</span>";
-                                                    }else{
-                text +=                                     "<span class='saleprice'> "+Intl.NumberFormat('th-TH', {currency:'THB',}).format(tour_show[y].tour.price)+" บาท</span>";
-                                                    }   
-                text +=                            "</div>";
+
+text += "<div class='pricegroup text-end'>";
+
+if (tour_show[y].tour.special_price > 0) {
+  const saveAmt   = tour_show[y].tour.special_price;
+  const finalAmt  = tour_show[y].tour.price - saveAmt;
+
+  text += `
+    <div class="price-hero  mb-2">
+      <div class="price-save">ประหยัด ${Intl.NumberFormat('th-TH').format(saveAmt)} บาท</div>
+      <div class="price-origin">ปกติ ${Intl.NumberFormat('th-TH').format(tour_show[y].tour.price)} บาท</div>
+      <div class="price-main">
+        <span class="price-prefix">เริ่ม</span>
+        <span class="price-number">${Intl.NumberFormat('th-TH').format(finalAmt)}</span>
+        <span class="price-unit">บาท</span>
+      </div>
+    </div>`;
+} else {
+  text += `
+    <div class="price-hero ">
+      <div class="price-main">
+        <span class="price-prefix">เริ่ม</span>
+        <span class="price-number">${Intl.NumberFormat('th-TH').format(tour_show[y].tour.price)}</span>
+        <span class="price-unit">บาท</span>
+      </div>
+    </div>`;
+}
+
+text += "</div>";
+
+                
+                
                                                     if(tour_show[y].tour.description){
                 text +=                                 "<div class='highlighttag'>";
                 text +=                                     "<span><i class='fi fi-rr-tags'></i> </span>"+tour_show[y].tour.description;
@@ -1450,6 +1480,9 @@
                 text +=                            "</div>";
                 text +=                        "</div>";
                 text +=                    "</div>";
+                  text +=                    "<hr>";
+
+
                                  
                                     if(Object.keys(tour_show[y].period).length > 0){
                 text +=                    "<div class='periodtime'>";
@@ -1459,8 +1492,8 @@
                 text +=                                    "<div class='listperiod_moredetails'>";
                                                             for(let gp in order_period){
                                                                 var month_datas = order_period[gp].split('202');
-                text +=                                        "<div class='tagmonth'>";
-                text +=                                            "<span class='month'>"+month_period[Number(month_datas[0])]+"</span>";
+                text +=                                        "<div class='tagmonth py-2'>";
+                text +=                                            "<span class='month' style='padding;'>"+month_period[Number(month_datas[0])]+"</span>";
                 text +=                                       "</div>";
                 text +=                                       "<div class='splgroup'>";
                                                                     for(pd in tour_show[y].period[order_period[gp]]){
@@ -1530,6 +1563,7 @@
                                         }
                 text +=                "</div>";
                 text +=            "</div>";
+                
                 
                 // grid view 
                     if(Object.keys(tour_show[y].period).length > 0){
@@ -1604,8 +1638,10 @@
                         text_grid +=                "</tr>";
                     }
                 // grid view   
+                text += `</div></div>`; // ปิด card
             }
-
+            
+  text +=                    "<hr>";
             if(x != undefined){
                 document.getElementById('show_tour').innerHTML = text;
                 document.getElementById('show_grid').innerHTML = text_grid;
@@ -1617,6 +1653,7 @@
             // document.getElementById('show_tour').innerHTML = text;
             // document.getElementById('show_grid').innerHTML = text_grid;
         }
+        
         // ฟิลเตอร์ที่เลือก
         async function SelectFilter(){
         var text = '';

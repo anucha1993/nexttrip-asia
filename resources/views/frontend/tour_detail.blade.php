@@ -88,13 +88,18 @@
                                 @endforeach
                             </div>
                         </div>
+
                         <div class="col-lg-2">
                             <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
-                                <div class="logoborder">
-                                    <a href="javascript:void(0);"><img src="{{asset(@$airline->image)}}" class="img-fluid" alt=""></a>
+                                <div class="" style="">
+                                    <a href="javascript:void(0);">
+                                        <img src="{{asset(@$airline->image)}}" class="" alt="" style="max-width: 300px; max-height: 300px;">
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                    
+
                     </div>
                     @php
                         $contact = \App\Models\Backend\ContactModel::find(1);

@@ -1683,8 +1683,6 @@ class ApiController extends Controller
         }
     }
 
-
-    
     public function ttn_api_all(){ // api_type = ttn_all
         try {
             // DB::beginTransaction();
