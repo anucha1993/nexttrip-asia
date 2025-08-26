@@ -303,25 +303,6 @@ class ApiController extends Controller
             
                                         if(Storage::disk('public')->exists($data->pdf_file)){
             
-                                            // $newFileSize = $response->header('content-length');
-                                            // $newFileSize = strlen($response->body());
-                                            // $oldFileSize = Storage::disk('public')->size($data->pdf_file);
-    
-                                            // $oldFileSize = $data->pdf_file_size;
-                                            // if($newFileSize != $oldFileSize){
-                                            //     Storage::disk('public')->delete($data->pdf_file);
-            
-                                            //     Storage::disk('public')->put($new, $response->body());
-                                            //     $img_pdf = ImagePDFModel::first();
-                                            //     if($img_pdf->status == 'on'){
-                                            //         $this->save_pdf($new);
-                                            //     }
-    
-                                            //     $data->pdf_file = $new;
-                                            //     $data->pdf_file_size = $newFileSize;
-                                            // }
-    
-                                            // เช็ค Date Modified
                                             if(isset($headers['Last-Modified'])){
                                                 $lastModified = date("Y-m-d H:i:s",strtotime($headers['Last-Modified']));
                                                 $oldModified = $data->date_mod_pdf;
@@ -397,13 +378,6 @@ class ApiController extends Controller
                                     if($data3 == null){
                                         $data3 = new TourPeriodModel;
                                     }
-
-                                    // $price_start = $pe['Price_Start']; // ราคาเริ่มต้น
-                                    // $price_end = $pe['Price_End']; // ราคาสิ้นสุด
-                                    // $price1 = $pe['Price_Twin']; // ผู้ใหญ่พักคู่
-                                    // $price2 = $pe['Price_Single']; //ผู้ใหญ่พักเดี่ยว
-                                    // $price3 = $pe['Price_Child']; // เด็กมีเตียง
-                                    // $price4 = $pe['Price_ChildNB']; // เด็กไม่มีเตียง
 
                                     // 13-12-24
                                     $price_start = $pe['Price']; // ราคาเริ่มต้นผู้ใหญ่พักคู่
@@ -511,22 +485,13 @@ class ApiController extends Controller
                                     $data3->group_date = date('mY',strtotime($pe['PeriodStartDate']));
                                     $data3->start_date = $pe['PeriodStartDate'];
                                     $data3->end_date = $pe['PeriodEndDate'];
-                                    // $data3->day = $pe['Day'];
-                                    // $data3->night = $pe['Night'];
+
                                     $data3->day = $call['Days']; // 13-12-24
                                     $data3->night = $call['Nights']; // 13-12-24
                                     $data3->group = $pe['GroupSize'];
                                     $data3->count = $pe['Seat'];
                                     $data3->status_display = "on";
     
-                                    // if($pe['Status'] == "Book"){
-                                    //     $data3->status_period = 1;
-                                    // }else if($pe['Status'] == "Waitlist"){
-                                    //     $data3->status_period = 2;
-                                    // // }else if($pe['Status'] == "Close group" || $pe['Status'] == "Soldout"){
-                                    // }else if($pe['Status'] == "Close Group" || $pe['Status'] == "Soldout"){ // 13-12-24
-                                    //     $data3->status_period = 3;
-                                    // }
                                     if($pe['PeriodStatus'] == "Book"){
                                         $data3->status_period = 1;
                                     }else if($pe['PeriodStatus'] == "Waitlist"){
@@ -657,11 +622,8 @@ class ApiController extends Controller
             ->get('https://api.best-consortium.com/v1/series/country');
             
             if($response->successful()){
-
                 $callback1 = $response->json();
-
                 if(count($callback1) > 0){
-
                     $error_code = array();
                     $tour = array();
                     $tour_api_id = array();
@@ -669,15 +631,10 @@ class ApiController extends Controller
                     $period = array();
                     $period_api_id = array();
                     foreach($callback1 as $call1){
-
                         $response = Http::withHeaders([
                             "Content-Type" => "application/json; charset=UTF-8",
                         ])
-                        // ->withoutVerifying()
-                        // ->get('https://tour-api.bestinternational.com/api/tour-programs/v2/30');
                         ->get('https://tour-api.bestinternational.com/api/tour-programs/v2/'.$call1['id']);
-                        // ->get('https://api.best-consortium.com/v1/series/'.$call1['id']); // 13-12-24
-                        
                         $remaining = $response->header('X-RateLimit-Remaining');
                         $resetTime = $response->header('X-RateLimit-Reset');
                         
@@ -857,6 +814,7 @@ class ApiController extends Controller
                                                     }
             
                                                 }
+                                                
                     
                                             }
                                         }
