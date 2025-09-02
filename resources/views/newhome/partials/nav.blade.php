@@ -55,7 +55,7 @@
 
       <!-- โลโก้ (กลาง) -->
       <a href="{{ url('/') }}" class="justify-self-center">
-        <img src="https://nexttrip.b-cdn.net/frontend/images/logo.svg" alt="Next Trip Holiday" class="h-8 w-auto"/>
+        <img src="https://nexttrip-work.b-cdn.net/frontend/images/logo.svg" alt="Next Trip Holiday" class="h-8 w-auto"/>
       </a>
 
       <!-- ไอคอน (ขวา) -->
@@ -89,7 +89,7 @@
                 pl-[max(env(safe-area-inset-left),1rem)]
                 pr-[max(env(safe-area-inset-right),1rem)]
                 pt-[max(env(safe-area-inset-top),0.75rem)] pb-3">
-      <img src="https://nexttrip.b-cdn.net/frontend/images/logo.svg" class="h-8 w-auto" alt="Next Trip Holiday">
+      <img src="https://nexttrip-work.b-cdn.net/frontend/images/logo.svg" class="h-8 w-auto" alt="Next Trip Holiday">
       <button id="closeMenu" class="h-9 w-9 inline-flex items-center justify-center" aria-label="Close">
         <svg viewBox="0 0 24 24" class="h-6 w-6 text-slate-500">
           <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -146,7 +146,7 @@
                   <li>
                     <a href="{{ url('oversea/'.$co->slug) }}"
                        class="flex items-center gap-2 rounded-lg px-2 py-2 hover:bg-slate-50">
-                      <img src="https://nexttrip.b-cdn.net/{{ $co->img_icon }}"
+                      <img src="https://nexttrip-work.b-cdn.net/{{ $co->img_icon }}"
                            class="h-[18px] w-[24px] object-contain rounded-sm" alt="">
                       <span>ทัวร์{{ $co->country_name_th }}</span>
                     </a>
@@ -290,7 +290,7 @@
       <div class="flex items-center py-1">
         <!-- โลโก้ซ้าย -->
         <a href="{{ url('/') }}" class="shrink-0 mr-4">
-          <img src="https://nexttrip.b-cdn.net/frontend/images/logo.svg" class="h-20 w-auto" alt="Next Trip Holiday">
+          <img src="https://nexttrip-work.b-cdn.net/frontend/images/logo.svg" class="h-20 w-auto" alt="Next Trip Holiday">
         </a>
 
         <!-- กลุ่มขวา -->
@@ -379,7 +379,7 @@
                           @foreach($country as $co)
                             <li>
                               <a href="{{ url('oversea/'.$co->slug) }}" class="flex items-center gap-2 py-1.5 hover:text-[#214e9a]">
-                                <img src="https://nexttrip.b-cdn.net/{{ $co->img_icon }}" class="h-[18px] w-[24px] object-contain rounded-sm" alt="">
+                                <img src="https://nexttrip-work.b-cdn.net/{{ $co->img_icon }}" class="h-[18px] w-[24px] object-contain rounded-sm" alt="">
                                 <span>ทัวร์{{ $co->country_name_th }}</span>
                               </a>
                             </li>
@@ -619,7 +619,7 @@
     const norm = s => (s || '').toString().trim();
     const contains = (a, b) => norm(a).toLowerCase().includes(norm(b).toLowerCase());
     const esc = s => (s||'').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    const host = 'https://nexttrip.b-cdn.net/';
+    const host = 'https://nexttrip-work.b-cdn.net/';
     const typeMap = {country:'ประเทศ', city:'เมือง', province:'จังหวัด', district:'อำเภอ/เขต', keyword:'คำค้น'};
     const escapeReg = s => (s||'').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 

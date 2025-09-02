@@ -413,7 +413,7 @@ for (const it of country_slide) {
       <div class="tripcard" role="button"
            onclick="document.getElementById('country${it.id}').click()">
         <div class="tripcard-icon">
-          <img src="https://nexttrip.b-cdn.net/${it.img}" alt="${it.name}" loading="lazy" decoding="async">
+          <img src="https://nexttrip-work.b-cdn.net/${it.img}" alt="${it.name}" loading="lazy" decoding="async">
         </div>
         <div class="tripcard-body">
           <div class="tripcard-title">ทัวร์${it.name}-${holiday_name}</div>
@@ -583,7 +583,7 @@ applyRowCollapse();
             for(let y in data){
                 text = text+'<li><label class="check-container">'
                 if(data[y].img){
-                    text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                    text = text+'<img src="https://nexttrip-work.b-cdn.net/'+data[y].img+'" alt=""></img>';
                 }
                 text = text+' '+data[y].name;
                 text = text+'<input type="checkbox" id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
@@ -595,7 +595,7 @@ applyRowCollapse();
                 for(let y in data){
                     text = text+'<li><label class="check-container">';
                     if(data[y].img){
-                        text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                        text = text+'<img src="https://nexttrip-work.b-cdn.net/'+data[y].img+'" alt=""></img>';
                     }
                     text = text+' '+data[y].name;
                     text = text+'<input type="checkbox"  id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
@@ -831,7 +831,7 @@ applyRowCollapse();
                     for(let y in data){
                         text = text+'<li><label class="check-container">'
                         if(data[y].img){
-                            text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                            text = text+'<img src="https://nexttrip-work.b-cdn.net/'+data[y].img+'" alt=""></img>';
                         }
                         text = text+' '+data[y].name;
                         text = text+'<input type="checkbox" id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
@@ -843,7 +843,7 @@ applyRowCollapse();
                         for(let y in data){
                             text = text+'<li><label class="check-container">';
                             if(data[y].img){
-                                text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                                text = text+'<img src="https://nexttrip-work.b-cdn.net/'+data[y].img+'" alt=""></img>';
                             }
                             text = text+' '+data[y].name;
                             text = text+'<input type="checkbox"  id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
@@ -872,7 +872,7 @@ applyRowCollapse();
                 for(let y in data){
                     text = text+'<li><label class="check-container">'
                     if(data[y].img){
-                        text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                        text = text+'<img src="https://nexttrip-work.b-cdn.net/'+data[y].img+'" alt=""></img>';
                     }
                     text = text+' '+data[y].name;
                     text = text+'<input type="checkbox" id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
@@ -884,7 +884,7 @@ applyRowCollapse();
                     for(let y in data){
                         text = text+'<li><label class="check-container">';
                         if(data[y].img){
-                            text = text+'<img src="https://nexttrip.b-cdn.net/'+data[y].img+'" alt=""></img>';
+                            text = text+'<img src="https://nexttrip-work.b-cdn.net/'+data[y].img+'" alt=""></img>';
                         }
                         text = text+' '+data[y].name;
                         text = text+'<input type="checkbox"  id="airline'+data[y].id+'" onclick="put_filter('+data[y].id+',`airline`)" value="'+data[y].id+'">';
@@ -1159,12 +1159,12 @@ applyRowCollapse();
                 text +=                        "<div class='col-lg-12 col-xl-3 pe-xl-0'>";
                 text +=                            "<div class='covertourimg'>";
                 text +=                                "<figure>";
-                text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'><img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour.image+"' alt=''></a>";
+                text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'><img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].tour.image+"' alt=''></a>";
                 text +=                                "</figure>";
                 text +=                                "<div class='d-block d-sm-block d-md-block d-lg-none d-xl-none'>";
                 text +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank' class='tagicbest'>";
                                                             if(tour_show[y].tour_type){
-                text +=                                          "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
+                text +=                                          "<img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
                                                             }
                 text +=                                     "</a>";
                 text +=                                "</div>";
@@ -1229,14 +1229,14 @@ applyRowCollapse();
                                                         if(tour_show[y].airline){
                 text +=                                  "<li>สายการบิน <a href='javascript:void(0);' onclick='document.getElementById(`airline"+tour_show[y].airline.id+"`).click()' >";
                                                             if(tour_show[y].airline.image){
-                text +=                                        "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].airline.image+"' alt=''></a></li>";
+                text +=                                        "<img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].airline.image+"' alt=''></a></li>";
                                                             }                                      
                 text +=                                  "</li>";
                                                         }
                 text +=                                "<li>";
                 text +=                                    "<div  class='d-none d-sm-none d-md-none d-lg-block d-xl-block'>";
                                                             if(tour_show[y].tour_type){
-                text +=                                         "<a href='javascript:void(0);' class='tagicbest' onclick='OrderByType("+tour_show[y].tour_type.id+")'><img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''></a>";
+                text +=                                         "<a href='javascript:void(0);' class='tagicbest' onclick='OrderByType("+tour_show[y].tour_type.id+")'><img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''></a>";
                                                             }
                 text +=                                    "</div>";
                 text +=                                "</li>";
@@ -1414,7 +1414,7 @@ applyRowCollapse();
                         text_grid +=                        "<td>";
                         text_grid +=                            "<div class='row'>";
                         text_grid +=                                "<div class='col-5 col-lg-4'>";
-                        text_grid +=                                   "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'><img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour.image+"' class='img-fluid' alt=''></a>";
+                        text_grid +=                                   "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'><img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].tour.image+"' class='img-fluid' alt=''></a>";
                         text_grid +=                                "</div>";
                         text_grid +=                                "<div class='col-7 col-lg-8 titlenametab'>";
                         text_grid +=                                    "<h3><a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'>"+tour_show[y].tour.name+"</a> </h3>";
@@ -1445,7 +1445,7 @@ applyRowCollapse();
                         text_grid +=                        "<td>";
                                                             if(tour_show[y].airline){
                                                                 "<a href='javascript:void(0);' onclick='document.getElementById(`airline"+tour_show[y].tour.airline_id+"`).click()'>";
-                        text_grid +=                               "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].airline.image+"' class='img-fluid' alt=''>";
+                        text_grid +=                               "<img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].airline.image+"' class='img-fluid' alt=''>";
                         text_grid +=                            "</a>";
                                                             }
                         text_grid +=                        "</td>";
@@ -1473,7 +1473,7 @@ applyRowCollapse();
                         text_grid +=                        "<td>";
                                                             if(tour_show[y].tour_type){
                                                                 "<a href='javascript:void(0);' onclick='OrderByType("+tour_show[y].tour_type.id+")' target='_blank' class='tagicbest'>";
-                        text_grid +=                                "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
+                        text_grid +=                                "<img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].tour_type.image+"' class='img-fluid' alt=''>";
                         text_grid +=                            "</a>";
                                                             }
                         text_grid +=                        "</td>";
@@ -1504,7 +1504,7 @@ applyRowCollapse();
                         text_recomand  +=                            "<div class='boxwhiteshd hoverstyle'>";
                         text_recomand  +=                                "<figure>";
                         text_recomand  +=                                    "<a href='/tour/"+tour_show[y].tour.slug+"' target='_blank'>";
-                        text_recomand  +=                                        "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].tour.image+"' alt=''>";
+                        text_recomand  +=                                        "<img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].tour.image+"' alt=''>";
                         text_recomand  +=                                    "</a>";
                         text_recomand  +=                                "</figure>";
                         text_recomand  +=                                "<div class='contenttourshw'>";
@@ -1548,7 +1548,7 @@ applyRowCollapse();
                         text_recomand  +=                                        "<li class='airlines'> สายการบิน";
                                                                                         if(tour_show[y].airline){
                                                                                             if(tour_show[y].airline.image){
-                        text_recomand +=                                                        "<img <img src='https://nexttrip.b-cdn.net/"+tour_show[y].airline.image+"' alt=''></a></li>";
+                        text_recomand +=                                                        "<img <img src='https://nexttrip-work.b-cdn.net/"+tour_show[y].airline.image+"' alt=''></a></li>";
                                                                                             }  
                                                                                         }
                         text_recomand  +=                                        "</li>";

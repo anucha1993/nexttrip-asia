@@ -12,16 +12,16 @@
 <section class="relative isolate overflow-hidden h-[55vh] max-h-[40vh]">
 
   {{-- ช่วย TLS handshake เร็วขึ้น --}}
-  <link rel="preconnect" href="https://nexttrip.b-cdn.net" crossorigin>
+  <link rel="preconnect" href="https://nexttrip-work.b-cdn.net" crossorigin>
 
   {{-- ✅ PRELOAD เฉพาะสไลด์แรก --}}
   @if(isset($slide[0]))
     <link rel="preload" as="image"
-          href="https://nexttrip.b-cdn.net/{{ $slide[0]->img }}?w=1920&format=webp"
+          href="https://nexttrip-work.b-cdn.net/{{ $slide[0]->img }}?w=1920&format=webp"
           imagesrcset="
-            https://nexttrip.b-cdn.net/{{ $slide[0]->img_mobile }}?w=768&format=webp 768w,
-            https://nexttrip.b-cdn.net/{{ $slide[0]->img }}?w=1280&format=webp 1280w,
-            https://nexttrip.b-cdn.net/{{ $slide[0]->img }}?w=1920&format=webp 1920w"
+            https://nexttrip-work.b-cdn.net/{{ $slide[0]->img_mobile }}?w=768&format=webp 768w,
+            https://nexttrip-work.b-cdn.net/{{ $slide[0]->img }}?w=1280&format=webp 1280w,
+            https://nexttrip-work.b-cdn.net/{{ $slide[0]->img }}?w=1920&format=webp 1920w"
           imagesizes="120vw"
           fetchpriority="high">
   @endif
@@ -37,31 +37,31 @@
             {{-- Desktop ≥1024px (next-gen ก่อน) --}}
             <source media="(min-width:1024px)" type="image/avif"
                     srcset="
-                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1280&format=avif 1280w,
-                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1920&format=avif 1920w">
+                      https://nexttrip-work.b-cdn.net/{{ $s->img }}?w=1280&format=avif 1280w,
+                      https://nexttrip-work.b-cdn.net/{{ $s->img }}?w=1920&format=avif 1920w">
             <source media="(min-width:1024px)" type="image/webp"
                     srcset="
-                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1280&format=webp 1280w,
-                      https://nexttrip.b-cdn.net/{{ $s->img }}?w=1920&format=webp 1920w">
+                      https://nexttrip-work.b-cdn.net/{{ $s->img }}?w=1280&format=webp 1280w,
+                      https://nexttrip-work.b-cdn.net/{{ $s->img }}?w=1920&format=webp 1920w">
 
             {{-- Mobile <1024px --}}
             <source media="(max-width:1023px)" type="image/avif"
                     srcset="
-                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=480&format=avif 480w,
-                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=768&format=avif 768w">
+                      https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}?w=480&format=avif 480w,
+                      https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}?w=768&format=avif 768w">
             <source media="(max-width:1023px)" type="image/webp"
                     srcset="
-                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=480&format=webp 480w,
-                      https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=768&format=webp 768w">
+                      https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}?w=480&format=webp 480w,
+                      https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}?w=768&format=webp 768w">
 
             {{-- Fallback + กัน CLS ด้วยขนาดจริง 1955x500 --}}
             <img
-              src="https://nexttrip.b-cdn.net/{{ $s->img_mobile }}"
+              src="https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}"
               srcset="
-                https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=480 480w,
-                https://nexttrip.b-cdn.net/{{ $s->img_mobile }}?w=768 768w,
-                https://nexttrip.b-cdn.net/{{ $s->img }}?w=1280 1280w,
-                https://nexttrip.b-cdn.net/{{ $s->img }}?w=1920 1920w"
+                https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}?w=480 480w,
+                https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}?w=768 768w,
+                https://nexttrip-work.b-cdn.net/{{ $s->img }}?w=1280 1280w,
+                https://nexttrip-work.b-cdn.net/{{ $s->img }}?w=1920 1920w"
               sizes="100vw"
               alt="slide- {!! strip_tags($s->detail ?? '') !!}"
               width="1955" height="500"
@@ -240,7 +240,7 @@
                 "'": '&#39;'
             } [m]));
             const escapeReg = s => (s || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const host = 'https://nexttrip.b-cdn.net/';
+            const host = 'https://nexttrip-work.b-cdn.net/';
             const typeMap = {
                 country: 'ประเทศ',
                 city: 'เมือง',
@@ -595,7 +595,7 @@
                             class="relative overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5 transition-transform duration-300 group-hover:-translate-y-0.5">
                             <!-- รูป -->
                             <div class="relative aspect-[4/3] lg:aspect-[3/2] overflow-hidden">
-                                <img src="https://nexttrip.b-cdn.net/{{ @$co->img_banner }}"
+                                <img src="https://nexttrip-work.b-cdn.net/{{ @$co->img_banner }}"
                                     alt="{{ @$co->country_name_th }}" loading="lazy"
                                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
                                 <!-- gradient ซ้อนบนรูป -->
@@ -677,7 +677,7 @@
                             class="shrink-0 w-[300px] sm:w-[380px] lg:w-[460px] xl:w-[520px]
                 block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm hover:shadow-md transition">
                             <div class="relative aspect-[2/1] overflow-hidden"> <!-- เตี้ยลง -->
-                                <img src="https://nexttrip.b-cdn.net/{{ $ad->img }}" alt="promotion"
+                                <img src="https://nexttrip-work.b-cdn.net/{{ $ad->img }}" alt="promotion"
                                     class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.02]">
                             </div>
                         </a>
@@ -689,7 +689,7 @@
                             class="shrink-0 w-[300px] sm:w-[380px] lg:w-[460px] xl:w-[520px]
                 block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm">
                             <div class="relative aspect-[2/1] overflow-hidden">
-                                <img src="https://nexttrip.b-cdn.net/{{ $ad->img }}" alt=""
+                                <img src="https://nexttrip-work.b-cdn.net/{{ $ad->img }}" alt=""
                                     class="absolute inset-0 h-full w-full object-cover object-center">
                             </div>
                         </a>
@@ -864,7 +864,7 @@
                                 <div class="relative">
                                     <div class="relative aspect-[1/1] overflow-hidden">
                                         <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}" target="_blank">
-                                            <img src="https://nexttrip.b-cdn.net/{{ @$tour->image }}"
+                                            <img src="https://nexttrip-work.b-cdn.net/{{ @$tour->image }}"
                                                 alt="{{ $tour->name }}"
                                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                         </a>
@@ -888,7 +888,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                             </svg>
-                                            สายการบิน <img src="https://nexttrip.b-cdn.net/{{ @$airline->image }}"
+                                            สายการบิน <img src="https://nexttrip-work.b-cdn.net/{{ @$airline->image }}"
                                                 alt="{{ @$airline->name }}">
 
                                         </li>
@@ -970,7 +970,7 @@
                                         <div class="relative aspect-[1/1] overflow-hidden">
                                             <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}"
                                                 target="_blank">
-                                                <img src="https://nexttrip.b-cdn.net/{{ @$tour->image }}"
+                                                <img src="https://nexttrip-work.b-cdn.net/{{ @$tour->image }}"
                                                     alt="{{ $tour->name }}"
                                                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                             </a>
@@ -991,7 +991,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                                 </svg>
-                                                สายการบิน <img src="https://nexttrip.b-cdn.net/{{ @$airline->image }}"
+                                                สายการบิน <img src="https://nexttrip-work.b-cdn.net/{{ @$airline->image }}"
                                                     alt="{{ @$airline->name }}">
                                             </li>
 
@@ -1067,7 +1067,7 @@
                                 <div class="relative">
                                     <div class="relative aspect-[1/1] overflow-hidden">
                                         <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}" target="_blank">
-                                            <img src="https://nexttrip.b-cdn.net/{{ @$tour->image }}"
+                                            <img src="https://nexttrip-work.b-cdn.net/{{ @$tour->image }}"
                                                 alt="{{ $tour->name }}"
                                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                         </a>
@@ -1088,7 +1088,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                             </svg>
-                                            สายการบิน <img src="https://nexttrip.b-cdn.net/{{ @$airline->image }}"
+                                            สายการบิน <img src="https://nexttrip-work.b-cdn.net/{{ @$airline->image }}"
                                                 alt="{{ @$airline->name }}">
                                         </li>
 
@@ -1526,7 +1526,7 @@
                           bg-white overflow-hidden rounded-2xl ring-1 ring-slate-200 shadow-sm">
                             <a href="https://nexttripholiday.com/clients-review/0/0" class="block group">
                                 <div class="relative aspect-[4/3] overflow-hidden">
-                                    <img src="https://nexttrip.b-cdn.net/{{ $re->img }}" alt="{{ $re->title }}"
+                                    <img src="https://nexttrip-work.b-cdn.net/{{ $re->img }}" alt="{{ $re->title }}"
                                         class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                 </div>
 
@@ -1548,7 +1548,7 @@
                                     </p>
 
                                     <div class="mt-4 flex items-center gap-3">
-                                        <img src="https://nexttrip.b-cdn.net/{{ $re->profile }}"
+                                        <img src="https://nexttrip-work.b-cdn.net/{{ $re->profile }}"
                                             class="h-9 w-9 rounded-full object-cover ring-1 ring-slate-200"
                                             alt="">
                                         <div class="leading-tight">
@@ -1652,7 +1652,7 @@
                     @foreach ($customer as $cus)
                         <a href="https://nexttripholiday.com/clients-detail/{{ $cus->id }}" class="shrink-0"
                             title="{{ $cus->title ?? 'ลูกค้า' }}">
-                            <img src="https://nexttrip.b-cdn.net/{{ $cus->logo }}"
+                            <img src="https://nexttrip-work.b-cdn.net/{{ $cus->logo }}"
                                 alt="https://nexttripholiday.com/{{ $cus->title ?? 'ลูกค้า' }}" loading="lazy"
                                 class="h-12 sm:h-14 md:h-16 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition">
                         </a>
@@ -1662,7 +1662,7 @@
                     @foreach ($customer as $cus)
                         <a href="https://nexttripholiday.com/clients-detail/{{ $cus->id }}" aria-hidden="true"
                             class="shrink-0">
-                            <img src="https://nexttrip.b-cdn.net/{{ $cus->logo }}" alt="" loading="lazy"
+                            <img src="https://nexttrip-work.b-cdn.net/{{ $cus->logo }}" alt="" loading="lazy"
                                 class="h-12 sm:h-14 md:h-16 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition">
                         </a>
                     @endforeach
