@@ -1066,7 +1066,7 @@ class HomeController extends Controller
         ->where('tb_tour.status','on')
         ->select('*','tb_tour.id as t_id','tb_tour_period.id as pe_id','tb_tour_period.promotion_id as pr_promotion')
         ->where('tb_tour_period.status_display','on')->where('tb_tour_period.deleted_at',null)->orderBy('tb_tour_period.start_date','asc')
-         ->limit(100) 
+         //->limit(100) 
         ->get()
         ->groupBy('t_id');
         //dd(11111);
@@ -1076,7 +1076,7 @@ class HomeController extends Controller
         ->where('tb_tour.status','on')
         ->select('*','tb_tour.id as t_id','tb_tour_period.id as pe_id','tb_tour_period.promotion_id as pr_promotion')
         ->where('tb_tour_period.status_display','on')->where('tb_tour_period.deleted_at',null)->orderBy('tb_tour_period.start_date','asc')
-         ->limit(100) 
+         //->limit(100) 
         ->get()
         ->groupBy('t_id');
 
