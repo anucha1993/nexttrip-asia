@@ -32,7 +32,7 @@
     .btn-orange:hover{background:#c2410c}
     header.sticky{backdrop-filter:blur(12px)}
   </style>
- <script src="https://cdn.tailwindcss.com"></script>
+ {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
   {{-- ✅ ใช้ไฟล์ static ที่คัดลอกไว้ใน public/newhome/css --}}
   <link rel="preload" href="newhome/build/assets/app-H1hUJS3W.css" as="style" />
   <link rel="stylesheet" href="newhome/build/assets/app-H1hUJS3W.css" />
