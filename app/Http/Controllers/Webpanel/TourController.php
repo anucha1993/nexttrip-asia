@@ -977,6 +977,10 @@ class TourController extends Controller
                 }
 
                 DB::commit();
+                
+                // ✅ Regenerate script-filter.js เมื่อมีการแก้ไข/เพิ่ม Tour
+                app(\App\Http\Controllers\Frontend\HomeController::class)->generate_script();
+                
                 return view("$this->prefix.alert.success", ['url' => url("$this->segment/$this->folder/edit/$data->id")]);
             } else {
                 DB::rollback();

@@ -430,8 +430,7 @@
         var isIPad = {{isset($isIPad)?json_encode($isIPad):0}};
         var tag_search = {{isset($tag_search)?$tag_search:0}};
     </script>
-    <script src="script-filter.js?v={{ filemtime(public_path('script-filter.js')) }}"> </script>
-    <script src="data-filter.js"> </script>
+    <script src="data-filter.js"></script>
     <script>
         $(document).ready(function () {
             $('.categoryslide_list').owlCarousel({

@@ -1,6 +1,41 @@
                
     // holiday_date = Array.from([holiday_date], (x) => x );
     window.ASSET_URL = "{{ env('ASSET_URL') }}";
+    
+    // ✅ ดึงข้อมูลจาก https://nexttrip.work/script-filter.js ด้วย dynamic script loading
+    var tour = [];
+    var period = [];
+    var country = [];
+    var province = [];
+    var price = [];
+    var airline = [];
+    var rating = [];
+    var day_num = [];
+    var month = [];
+    var holiday = [];
+    var tour_type = [];
+    var holiday_date = {};
+    var city = [];
+    var amupur = [];
+    var special_price = [];
+    var promotion = [];
+    
+    // Load external script-filter.js dynamically
+    var script = document.createElement('script');
+    script.src = 'https://nexttrip.work/script-filter.js?t=' + new Date().getTime();
+    script.onload = function() {
+        console.log('✅ Data loaded from https://nexttrip.work/script-filter.js');
+        console.log('Tours:', tour.length, 'Periods:', period.length);
+        // Delay starter to ensure data is loaded
+        setTimeout(function() {
+            starter();
+        }, 500);
+    };
+    script.onerror = function() {
+        console.error('❌ Error loading https://nexttrip.work/script-filter.js');
+    };
+    document.head.appendChild(script);
+    
     var menu_country = new Array();
         var menu_price = new Array();
         var menu_airline = new Array();
@@ -59,7 +94,7 @@
         var months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
         var month_number = ['01','02','03','04','05','06','07','08','09','10','11','12'];
         var min_date = (new Date().getMonth()+1)+'/'+new Date().getDate()+'/'+new Date().getFullYear()*1;
-        starter();
+        // ✅ starter() จะเรียกหลังจากโหลด external script
         $('#hide_date_select').hide();
         $('#hide_date_select_mb').hide(); 
        
@@ -95,7 +130,9 @@
                     document.getElementById('show_code_mb').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
                     document.getElementById('show_code_all').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
                 }
-            }else if(code_id){
+                // เรียก filter_tour ทันที
+                await filter_tour();
+            }else if(code_id && code_id != 0){
                 type_data.tour_code.push(code_id);
                 if(isWin || isMac){
                     document.getElementById('show_code').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
@@ -104,6 +141,8 @@
                     document.getElementById('show_code_mb').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
                     document.getElementById('show_code_all').innerHTML = "<li onclick='DeletedCode()'><label class='check-container'>"+code_id+" <i class='fa fa-times-circle' aria-hidden='true'></i></label></li>";
                 }
+                // เรียก filter_tour ทันที
+                await filter_tour();
             }
             else if(keyword_search){
                 type_data.travel_search.push(keyword_search);
@@ -1151,7 +1190,10 @@
                 }if(type_data.tour_code.length){
                     // let data = await tour.filter(x => type_data.tour_code.includes(x.id));
                     // data_tour = await data_tour.concat(data);
+                    console.log('Filtering by tour_code:', type_data.tour_code);
+                    console.log('Data tour before filter:', data_tour.length);
                     data_tour = await data_tour.filter(x => type_data.tour_code.includes(x.id));
+                    console.log('Data tour after filter:', data_tour.length);
                     check_fill = false;
                 }
                 console.log(type_data,'type_data11111',tour_code)

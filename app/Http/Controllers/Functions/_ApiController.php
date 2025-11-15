@@ -3774,6 +3774,8 @@ class ApiController extends Controller
                         TourPeriodModel::whereIn('id',$period)->whereIn('period_api_id',$period_api_id)->where('api_type','go365')->update(['deleted_at'=>null]);
                     }
                     
+                    // ✅ Regenerate script-filter.js เมื่อ API sync เสร็จ
+                    app(\App\Http\Controllers\Frontend\HomeController::class)->generate_script();
                 }
             }
 

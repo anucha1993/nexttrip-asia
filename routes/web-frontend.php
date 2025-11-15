@@ -40,6 +40,7 @@ Route::controller(Frontend\HomeController::class)->group(function () {
         Route::get('/search-price', 'search_price');
         Route::get('/get-data', 'get_data');
         Route::get('/pdf-data', 'file_pdf');
+        Route::get('/generate-script-filter', 'generate_script');
   // });
 
     // 🔄 คำขอแบบเปลี่ยนข้อมูล/ค้นหาหนัก ๆ ไม่ควรแคช

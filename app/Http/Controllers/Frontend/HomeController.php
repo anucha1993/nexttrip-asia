@@ -635,6 +635,11 @@ class HomeController extends Controller
         file_put_contents($filePath, $script);
         return response()->json([]);
     }
+    public function generate_script(Request $request)
+    {
+        $this->get_data($request);
+        return response()->json(['message' => 'Script generated successfully', 'timestamp' => now()]);
+    }
     public function index()
     {
       

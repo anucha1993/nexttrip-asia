@@ -655,16 +655,19 @@ class FrontController extends Controller
         }
 
         if($request->code_tour){
-            $code_id = $request->code_tour;
-            $tour = TourModel::where('code', 'like', "%{$request->code_tour}%")
-                ->orWhere('code1', 'like', "%{$request->code_tour}%")
-                ->orWhere('code1', 'like', "%{$request->code_tour}%")
+            $code_id = trim(strtoupper($request->code_tour));
+            $tour = TourModel::where('code', $code_id)
+                ->where('status', 'on')
+                ->whereNull('deleted_at')
+                ->orWhere('code1', $code_id)
+                ->where('status', 'on')
+                ->whereNull('deleted_at')
                 ->get();
             foreach($tour as $row){
-                if(stristr($row->code,$request->code_tour)){
+                if($row->code === $code_id){
                     $tour_code[] = $row->id;
                 }
-                if(!empty($row->code1) && $row->code1 == $request->code_tour){
+                if(!empty($row->code1) && $row->code1 === $code_id){
                     $tour_code1[] = $row->id;
                 }
             }
@@ -709,6 +712,11 @@ class FrontController extends Controller
         }
         return view('frontend.search-result',$data);
     }
+
+
+
+
+    
     public function clear_search(Request $request){
        $request->session()->invalidate();
        return response()->json(true);
