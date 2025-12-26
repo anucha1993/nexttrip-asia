@@ -11,7 +11,7 @@
     $canonical = $page > 1 ? $baseUrl.'?page='.$page : $baseUrl;
 
     // รูปแชร์ (แก้เป็นภาพจริงของคุณ)
-    $ogImage = 'https://nexttripholiday.b-cdn.net/og/promotiontour.jpg';
+    $ogImage = 'https://nexttripholidays.com/og/promotiontour.jpg';
 @endphp
 
 {{-- ======= HEAD: ทัวร์โปรโมชั่น ======= --}}

@@ -2,7 +2,7 @@
     // holiday_date = Array.from([holiday_date], (x) => x );
     window.ASSET_URL = "{{ env('ASSET_URL') }}";
     
-    // ✅ ดึงข้อมูลจาก https://nexttrip.work/script-filter.js ด้วย dynamic script loading
+    // ✅ ดึงข้อมูลจาก https://nexttripholidays.com/script-filter.js ด้วย dynamic script loading
     var tour = [];
     var period = [];
     var country = [];
@@ -22,9 +22,9 @@
     
     // Load external script-filter.js dynamically
     var script = document.createElement('script');
-    script.src = 'https://nexttrip.work/script-filter.js?t=' + new Date().getTime();
+    script.src = 'https://nexttripholidays.com/script-filter.js?t=' + new Date().getTime();
     script.onload = function() {
-        console.log('✅ Data loaded from https://nexttrip.work/script-filter.js');
+        console.log('✅ Data loaded from https://nexttripholidays.com/script-filter.js');
         console.log('Tours:', tour.length, 'Periods:', period.length);
         // Delay starter to ensure data is loaded
         setTimeout(function() {
@@ -32,7 +32,7 @@
         }, 500);
     };
     script.onerror = function() {
-        console.error('❌ Error loading https://nexttrip.work/script-filter.js');
+        console.error('❌ Error loading https://nexttripholidays.com/script-filter.js');
     };
     document.head.appendChild(script);
     

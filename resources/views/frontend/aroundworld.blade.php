@@ -18,7 +18,7 @@
 <meta property="og:description" content="บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ เพื่อการท่องเที่ยวที่สนุก ปลอดภัย และคุ้มค่า"/>
 <meta property="og:url" content="https://nexttripholiday.com/aroundworld/"/>
 <meta property="og:site_name" content="Next Trip Holiday"/>
-<meta property="og:image" content="https://nexttripholiday.b-cdn.net/og/aroundworld.jpg"/>
+<meta property="og:image" content="https://nexttripholidays.com/og/aroundworld.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta property="og:image:alt" content="บทความรอบรู้เรื่องเที่ยว Next Trip Holiday"/>
@@ -27,7 +27,7 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Next Trip Holiday รอบรู้เรื่องเที่ยว | ข้อมูลท่องเที่ยว เตรียมตัวเที่ยว อัปเดตข่าวทัวร์"/>
 <meta name="twitter:description" content="บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ เพื่อการท่องเที่ยวที่สนุก ปลอดภัย และคุ้มค่า"/>
-<meta name="twitter:image" content="https://nexttripholiday.b-cdn.net/og/aroundworld.jpg"/>
+<meta name="twitter:image" content="https://nexttripholidays.com/og/aroundworld.jpg"/>
 
 {{-- JSON-LD --}}
 <script type="application/ld+json">
@@ -37,14 +37,14 @@
   "name": "รอบรู้เรื่องเที่ยว | Next Trip Holiday",
   "description": "บทความรอบรู้เรื่องเที่ยว แนะนำข้อมูลท่องเที่ยว เตรียมตัวเดินทาง อัปเดตข่าวสารทัวร์ในและต่างประเทศ",
   "url": "https://nexttripholiday.com/aroundworld/",
-  "image": "https://nexttripholiday.b-cdn.net/og/aroundworld.jpg",
+  "image": "https://nexttripholidays.com/og/aroundworld.jpg",
   "publisher": {
     "@type": "Organization",
     "name": "Next Trip Holiday",
     "url": "https://nexttripholiday.com/",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://nexttripholiday.b-cdn.net/brand/logo-512.png"
+      "url": "https://nexttripholidays.com/brand/logo-512.png"
     }
   }
 }

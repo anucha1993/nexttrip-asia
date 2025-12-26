@@ -595,17 +595,19 @@
     <script>
         var oversea_id = {{isset($country_search)?$country_search:0}};
         var price_search = {{isset($price_search)?$price_search:0}};
-        var keyword_search = {{isset($keyword_search)?$keyword_search:0}};
-        var code_id = {{isset($code_id)?$code_id:0}};
+        var city_search = 0;
         <?php 
             echo isset($start_search)?"var start_search = '$start_search' ; ":"var start_search = 0 ;";
             echo isset($end_search)?"var end_search = '$end_search' ; ":"var end_search = 0 ;";
+            echo isset($keyword_search)?"var keyword_search = '$keyword_search' ; ":"var keyword_search = 0 ;";
+            echo isset($code_id)?"var code_id = '$code_id' ; ":"var code_id = 0 ;";
             echo isset($tag_name)?"var tag_name = '$tag_name' ; ":"var tag_name = 0 ;";
         ?>
         var str_start = {{isset($str_start)?$str_start:0}};
         var str_end = {{isset($str_end)?$str_end:0}} ;
         var travel_search = {{isset($travel_search)?json_encode($travel_search):0}};
         var tour_code = {{isset($tour_code)?json_encode($tour_code):0}};
+        
         var isWin = {{isset($isWin)?json_encode($isWin):0}};
         var isMac = {{isset($isMac)?json_encode($isMac):0}};
         var isAndroid = {{isset($isAndroid)?json_encode($isAndroid):0}};
@@ -613,8 +615,8 @@
         var isIPad = {{isset($isIPad)?json_encode($isIPad):0}};
         var tag_search = {{isset($tag_search)?$tag_search:0}};
     </script>
-    <script src="/script-filter.js?v={{ filemtime(public_path('script-filter.js')) }}"> </script> 
-    <script src="https://nexttrip.work/script-filter.js"> </script> 
+    <script src="https://nexttripholidays.com/script-filter.js"></script>
+    <script src="{{asset('data-filter.js')}}"></script> 
     <script>
         $(document).ready(function () {
             $('.categoryslide_list').owlCarousel({

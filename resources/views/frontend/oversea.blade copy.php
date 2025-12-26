@@ -14,7 +14,7 @@
 
     // รูปแชร์ (มี slug ใช้ได้ยิ่งดี; ถ้าไม่มี จะ fallback เป็นภาพ default)
     $countrySlug = $country_data->slug ?? Str::slug($countryName, '-');
-    $ogImage = "https://nexttripholiday.b-cdn.net/og/country/{$countrySlug}.jpg";
+    $ogImage = "https://nexttripholidays.com/og/country/{$countrySlug}.jpg";
 @endphp
 
 {{-- ======= SEO: ทัวร์ต่างประเทศ/ประเทศ ======= --}}

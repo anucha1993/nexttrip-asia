@@ -16,7 +16,7 @@
 <meta property="og:description" content="บริการรับจัดกรุ๊ปทัวร์ครบวงจร ออกแบบโปรแกรมตามงบและความต้องการ ดูแลตั้งแต่ตั๋วเครื่องบิน โรงแรม ไกด์ และรถบัส"/>
 <meta property="og:url" content="https://nexttripholiday.com/organizetour/"/>
 <meta property="og:site_name" content="Next Trip Holiday"/>
-<meta property="og:image" content="https://nexttripholiday.b-cdn.net/og/organizetour.jpg"/>
+<meta property="og:image" content="https://nexttripholidays.com/og/organizetour.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta property="og:image:alt" content="รับจัดกรุ๊ปทัวร์ Next Trip Holiday"/>
@@ -25,7 +25,7 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Next Trip Holiday รับจัดกรุ๊ปทัวร์ | กรุ๊ปเหมาบริษัท ทัวร์ส่วนตัว ทัวร์ศึกษาดูงาน"/>
 <meta name="twitter:description" content="ออกแบบทัวร์ตามงบและความต้องการ ดูแลงานครบวงจรโดยทีมมืออาชีพ"/>
-<meta name="twitter:image" content="https://nexttripholiday.b-cdn.net/og/organizetour.jpg"/>
+<meta name="twitter:image" content="https://nexttripholidays.com/og/organizetour.jpg"/>
 
 {{-- JSON-LD: Breadcrumb + Service (สั้น ๆ) --}}
 <script type="application/ld+json">
@@ -48,7 +48,7 @@
     "@type":"Organization",
     "name":"Next Trip Holiday",
     "url":"https://nexttripholiday.com/",
-    "logo":"https://nexttripholiday.b-cdn.net/brand/logo-512.png"
+    "logo":"https://nexttripholidays.com/brand/logo-512.png"
   },
   "areaServed":[
     {"@type":"Country","name":"Thailand"},

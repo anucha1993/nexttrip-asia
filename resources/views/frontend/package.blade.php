@@ -12,7 +12,7 @@
     // ถ้ามีโมเดลแพ็กเกจให้ใช้ (เผื่อคุณตั้งชื่อ $package หรือ $pkg)
     $pkg   = $package ?? ($pkg ?? null);
     $name  = $pkg->name ?? "แพ็กเกจเที่ยวด้วยตัวเอง {$countryName}";
-    $cover = $pkg->cover_url ?? 'https://nexttripholiday.b-cdn.net/og/package-default.jpg';
+    $cover = $pkg->cover_url ?? 'https://nexttripholidays.com/og/package-default.jpg';
 
     // pagination (กัน duplicate)
     $page = max((int) request('page', 1), 1);
