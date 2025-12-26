@@ -656,18 +656,19 @@ class FrontController extends Controller
 
         if($request->code_tour){
             $code_id = trim(strtoupper($request->code_tour));
-            $tour = TourModel::where('code', $code_id)
-                ->where('status', 'on')
-                ->whereNull('deleted_at')
-                ->orWhere('code1', $code_id)
+            $tour = TourModel::where(function($query) use ($code_id) {
+                    $query->where('code', 'LIKE', '%'.$code_id.'%')
+                          ->orWhere('code1', 'LIKE', '%'.$code_id.'%');
+                })
                 ->where('status', 'on')
                 ->whereNull('deleted_at')
                 ->get();
             foreach($tour as $row){
-                if($row->code === $code_id){
+                // เช็คว่ามีรหัสนี้อยู่ในส่วนใดส่วนหนึ่ง
+                if(stripos($row->code, $code_id) !== false){
                     $tour_code[] = $row->id;
                 }
-                if(!empty($row->code1) && $row->code1 === $code_id){
+                if(!empty($row->code1) && stripos($row->code1, $code_id) !== false){
                     $tour_code1[] = $row->id;
                 }
             }
