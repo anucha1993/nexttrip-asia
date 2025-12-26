@@ -247,7 +247,7 @@ $(function () {
     var i = abs.pathname.toLowerCase().indexOf('/moxieupload/');
     if (i !== -1) {
       var path = abs.pathname.slice(i + 1).replace(/^\//, '');
-      $(this).attr('src', 'https://nexttrip-work.b-cdn.net/' + path);
+      $(this).attr('src', 'https://nexttripholidays.com/' + path);
     }
   });
 });

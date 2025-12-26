@@ -21,9 +21,9 @@
 @if(isset($slide[0]))
 <link rel="preload" as="image"
       imagesrcset="
-        https://nexttrip-work.b-cdn.net/{{ $slide[0]->img_mobile }} 768w,
-        https://nexttrip-work.b-cdn.net/{{ $slide[0]->img }} 1280w,
-        https://nexttrip-work.b-cdn.net/{{ $slide[0]->img }} 1920w"
+        https://nexttripholidays.com/{{ $slide[0]->img_mobile }} 768w,
+        https://nexttripholidays.com/{{ $slide[0]->img }} 1280w,
+        https://nexttripholidays.com/{{ $slide[0]->img }} 1920w"
       imagesizes="100vw"
       fetchpriority="high">
 @endif
@@ -33,9 +33,9 @@
   @foreach ($slide as $s)
     <div class="relative h-full w-full shrink-0 snap-center">
       <picture>
-        <source media="(min-width:1024px)" srcset="https://nexttrip-work.b-cdn.net/{{ $s->img }}">
+        <source media="(min-width:1024px)" srcset="https://nexttripholidays.com/{{ $s->img }}">
         <img
-          src="https://nexttrip-work.b-cdn.net/{{ $s->img_mobile }}"
+          src="https://nexttripholidays.com/{{ $s->img_mobile }}"
           alt="slide- {!! $s->detail !!}"
           width="1955" height="500"
           class="h-full w-full object-cover object-center"
@@ -247,7 +247,7 @@
                 "'": '&#39;'
             } [m]));
             const escapeReg = s => (s || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const host = 'https://nexttrip-work.b-cdn.net/';
+            const host = 'https://nexttripholidays.com/';
             const typeMap = {
                 country: 'ประเทศ',
                 city: 'เมือง',
@@ -602,7 +602,7 @@
                             class="relative overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5 transition-transform duration-300 group-hover:-translate-y-0.5">
                             <!-- รูป -->
                           <div class="relative aspect-[4/3] overflow-hidden">
-                                <img src="https://nexttrip-work.b-cdn.net/{{ @$co->img_banner }}"
+                                <img src="https://nexttripholidays.com/{{ @$co->img_banner }}"
                                     alt="{{ @$co->country_name_th }}" loading="lazy"
                                      class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
                                 <!-- gradient ซ้อนบนรูป -->
@@ -686,7 +686,7 @@
         @foreach($items as $ad)
           @php
             $href = $ad->link ?? $ad->url ?? url('promotiontour/0/0');
-            $img  = $ad->img && filter_var($ad->img, FILTER_VALIDATE_URL) ? $ad->img : 'https://nexttrip-work.b-cdn.net/'.ltrim($ad->img ?? '', '/');
+            $img  = $ad->img && filter_var($ad->img, FILTER_VALIDATE_URL) ? $ad->img : 'https://nexttripholidays.com/'.ltrim($ad->img ?? '', '/');
             $alt  = $ad->title ?? $ad->name ?? 'promotion';
           @endphp
           <li class="shrink-0">
@@ -698,7 +698,7 @@
         @foreach($items as $ad)
           @php
             $href = $ad->link ?? $ad->url ?? url('promotiontour/0/0');
-            $img  = $ad->img && filter_var($ad->img, FILTER_VALIDATE_URL) ? $ad->img : 'https://nexttrip-work.b-cdn.net/'.ltrim($ad->img ?? '', '/');
+            $img  = $ad->img && filter_var($ad->img, FILTER_VALIDATE_URL) ? $ad->img : 'https://nexttripholidays.com/'.ltrim($ad->img ?? '', '/');
             $alt  = $ad->title ?? $ad->name ?? 'promotion';
           @endphp
           <li class="shrink-0">
@@ -936,7 +936,7 @@
                                 <div class="relative">
                                     <div class="relative aspect-[1/1] overflow-hidden">
                                         <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}" target="_blank">
-                                            <img src="https://nexttrip-work.b-cdn.net/{{ @$tour->image }}"
+                                            <img src="https://nexttripholidays.com/{{ @$tour->image }}"
                                                 alt="{{ $tour->name }}"
                                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                         </a>
@@ -960,7 +960,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                             </svg>
-                                            สายการบิน <img src="https://nexttrip-work.b-cdn.net/{{ @$airline->image }}"
+                                            สายการบิน <img src="https://nexttripholidays.com/{{ @$airline->image }}"
                                                 alt="{{ @$airline->name }}">
 
                                         </li>
@@ -1042,7 +1042,7 @@
                                         <div class="relative aspect-[1/1] overflow-hidden">
                                             <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}"
                                                 target="_blank">
-                                                <img src="https://nexttrip-work.b-cdn.net/{{ @$tour->image }}"
+                                                <img src="https://nexttripholidays.com/{{ @$tour->image }}"
                                                     alt="{{ $tour->name }}"
                                                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                             </a>
@@ -1063,7 +1063,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                                 </svg>
-                                                สายการบิน <img src="https://nexttrip-work.b-cdn.net/{{ @$airline->image }}"
+                                                สายการบิน <img src="https://nexttripholidays.com/{{ @$airline->image }}"
                                                     alt="{{ @$airline->name }}">
                                             </li>
 
@@ -1139,7 +1139,7 @@
                                 <div class="relative">
                                     <div class="relative aspect-[1/1] overflow-hidden">
                                         <a href="https://nexttripholiday.com/tour/{{ $tour->slug }}" target="_blank">
-                                            <img src="https://nexttrip-work.b-cdn.net/{{ @$tour->image }}"
+                                            <img src="https://nexttripholidays.com/{{ @$tour->image }}"
                                                 alt="{{ $tour->name }}"
                                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                         </a>
@@ -1160,7 +1160,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M10.5 12.75l-6.364 6.364a.75.75 0 001.06 1.06L12 13.06l6.803 7.115a.75.75 0 001.198-.905l-7.5-18a.75.75 0 00-1.386 0l-7.5 18a.75.75 0 001.198.905L10.5 12.75z" />
                                             </svg>
-                                            สายการบิน <img src="https://nexttrip-work.b-cdn.net/{{ @$airline->image }}"
+                                            สายการบิน <img src="https://nexttripholidays.com/{{ @$airline->image }}"
                                                 alt="{{ @$airline->name }}">
                                         </li>
 
@@ -1598,7 +1598,7 @@
                           bg-white overflow-hidden rounded-2xl ring-1 ring-slate-200 shadow-sm">
                             <a href="https://nexttripholiday.com/clients-review/0/0" class="block group">
                                 <div class="relative aspect-[4/3] overflow-hidden">
-                                    <img src="https://nexttrip-work.b-cdn.net/{{ $re->img }}" alt="{{ $re->title }}"
+                                    <img src="https://nexttripholidays.com/{{ $re->img }}" alt="{{ $re->title }}"
                                         class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
                                 </div>
 
@@ -1620,7 +1620,7 @@
                                     </p>
 
                                     <div class="mt-4 flex items-center gap-3">
-                                        <img src="https://nexttrip-work.b-cdn.net/{{ $re->profile }}"
+                                        <img src="https://nexttripholidays.com/{{ $re->profile }}"
                                             class="h-9 w-9 rounded-full object-cover ring-1 ring-slate-200"
                                             alt="">
                                         <div class="leading-tight">
@@ -1724,7 +1724,7 @@
                     @foreach ($customer as $cus)
                         <a href="https://nexttripholiday.com/clients-detail/{{ $cus->id }}" class="shrink-0"
                             title="{{ $cus->title ?? 'ลูกค้า' }}">
-                            <img src="https://nexttrip-work.b-cdn.net/{{ $cus->logo }}"
+                            <img src="https://nexttripholidays.com/{{ $cus->logo }}"
                                 alt="https://nexttripholiday.com/{{ $cus->title ?? 'ลูกค้า' }}" loading="lazy"
                                 class="h-12 sm:h-14 md:h-16 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition">
                         </a>
@@ -1734,7 +1734,7 @@
                     @foreach ($customer as $cus)
                         <a href="https://nexttripholiday.com/clients-detail/{{ $cus->id }}" aria-hidden="true"
                             class="shrink-0">
-                            <img src="https://nexttrip-work.b-cdn.net/{{ $cus->logo }}" alt="" loading="lazy"
+                            <img src="https://nexttripholidays.com/{{ $cus->logo }}" alt="" loading="lazy"
                                 class="h-12 sm:h-14 md:h-16 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition">
                         </a>
                     @endforeach
